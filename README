@@ -11,7 +11,7 @@ The system has an intermediate web server that connects to the Internet to get t
 Telémaco: Sistema consciente del contexto para la guía en viajes basado en tecnología Web 3.0
 ----------------------------------------------------------------------------------------------
 
-El objetivo general de este proyecto es el desarrollo de un sistema consciente del contexto para la guía en viajes. El sistema permite la creación de viajes personalizados, facilita información de interés y ayuda a planificar los viajes.
+El objetivo general de este proyecto es el desarrollo de un sistema consciente del contexto para la guía en viajes. El sistema permite la creación de viajes personalizados, facilita información de interés y ayuda a planificar los viajes. El sistema se compone de dos componentes: una aplicación Android y una aplicación servidora impulsada por Django.
 
 La aplicación móvil permite que los datos estén disponibles en todo momento. La aplicación cuenta con la información de los viajes sin necesidad de una conexión permanente a Internet, actualizando dicha información cuando sea posible. Se hace uso de la geo-localización de los dispositivos y está integrada con otras aplicaciones del sistema Android. El dispositivo móvil muestra la información dependiendo del contexto del usuario. El contexto puede venir determinado por la localización física del usuario, sus preferencias u otra información.
 
