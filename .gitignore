@@ -1,0 +1,8 @@
+# Directories
+*/bin/*
+*/dist/*
+
+# Compile
+*.apk
+*.class
+*.pyc

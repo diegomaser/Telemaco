@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <ImageView
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+	        android:gravity="center"
+			android:src="@drawable/maleta2" />
+    
+	<!-- <TextView  
+	    	android:layout_width="fill_parent" 
+	    	android:layout_height="wrap_content" 
+	    	android:text="@string/app_name" />  -->
+
+    <TextView  
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content" 
+	    	android:text="@string/user" />
+
+    <EditText
+        	android:id="@+id/user_edit"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+        	android:background="@android:drawable/editbox_background" />
+	    
+    <TextView  
+	    	android:layout_width="wrap_content" 
+	    	android:layout_height="wrap_content" 
+	    	android:text="@string/password" />	    
+	    
+    <EditText
+        	android:id="@+id/password_edit"
+        	android:layout_width="fill_parent"
+        	android:layout_height="wrap_content"
+     		android:password="true"
+        	android:background="@android:drawable/editbox_background"/>
+	    
+	    
+	<Button android:id="@+id/loginbutton"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+			android:text="@string/login" />
+</LinearLayout>
