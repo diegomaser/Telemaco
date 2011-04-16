@@ -1,18 +1,22 @@
 package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.R.menu;
 
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnCreateContextMenuListener;
 
 public class TripListActivity extends ListActivity {
  
@@ -38,6 +42,16 @@ public class TripListActivity extends ListActivity {
               startActivity(new Intent(TripListActivity.this, TripTabActivity.class));
           }
         });
+        
+        lv.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {			
+			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+                menu.setHeaderTitle("ContextMenu");
+                menu.add(0, 0, 0, "Delete this favorite!");
+                // or inflate menu!
+			}
+		});
+        
+        //registerForContextMenu(lv);   
     }
     
     @Override
@@ -45,5 +59,21 @@ public class TripListActivity extends ListActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.triplist_menu, menu);
         return true;
-    }    
+    }
+    
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
+    	long menuItem = getListAdapter().getItemId(info.position);
+    	
+    	switch (item.getItemId()) {
+			case 0:
+				return true;
+			case 1:
+				return true;
+    	}
+    	return(super.onOptionsItemSelected(item));
+	}
+
 }
