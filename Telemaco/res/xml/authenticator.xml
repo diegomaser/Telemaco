@@ -3,6 +3,6 @@
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="com.diegomartin.telemaco"
     android:icon="@drawable/maleta2"
-    android:smallIcon="@drawable/maleta"
+    android:smallIcon="@drawable/maleta2"
     android:label="@string/app_name"
 />

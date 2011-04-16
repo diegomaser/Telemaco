@@ -31,9 +31,9 @@
             <intent-filter><action android:name="android.content.SyncAdapter" /></intent-filter>
             <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter" />
             <meta-data android:name="android.provider.CONTACTS_STRUCTURE" android:resource="@xml/contacts" />
-        </service>
-		
+        </service>	
     </application>
+    
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />

@@ -16,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnCreateContextMenuListener;
 
 public class TripListActivity extends ListActivity {
  
@@ -43,24 +42,22 @@ public class TripListActivity extends ListActivity {
           }
         });
         
-        lv.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {			
-			public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle("ContextMenu");
-                menu.add(0, 0, 0, "Delete this favorite!");
-                // or inflate menu!
-			}
-		});
-        
-        //registerForContextMenu(lv);   
+        registerForContextMenu(lv);   
     }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.triplist_menu, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
     
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.triplist_contextmenu, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+	}
     
     @Override
     public boolean onContextItemSelected(MenuItem item) {
@@ -68,12 +65,11 @@ public class TripListActivity extends ListActivity {
     	long menuItem = getListAdapter().getItemId(info.position);
     	
     	switch (item.getItemId()) {
-			case 0:
-				return true;
-			case 1:
+    		case R.id.open:
+    			return true;
+			case R.id.delete:
 				return true;
     	}
-    	return(super.onOptionsItemSelected(item));
+    	return super.onOptionsItemSelected(item);
 	}
-
 }

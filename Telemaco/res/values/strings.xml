@@ -11,12 +11,19 @@
     <string name="expandable_list_sample_action">Test action</string>
     <string name="help">Help</string>
     <string name="update">Sync</string>
+
+    <string name="open">Open</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+
     <string name="new_city">New City</string>
     <string name="new_trip">New Trip</string>
     <string name="new_place">New Place</string>
     <string name="new_transport">New Transport</string>
     <string name="new_note">New Note</string>
+    
     <string name="delete_trip">Delete Trip</string>
+
     <string name="rearrange">Rearrange</string>
     <string name="save">Save</string>
     <string name="discard">Discard</string>

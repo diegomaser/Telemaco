@@ -1,9 +1,6 @@
 package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.R.drawable;
-import com.diegomartin.telemaco.R.layout;
-import com.diegomartin.telemaco.R.string;
 
 import android.app.TabActivity;
 import android.content.Intent;

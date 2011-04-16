@@ -1,7 +1,6 @@
 package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.R.menu;
 
 import android.app.ExpandableListActivity;
 import android.os.Bundle;
@@ -42,15 +41,16 @@ public class InfoListActivity extends ExpandableListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.trip_menu, menu);
-        return true;
+        inflater.inflate(R.menu.info_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 
-    /*@Override
+    @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-        menu.setHeaderTitle("Sample menu");
-        menu.add(0, 0, 0, R.string.expandable_list_sample_action);
+    	MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.info_contextmenu, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class InfoListActivity extends ExpandableListActivity {
         }
 
         return false;
-    }*/
+    }
 
     /**
      * A simple adapter which maintains an ArrayList of photo resource Ids. 
@@ -149,6 +149,5 @@ public class InfoListActivity extends ExpandableListActivity {
         public boolean hasStableIds() {
             return true;
         }
-
     }
 }

@@ -1,12 +1,9 @@
 package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.control.ActionsFacade;
-import com.diegomartin.telemaco.control.GeoFacade;
 
 import android.app.ListActivity;
 import android.content.Intent;
-import android.location.Location;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +54,4 @@ public class PlanListActivity extends ListActivity {
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    
 }
