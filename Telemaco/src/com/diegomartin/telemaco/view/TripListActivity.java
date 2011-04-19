@@ -42,7 +42,7 @@ public class TripListActivity extends ListActivity {
           }
         });
         
-        registerForContextMenu(lv);   
+        registerForContextMenu(lv);
     }
     
     @Override

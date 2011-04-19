@@ -8,8 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-//import com.example.android.samplesync.Constants;
-import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.view.AuthenticatorActivity;
 //import com.example.android.samplesync.client.NetworkUtilities;
 

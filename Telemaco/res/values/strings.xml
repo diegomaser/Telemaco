@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- <string name="hello">Hello World, Telemaco!</string>  -->
     <string name="app_name">Telemaco</string>
+    
+    <!-- Tags -->
     <string name="login">Log-in</string>
     <string name="user">User</string>
     <string name="password">Password</string>
@@ -9,23 +10,28 @@
     <string name="plan">Plan</string>
     <string name="places">Places</string>
     <string name="expandable_list_sample_action">Test action</string>
+    
+    <!-- Menu options -->
     <string name="help">Help</string>
     <string name="update">Sync</string>
-
+    <string name="go">Go to the place</string>
+    <string name="map">View map</string>
+    <string name="addplace">Add place to plan</string>
+    <string name="rearrange">Rearrange</string>
+    <string name="discard">Discard</string>
+    <string name="share">Share</string>
+    <string name="changeorder">Change order</string>
+    
+	<!-- CRUD Operations -->
     <string name="open">Open</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
+    <string name="save">Save</string>
 
     <string name="new_city">New City</string>
     <string name="new_trip">New Trip</string>
     <string name="new_place">New Place</string>
     <string name="new_transport">New Transport</string>
     <string name="new_note">New Note</string>
-    
     <string name="delete_trip">Delete Trip</string>
-
-    <string name="rearrange">Rearrange</string>
-    <string name="save">Save</string>
-    <string name="discard">Discard</string>
-    <string name="share">Share</string>
 </resources>

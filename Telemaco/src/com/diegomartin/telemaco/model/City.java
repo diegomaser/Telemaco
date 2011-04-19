@@ -2,8 +2,6 @@ package com.diegomartin.telemaco.model;
 
 import java.util.List;
 
-import android.graphics.Bitmap;
-
 public class City extends IListItem {
 	private String name;
 	private String description;

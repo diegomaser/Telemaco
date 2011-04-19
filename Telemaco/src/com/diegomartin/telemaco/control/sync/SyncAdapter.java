@@ -17,7 +17,6 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * SyncAdapter implementation for syncing sample SyncAdapter contacts to the

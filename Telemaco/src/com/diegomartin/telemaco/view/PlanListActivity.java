@@ -5,10 +5,14 @@ import com.diegomartin.telemaco.R;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class PlanListActivity extends ListActivity {
 	/** Called when the activity is first created. */
@@ -29,15 +33,15 @@ public class PlanListActivity extends ListActivity {
         								     "Lugar 11",
         								     "Lugar 12"};
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, datos));
-        //GeoFacade.getInstance().startPositioning(this);
+        registerForContextMenu(getListView());
     }
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.plan_menu, menu);
-        return true;
-    }    
+        return super.onCreateOptionsMenu(menu);
+    }  
     
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -47,11 +51,31 @@ public class PlanListActivity extends ListActivity {
         	startActivity(new Intent(getApplicationContext(),PlanRearrangeActivity.class));
             return true;
         case R.id.help:
-        	//Location l = GeoFacade.getInstance().getLocation();
-        	//startActivity(ActionsFacade.getInstance().launchMaps(l.getLatitude(), l.getLongitude()));
         	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
+    
+    
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.plan_contextmenu, menu);
+        super.onCreateContextMenu(menu, v, menuInfo);
+	}
+    
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+    	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
+    	long menuItem = getListAdapter().getItemId(info.position);
+    	
+    	switch (item.getItemId()) {
+    		case R.id.open:
+    			return true;
+			case R.id.delete:
+				return true;
+    	}
+    	return super.onOptionsItemSelected(item);
+	}
 }

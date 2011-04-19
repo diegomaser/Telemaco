@@ -95,15 +95,15 @@ public class PlanRearrangeActivity extends ListActivity {
         public boolean onOptionsItemSelected(MenuItem item) {
             // Handle item selection
             switch (item.getItemId()) {
-            case R.id.save:
-            	// TODO: Save order first
-            	finish();
-                return true;
-            case R.id.discard:
-            	finish();
-            	return true;
-            default:
-                return super.onOptionsItemSelected(item);
+	            case R.id.save:
+	            	// TODO: Save order first
+	            	finish();
+	                return true;
+	            case R.id.discard:
+	            	finish();
+	            	return true;
+	            default:
+	                return super.onOptionsItemSelected(item);
             }
         }
 }
