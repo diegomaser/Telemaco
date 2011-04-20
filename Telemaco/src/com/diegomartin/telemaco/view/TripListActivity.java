@@ -28,12 +28,9 @@ public class TripListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
-        // Obtenemos la lista de Libros
         ArrayList<IListItem> items = getItems();
-        // Entregamos la lista de Libros al adaptador de la lista en el Layout Lista.xml
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
-        
-        
+                
         ListView lv = getListView();
         //lv.setTextFilterEnabled(true);
 

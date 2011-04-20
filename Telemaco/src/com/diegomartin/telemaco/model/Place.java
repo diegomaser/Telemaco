@@ -2,7 +2,7 @@ package com.diegomartin.telemaco.model;
 
 import java.util.List;
 
-public class Place {
+public class Place extends IListItem{
 	private String name;
 	private String description;
 	private double lat;
