@@ -1,6 +1,10 @@
 package com.diegomartin.telemaco.view;
 
+import java.util.ArrayList;
+
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Trip;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -8,7 +12,6 @@ import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -24,13 +27,11 @@ public class TripListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
-        final String[] datos =  new String[]{"Viaje a Madrid",
-        								     "Viaje a París",
-        								     "Viaje a Londres",
-        								     "Viaje a San Petersburgo",
-        								     "Añadir nuevo viaje"};
         
-        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, datos));
+        // Obtenemos la lista de Libros
+        ArrayList<IListItem> items = getItems();
+        // Entregamos la lista de Libros al adaptador de la lista en el Layout Lista.xml
+        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
         
         
         ListView lv = getListView();
@@ -72,4 +73,37 @@ public class TripListActivity extends ListActivity {
     	}
     	return super.onOptionsItemSelected(item);
 	}
+    
+    
+    public ArrayList<IListItem> getItems() {
+		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
+		
+		// Creamos los objetos
+		IListItem trip1 = new Trip();
+		IListItem trip2 = new Trip();
+		IListItem trip3 = new Trip();
+		IListItem trip4 = new Trip();
+		IListItem trip5 = new Trip();
+		
+		trip1.setName("Viaje a Madrid");
+		trip2.setName("Viaje a Barcelona");
+		trip3.setName("Viaje a San Petersburgo");
+		trip4.setName("Viaje a París");
+		trip5.setName("Viaje a Kortrijk");
+		
+		trip1.setDescription("Esto es una prueba");
+		trip2.setDescription("Esto es otra prueba");
+		trip3.setDescription("Otra prueba más");
+		trip4.setDescription("Otra descripción");
+		trip5.setDescription("Más pruebas");
+		
+		//Añadimos los libros a la lista
+		MiLista.add(trip1);
+		MiLista.add(trip2);
+		MiLista.add(trip3);
+		MiLista.add(trip4);
+		MiLista.add(trip5);
+
+		return MiLista;
+    }
 }

@@ -2,7 +2,7 @@ package com.diegomartin.telemaco.model;
 
 import java.util.List;
 
-public class Trip {
+public class Trip extends IListItem {
 	private String name;
 	private String description;
 	private List<City> cities;
