@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/new_trip" android:icon="@drawable/ic_menu_add" android:title="@string/new_trip" />
+    <item android:id="@+id/add" android:icon="@drawable/ic_menu_add" android:title="@string/new_trip" />
     <item android:id="@+id/update" android:icon="@drawable/ic_menu_refresh" android:title="@string/update" />
     <item android:id="@+id/help" android:icon="@drawable/ic_menu_help" android:title="@string/help" />
 </menu>

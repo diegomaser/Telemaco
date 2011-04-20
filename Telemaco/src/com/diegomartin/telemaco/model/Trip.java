@@ -1,10 +1,13 @@
 package com.diegomartin.telemaco.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class Trip extends IListItem {
 	private String name;
 	private String description;
+	private Date startDate;
+	private Date endDate;
 	private List<City> cities;
 	private List<Transport> transports;
 	private List<Place> places;
@@ -58,5 +61,21 @@ public class Trip extends IListItem {
 
 	public List<Note> getNotes() {
 		return notes;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	public Date getEndDate() {
+		return endDate;
 	}
 }

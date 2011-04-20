@@ -58,6 +58,18 @@ public class TripListActivity extends ListActivity {
 	}
     
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+	        case R.id.add:
+	        	startActivity(new Intent(getApplicationContext(),TripActivity.class));
+	            return true;
+	        default:
+	            return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    @Override
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
     	long menuItem = getListAdapter().getItemId(info.position);
