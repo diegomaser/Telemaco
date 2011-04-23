@@ -27,28 +27,27 @@
         	android:background="@android:drawable/editbox_background" />
         	
         	
-    <TextView android:id="@+id/startDate"
-        android:layout_width="wrap_content"
+    <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:text="@string/startDate" />
 
-    <Button android:id="@+id/pickStartDate"
-        android:layout_width="wrap_content"
+    <Button android:id="@+id/startDate"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/changeDate"/>
+        android:text="" />
 
-	<TextView android:id="@+id/endDate"
-        android:layout_width="wrap_content"
+	<TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""/>
+        android:text="@string/endDate" />
 
-    <Button android:id="@+id/pickEndDate"
-        android:layout_width="wrap_content"
+    <Button android:id="@+id/endDate"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/changeDate"/>
+        android:text="" />
 	    
 	<Button android:id="@+id/save"
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
-			android:text="@string/save" />
+			android:text="@string/save"
+			android:padding="5dip" />
 </LinearLayout>

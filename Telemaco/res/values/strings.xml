@@ -12,7 +12,9 @@
     <string name="expandable_list_sample_action">Test action</string>
     <string name="name">Name</string>
     <string name="description">Description</string>
-    <string name="changeDate">Change the date</string>
+    <string name="startDate">Start date</string>
+    <string name="endDate">End date</string>
+    <string name="dateFormat">dd/mm/yyyy</string>
     
     <!-- Menu options -->
     <string name="help">Help</string>
