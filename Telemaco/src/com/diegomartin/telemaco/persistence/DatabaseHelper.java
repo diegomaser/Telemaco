@@ -1,4 +1,4 @@
-package com.diegomartin.telemaco.model;
+package com.diegomartin.telemaco.persistence;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

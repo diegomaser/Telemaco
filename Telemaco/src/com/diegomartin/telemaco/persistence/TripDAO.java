@@ -1,4 +1,6 @@
-package com.diegomartin.telemaco.model;
+package com.diegomartin.telemaco.persistence;
+
+import com.diegomartin.telemaco.model.Trip;
 
 import android.database.sqlite.SQLiteDatabase;
 
