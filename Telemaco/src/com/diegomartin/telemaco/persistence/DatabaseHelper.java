@@ -9,17 +9,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private final static String DATABASE_NAME = "TelemacoDB";
 	private final static String CREATE_TABLES = "CREATE TABLE Usuarios (codigo INTEGER, nombre TEXT)";
 	private final static String DROP_TABLES = "DROP TABLE IF EXISTS Usuarios";
-	private static DatabaseHelper instance;
 	
-	private Context context;
+	private static DatabaseHelper instance;
+	private static Context context;
 	
 	private DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
 	
 	public static DatabaseHelper getInstance(){
-		if (instance == null) instance = new DatabaseHelper(this.context, DATABASE_NAME, null, 1);
+		if (instance == null) instance = new DatabaseHelper(context, DATABASE_NAME, null, 1);
 		return instance;
+	}
+	
+	public static void setContext(Context c){
+		context = c; 
 	}
 
 	@Override
