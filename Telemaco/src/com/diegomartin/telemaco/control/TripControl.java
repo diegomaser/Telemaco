@@ -1,6 +1,6 @@
 package com.diegomartin.telemaco.control;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 import com.diegomartin.telemaco.model.Trip;

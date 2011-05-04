@@ -1,9 +1,10 @@
 package com.diegomartin.telemaco.model;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 public class Trip extends IListItem {
+	private int id;
 	private String name;
 	private String description;
 	private Date startDate;
@@ -14,6 +15,15 @@ public class Trip extends IListItem {
 	private List<Note> notes;
 	
 	public Trip() {}
+
+	public void setId(int id){
+		this.id = id;
+	}
+	
+	public int getId() {
+		// TODO Auto-generated method stub
+		return this.id;
+	}
 
 	public void setName(String name) {
 		this.name = name;
