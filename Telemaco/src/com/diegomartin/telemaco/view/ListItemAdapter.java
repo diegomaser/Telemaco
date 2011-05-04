@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Objects;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,12 +14,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class ListItemAdapter extends ArrayAdapter<IListItem> {
-	private ArrayList<IListItem> items;
+	private ArrayList<Object> items;
 	private Context context;
 	
-	public ListItemAdapter(Context context, int textViewResourceId, ArrayList<IListItem> objects) {
-		super(context, textViewResourceId, objects);
-		this.items = objects;
+	public ListItemAdapter(Context context, int textViewResourceId, Objects objects) {
+		super(context, textViewResourceId);//, objects);
+		this.items = objects.getList();
 		this.context = context;
 	}
 
@@ -29,12 +30,12 @@ public class ListItemAdapter extends ArrayAdapter<IListItem> {
 			LayoutInflater vi = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item, null);
 		}
-		IListItem obj = items.get(position);
+		IListItem obj = (IListItem) this.items.get(position);
 		if (obj != null) {
-			TextView ttitulo = (TextView) v.findViewById(R.id.name);
-			TextView tautor = (TextView) v.findViewById(R.id.description);
-			if (ttitulo != null) ttitulo.setText(obj.getName());
-			if (tautor != null) tautor.setText(obj.getDescription());
+			TextView name = (TextView) v.findViewById(R.id.name);
+			TextView description = (TextView) v.findViewById(R.id.description);
+			if (name != null) name.setText(obj.getName());
+			if (description != null) description.setText(obj.getDescription());
 		}
 		return v;
 	}

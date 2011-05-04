@@ -1,11 +1,8 @@
 package com.diegomartin.telemaco.view;
 
-import java.util.ArrayList;
-
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Trip;
-
+import com.diegomartin.telemaco.control.TripControl;
+import com.diegomartin.telemaco.model.Objects;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +25,7 @@ public class TripListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
-        ArrayList<IListItem> items = getItems();
+        Objects items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
                 
         ListView lv = getListView();
@@ -84,8 +81,9 @@ public class TripListActivity extends ListActivity {
 	}
     
     
-    public ArrayList<IListItem> getItems() {
-		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
+    public Objects getItems() {
+    	return TripControl.readTrips();
+		/*ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
 		
 		// Creamos los objetos
 		IListItem trip1 = new Trip();
@@ -113,6 +111,6 @@ public class TripListActivity extends ListActivity {
 		MiLista.add(trip4);
 		MiLista.add(trip5);
 
-		return MiLista;
+		return MiLista;*/
     }
 }

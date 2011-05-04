@@ -1,9 +1,8 @@
 package com.diegomartin.telemaco.view;
 
-import java.util.ArrayList;
-
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Place;
 
 import android.app.ListActivity;
@@ -24,7 +23,7 @@ public class PlanListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
-        ArrayList<IListItem> items = getItems();
+        Objects items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
         
         registerForContextMenu(getListView());
@@ -73,8 +72,8 @@ public class PlanListActivity extends ListActivity {
     	return super.onOptionsItemSelected(item);
 	}
     
-    public ArrayList<IListItem> getItems() {
-		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
+    public Objects getItems() {
+		Objects MiLista = new Objects();
 		
 		// Creamos los objetos
 		IListItem trip1 = new Place();

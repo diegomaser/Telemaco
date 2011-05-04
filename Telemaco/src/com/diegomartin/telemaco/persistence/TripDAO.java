@@ -1,9 +1,8 @@
 package com.diegomartin.telemaco.persistence;
 
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
+import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 
 import android.content.ContentValues;
@@ -46,9 +45,9 @@ public class TripDAO {
 		return trip;
 	}
 	
-	public static List<Trip> read() {
+	public static Objects read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		List<Trip> trips = new ArrayList<Trip>();
+		Objects trips = new Objects();
 		
 		if (db!=null){
 			String columns[] = {"id", "name", "description", "start_date", "end_date"};

@@ -1,9 +1,10 @@
 package com.diegomartin.telemaco.control;
 
 import java.sql.Date;
-import java.util.List;
 
+import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
+
 import com.diegomartin.telemaco.persistence.TripDAO;
 
 public class TripControl {
@@ -29,7 +30,7 @@ public class TripControl {
 		return TripDAO.read(id);
 	}
 	
-	public static List<Trip> readTrips(){
+	public static Objects readTrips(){
 		return TripDAO.read();
 	}
 	
