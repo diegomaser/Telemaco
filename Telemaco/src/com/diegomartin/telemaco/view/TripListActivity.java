@@ -41,6 +41,13 @@ public class TripListActivity extends ListActivity {
     }
     
     @Override
+    public void onResume(){
+    	super.onResume();
+    	Objects items = getItems();
+        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    }
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.triplist_menu, menu);

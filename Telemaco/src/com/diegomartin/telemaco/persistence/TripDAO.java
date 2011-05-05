@@ -13,20 +13,22 @@ public class TripDAO {
 	private final static String TABLENAME = "Trip";
 	private final static String WHERE_CONDITION = "WHERE id = ?";
 	
-	public static void create(Trip t){
+	public static long create(Trip t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+		long id = -1;
 		if (db!=null){
 			ContentValues values = new ContentValues();
 			values.put("name", t.getName());
 			values.put("description", t.getDescription());
 			values.put("start_date", t.getStartDate().toString());
 			values.put("end_date", t.getEndDate().toString());
-			db.insert(TABLENAME, null, values);
+			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
+		return id;
 	}
 	
-	public static Trip read(int id){
+	public static Trip read(long id){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		Trip trip = new Trip();
 		
@@ -65,8 +67,9 @@ public class TripDAO {
 		return trips;
 	}
 	
-	public static void update(Trip t){
+	public static int update(Trip t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+		int rows = 0;
 		if (db!=null){
 			ContentValues values = new ContentValues();
 			values.put("name", t.getName());
@@ -75,26 +78,24 @@ public class TripDAO {
 			values.put("end_date", t.getEndDate().toString());
 			
 			String args[] = {String.valueOf(t.getId())};
-			db.update(TABLENAME, values, WHERE_CONDITION, args);
+			rows = db.update(TABLENAME, values, WHERE_CONDITION, args);
 			db.close();
 		}
+		return rows;
 	}
 	
-	public static void delete(Trip t){
+	public static int delete(long id){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
-		if (db!=null){
-			String args[] = {String.valueOf(t.getId())};
-			db.delete(TABLENAME, WHERE_CONDITION, args);
-			db.close();
-		}
-	}
-	
-	public static void delete(int id){
-		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+		int rows = 0;
 		if (db!=null){
 			String args[] = {String.valueOf(id)};
-			db.delete(TABLENAME, WHERE_CONDITION, args);
+			rows = db.delete(TABLENAME, WHERE_CONDITION, args);
 			db.close();
 		}
+		return rows;
+	}
+	
+	public static int delete(Trip t){
+		return delete(t.getId());
 	}
 }

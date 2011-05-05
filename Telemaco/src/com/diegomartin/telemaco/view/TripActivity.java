@@ -39,6 +39,8 @@ public class TripActivity extends Activity {
         this.startDateButton = (Button) findViewById(R.id.startDate);
         this.endDateButton = (Button) findViewById(R.id.endDate);
         this.saveButton = (Button) findViewById(R.id.save);
+        this.name = (EditText) findViewById(R.id.name);
+        this.description = (EditText) findViewById(R.id.description);
 
         // add a click listener to the button
         this.startDateButton.setOnClickListener(new View.OnClickListener() {

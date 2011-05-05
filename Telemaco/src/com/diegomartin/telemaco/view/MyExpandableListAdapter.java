@@ -8,12 +8,6 @@ import android.widget.AbsListView;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
-/**
- * A simple adapter which maintains an ArrayList of photo resource Ids. 
- * Each photo is displayed as an image. This adapter supports clearing the
- * list of photos and adding a new photo.
- *
- */
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 	
 	private Context context;
