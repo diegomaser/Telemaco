@@ -1,8 +1,12 @@
 package com.diegomartin.telemaco.view;
 
+import java.util.ArrayList;
+
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.TripControl;
-import com.diegomartin.telemaco.model.Objects;
+import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Trip;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,7 +29,7 @@ public class TripListActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
         
-        Objects items = getItems();
+        ArrayList<IListItem> items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
                 
         ListView lv = getListView();
@@ -43,7 +47,7 @@ public class TripListActivity extends ListActivity {
     @Override
     public void onResume(){
     	super.onResume();
-    	Objects items = getItems();
+    	ArrayList<IListItem> items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
     }
     
@@ -80,16 +84,18 @@ public class TripListActivity extends ListActivity {
     	
     	switch (item.getItemId()) {
     		case R.id.open:
+	        	startActivity(new Intent(getApplicationContext(),TripActivity.class));
     			return true;
 			case R.id.delete:
+				TripControl.deleteTrip(menuItem);
 				return true;
     	}
     	return super.onOptionsItemSelected(item);
 	}
     
     
-    public Objects getItems() {
-    	return TripControl.readTrips();
+    public ArrayList<IListItem> getItems() {
+    	return (ArrayList<IListItem>) TripControl.readTrips().getList();
 		/*ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
 		
 		// Creamos los objetos

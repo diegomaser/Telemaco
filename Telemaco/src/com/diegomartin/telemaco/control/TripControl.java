@@ -34,7 +34,7 @@ public class TripControl {
 		return TripDAO.read();
 	}
 	
-	public static void deleteTrip(int id){
+	public static void deleteTrip(long id){
 		TripDAO.delete(id);
 	}
 }

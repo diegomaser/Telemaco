@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.util.List;
 
 public class Trip extends IListItem {
-	private int id;
+	private long id;
 	private String name;
 	private String description;
 	private Date startDate;
@@ -16,11 +16,11 @@ public class Trip extends IListItem {
 	
 	public Trip() {}
 
-	public void setId(int id){
+	public void setId(long id){
 		this.id = id;
 	}
 	
-	public int getId() {
+	public long getId() {
 		// TODO Auto-generated method stub
 		return this.id;
 	}

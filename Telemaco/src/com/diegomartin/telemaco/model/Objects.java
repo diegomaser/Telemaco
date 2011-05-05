@@ -21,7 +21,7 @@ public class Objects{
 		return this.list.size();
 	}
 	
-	public ArrayList<Object> getList(){
+	public Object getList(){
 		return this.list;
 	}
 	

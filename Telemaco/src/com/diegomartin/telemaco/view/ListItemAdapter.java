@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Objects;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,12 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 public class ListItemAdapter extends ArrayAdapter<IListItem> {
-	private ArrayList<Object> items;
+	private ArrayList<IListItem> items;
 	private Context context;
 	
-	public ListItemAdapter(Context context, int textViewResourceId, Objects objects) {
-		super(context, textViewResourceId);//, objects);
-		this.items = objects.getList();
+	public ListItemAdapter(Context context, int textViewResourceId, ArrayList<IListItem> objects) {
+		super(context, textViewResourceId, objects);
+		this.items = objects;
 		this.context = context;
 	}
 
@@ -30,12 +29,12 @@ public class ListItemAdapter extends ArrayAdapter<IListItem> {
 			LayoutInflater vi = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			v = vi.inflate(R.layout.list_item, null);
 		}
-		IListItem obj = (IListItem) this.items.get(position);
+		IListItem obj = items.get(position);
 		if (obj != null) {
 			TextView name = (TextView) v.findViewById(R.id.name);
 			TextView description = (TextView) v.findViewById(R.id.description);
-			if (name != null) name.setText(obj.getName());
-			if (description != null) description.setText(obj.getDescription());
+			if (name != null) description.setText(obj.getName());
+			if (description != null) name.setText(obj.getDescription());
 		}
 		return v;
 	}

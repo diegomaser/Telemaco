@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 public abstract class IListItem {
-	private char itemType;
+	//private char itemType;
 
 	public abstract void setName(String name);
 	public abstract String getName();

@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class TripDAO {
 	private final static String TABLENAME = "Trip";
-	private final static String WHERE_CONDITION = "WHERE id = ?";
+	private final static String WHERE_CONDITION = "id = ?";
 	
 	public static long create(Trip t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -33,15 +33,15 @@ public class TripDAO {
 		Trip trip = new Trip();
 		
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "start_date", "end_date"};
+			String columns[] = {"name", "description", "start_date", "end_date"};
 			String args[] = {String.valueOf(id)};
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, args, null, null, null);
 			if(cursor.moveToNext()){
-				trip.setId(cursor.getInt(0));
-				trip.setName(cursor.getString(1));
-				trip.setDescription(cursor.getString(2));
-				trip.setStartDate(Date.valueOf(cursor.getString(3)));
-				trip.setEndDate(Date.valueOf(cursor.getString(4)));
+				trip.setId(id);
+				trip.setName(cursor.getString(0));
+				trip.setDescription(cursor.getString(1));
+				trip.setStartDate(Date.valueOf(cursor.getString(2)));
+				trip.setEndDate(Date.valueOf(cursor.getString(3)));
 			}
 		}
 		return trip;
