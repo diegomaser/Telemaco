@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 public class TripDAO {
 	private final static String TABLENAME = "Trip";
-	private final static String WHERE_CONDITION = "id = ?";
+	private final static String WHERE_CONDITION = "id=?";
 	
 	public static long create(Trip t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -34,8 +34,8 @@ public class TripDAO {
 		
 		if (db!=null){
 			String columns[] = {"name", "description", "start_date", "end_date"};
-			String args[] = {String.valueOf(id)};
-			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, args, null, null, null);
+
+			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if(cursor.moveToNext()){
 				trip.setId(id);
 				trip.setName(cursor.getString(0));
@@ -77,8 +77,7 @@ public class TripDAO {
 			values.put("start_date", t.getStartDate().toString());
 			values.put("end_date", t.getEndDate().toString());
 			
-			String args[] = {String.valueOf(t.getId())};
-			rows = db.update(TABLENAME, values, WHERE_CONDITION, args);
+			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(t.getId())});
 			db.close();
 		}
 		return rows;
@@ -88,8 +87,7 @@ public class TripDAO {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
 		int rows = 0;
 		if (db!=null){
-			String args[] = {String.valueOf(id)};
-			rows = db.delete(TABLENAME, WHERE_CONDITION, args);
+			rows = db.delete(TABLENAME, WHERE_CONDITION, new String[] {String.valueOf(id)});
 			db.close();
 		}
 		return rows;

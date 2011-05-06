@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Trip;
-
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
