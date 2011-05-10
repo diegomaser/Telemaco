@@ -98,44 +98,45 @@ public final class R {
         public static final int triplist_menu=0x7f080008;
     }
     public static final class string {
-        public static final int addplace=0x7f070011;
+        public static final int addplace=0x7f070012;
         public static final int app_name=0x7f070000;
-        public static final int changeorder=0x7f070015;
-        public static final int dateFormat=0x7f07000c;
-        public static final int delete=0x7f070018;
-        public static final int delete_trip=0x7f07001f;
-        public static final int description=0x7f070009;
-        public static final int discard=0x7f070013;
-        public static final int edit=0x7f070017;
-        public static final int endDate=0x7f07000b;
-        public static final int expandable_list_sample_action=0x7f070007;
-        public static final int go=0x7f07000f;
+        public static final int changeorder=0x7f070016;
+        public static final int dateFormat=0x7f07000d;
+        public static final int dbname=0x7f070001;
+        public static final int delete=0x7f070019;
+        public static final int delete_trip=0x7f070020;
+        public static final int description=0x7f07000a;
+        public static final int discard=0x7f070014;
+        public static final int edit=0x7f070018;
+        public static final int endDate=0x7f07000c;
+        public static final int expandable_list_sample_action=0x7f070008;
+        public static final int go=0x7f070010;
         /**  Menu options 
          */
-        public static final int help=0x7f07000d;
-        public static final int info=0x7f070004;
+        public static final int help=0x7f07000e;
+        public static final int info=0x7f070005;
         /**  Tags 
          */
-        public static final int login=0x7f070001;
-        public static final int map=0x7f070010;
-        public static final int name=0x7f070008;
-        public static final int new_city=0x7f07001a;
-        public static final int new_note=0x7f07001e;
-        public static final int new_place=0x7f07001c;
-        public static final int new_transport=0x7f07001d;
-        public static final int new_trip=0x7f07001b;
+        public static final int login=0x7f070002;
+        public static final int map=0x7f070011;
+        public static final int name=0x7f070009;
+        public static final int new_city=0x7f07001b;
+        public static final int new_note=0x7f07001f;
+        public static final int new_place=0x7f07001d;
+        public static final int new_transport=0x7f07001e;
+        public static final int new_trip=0x7f07001c;
         /**  CRUD Operations 
          */
-        public static final int open=0x7f070016;
-        public static final int password=0x7f070003;
-        public static final int places=0x7f070006;
-        public static final int plan=0x7f070005;
-        public static final int rearrange=0x7f070012;
-        public static final int save=0x7f070019;
-        public static final int share=0x7f070014;
-        public static final int startDate=0x7f07000a;
-        public static final int update=0x7f07000e;
-        public static final int user=0x7f070002;
+        public static final int open=0x7f070017;
+        public static final int password=0x7f070004;
+        public static final int places=0x7f070007;
+        public static final int plan=0x7f070006;
+        public static final int rearrange=0x7f070013;
+        public static final int save=0x7f07001a;
+        public static final int share=0x7f070015;
+        public static final int startDate=0x7f07000b;
+        public static final int update=0x7f07000f;
+        public static final int user=0x7f070003;
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;

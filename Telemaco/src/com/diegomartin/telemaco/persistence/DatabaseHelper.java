@@ -1,12 +1,14 @@
 package com.diegomartin.telemaco.persistence;
 
+import com.diegomartin.telemaco.R;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	private final static String DATABASE_NAME = "TelemacoDB";
+	private static String DATABASE_NAME;
 	private final static String CREATE_TABLES = "CREATE TABLE Trip (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, start_date TEXT, end_date TEXT);";
 	private final static String DROP_TABLES = "DROP TABLE IF EXISTS Trip";
 	
@@ -15,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	
 	private DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
+		DATABASE_NAME = context.getString(R.string.dbname);
 	}
 	
 	public static DatabaseHelper getInstance(){
