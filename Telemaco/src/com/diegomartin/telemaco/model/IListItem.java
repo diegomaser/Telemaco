@@ -9,9 +9,11 @@ import android.graphics.BitmapFactory;
 public abstract class IListItem {
 	//private char itemType;
 
+	public abstract void setId(long id);
 	public abstract void setName(String name);
 	public abstract String getName();
 	
+	public abstract long getId();
 	public abstract void setDescription(String desc);
 	public abstract String getDescription();
 		

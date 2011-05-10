@@ -3,6 +3,7 @@ package com.diegomartin.telemaco.model;
 import java.util.List;
 
 public class City extends IListItem {
+	private long id;
 	private String name;
 	private String description;
 	private int timezone; // TODO: Actualizar en el diagrama de clases
@@ -10,6 +11,14 @@ public class City extends IListItem {
 	
 	public City() {}
 	
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
 	public String getName() {
 		return name;
 	}

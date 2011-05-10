@@ -62,12 +62,13 @@ public class TripActivity extends Activity {
                 finish();
             }
         });
-
+        
         // get the current date
         final Calendar c = Calendar.getInstance();
         this.startDate = new Date(c.getTimeInMillis());
         this.endDate = new Date(c.getTimeInMillis());
         updateDisplay();
+        
 	}
 	
 	// the callback received when the user "sets" the date in the dialog

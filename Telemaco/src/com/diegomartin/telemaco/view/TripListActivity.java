@@ -3,8 +3,11 @@ package com.diegomartin.telemaco.view;
 import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Trip;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,16 +29,15 @@ public class TripListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
-        
-        ArrayList<IListItem> items = getItems();
-        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+        this.refresh();
                 
         ListView lv = getListView();
         //lv.setTextFilterEnabled(true);
 
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-              startActivity(new Intent(TripListActivity.this, TripTabActivity.class));
+        	  Trip listItem = getItem((int)id);
+              openItem(listItem);
           }
         });
         
@@ -45,8 +47,7 @@ public class TripListActivity extends ListActivity {
     @Override
     public void onResume(){
     	super.onResume();
-    	ArrayList<IListItem> items = getItems();
-        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	this.refresh();
     }
     
     @Override
@@ -68,8 +69,7 @@ public class TripListActivity extends ListActivity {
         // Handle item selection
         switch (item.getItemId()) {
 	        case R.id.add:
-	        	startActivity(new Intent(getApplicationContext(),TripActivity.class));
-	            return true;
+	        	return this.addItem();
 	        default:
 	            return super.onOptionsItemSelected(item);
         }
@@ -79,49 +79,67 @@ public class TripListActivity extends ListActivity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
     	long menuItem = getListAdapter().getItemId(info.position);
+    	Trip listItem = this.getItem((int)menuItem);
     	
     	switch (item.getItemId()) {
     		case R.id.open:
-	        	startActivity(new Intent(getApplicationContext(),TripActivity.class));
-    			return true;
+    			return openItem(listItem);
+    		case R.id.edit:
+    			return editItem(listItem);
 			case R.id.delete:
-				TripControl.deleteTrip(menuItem);
-				return true;
+				return deleteItem(listItem);
+			case R.id.share:
+				return shareItem(listItem);
     	}
     	return super.onOptionsItemSelected(item);
 	}
-    
-    
-    public ArrayList<IListItem> getItems() {
-    	return (ArrayList<IListItem>) TripControl.readTrips().getList();
-		/*ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
-		
-		// Creamos los objetos
-		IListItem trip1 = new Trip();
-		IListItem trip2 = new Trip();
-		IListItem trip3 = new Trip();
-		IListItem trip4 = new Trip();
-		IListItem trip5 = new Trip();
-		
-		trip1.setName("Viaje a Madrid");
-		trip2.setName("Viaje a Barcelona");
-		trip3.setName("Viaje a San Petersburgo");
-		trip4.setName("Viaje a París");
-		trip5.setName("Viaje a Kortrijk");
-		
-		trip1.setDescription("Esto es una prueba");
-		trip2.setDescription("Esto es otra prueba");
-		trip3.setDescription("Otra prueba más");
-		trip4.setDescription("Otra descripción");
-		trip5.setDescription("Más pruebas");
-		
-		//Añadimos los libros a la lista
-		MiLista.add(trip1);
-		MiLista.add(trip2);
-		MiLista.add(trip3);
-		MiLista.add(trip4);
-		MiLista.add(trip5);
 
-		return MiLista;*/
+	private ArrayList<IListItem> getItems() {
+    	return TripControl.readTrips().getList();
     }
+    
+    private Trip getItem(int id){
+    	return (Trip) TripControl.readTrips().get(id);
+    }
+    
+    private void refresh(){
+    	ArrayList<IListItem> items = this.getItems();
+        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    }
+    
+    private boolean addItem(){
+    	startActivity(new Intent(getApplicationContext(), TripActivity.class));
+    	this.refresh();
+        return true;
+    }
+    
+    private boolean openItem(Trip t){
+    	Intent intent = new Intent(getApplicationContext(), TripTabActivity.class);
+		intent.putExtra("id", t.getId());
+    	startActivity(intent);
+		return true;
+    }
+    
+    private boolean editItem(Trip t){
+    	Intent intent = new Intent(getApplicationContext(), TripActivity.class);
+		intent.putExtra("id", t.getId());
+		intent.putExtra("name", t.getName());
+		intent.putExtra("description", t.getDescription());
+		intent.putExtra("startDate", t.getStartDate());
+		intent.putExtra("endDate", t.getEndDate());
+		startActivity(intent);
+		this.refresh();
+		return true;
+    }
+    
+    private boolean deleteItem(Trip t){
+    	TripControl.deleteTrip(t.getId());
+		this.refresh();
+		return true;
+    }
+    
+    private boolean shareItem(Trip t) {
+    	startActivity(ActionsFacade.getInstance().share(t.getName(), t.getDescription()));
+		return true;
+	}
 }

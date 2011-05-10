@@ -3,6 +3,7 @@ package com.diegomartin.telemaco.model;
 import java.util.List;
 
 public class Place extends IListItem{
+	private long id;
 	private String name;
 	private String description;
 	private double lat;
@@ -11,6 +12,14 @@ public class Place extends IListItem{
 	private List<Item> items;
 	
 	public Place(){ }
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
 
 	public void setName(String name) {
 		this.name = name;
