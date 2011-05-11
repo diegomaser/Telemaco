@@ -89,7 +89,7 @@ public class InfoListActivity extends ExpandableListActivity {
     }
     
     private boolean addCity(){
-    	Intent addCity = new Intent();
+    	Intent addCity = new Intent(getApplicationContext(), CityListActivity.class);
     	addCity.putExtras(this.trip);
     	startActivity(addCity);
     	return true;

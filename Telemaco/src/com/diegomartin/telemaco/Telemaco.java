@@ -28,7 +28,7 @@ public class Telemaco extends Activity {
             @Override
             public void onClick(View v) {
                 //Creamos el Intent
-            	Intent intent = new Intent(Telemaco.this, TripListActivity.class);
+            	Intent intent = new Intent(getApplicationContext(), TripListActivity.class);
             	//Iniciamos la nueva actividad
                 startActivity(intent);
             }
