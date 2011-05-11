@@ -6,6 +6,8 @@ import android.net.Uri;
 public class ActionsFacade {
 	// Information source: http://developer.android.com/guide/appendix/g-app-intents.html
 	
+	public final static String EXTRA_TRIP = "trip";
+	
 	private static ActionsFacade instance;
 	
 	private ActionsFacade(){}
@@ -74,9 +76,13 @@ public class ActionsFacade {
 		return  new Intent(android.content.Intent.ACTION_SYNC);
 	}
 	
+	public Intent launchBrowser(String url){
+		Intent browse = new Intent(android.content.Intent.ACTION_VIEW); // O ACTION_WEB_SEARCH?
+		browse.setData(Uri.parse(url));
+		return browse;		
+	}
+	
 	public Intent launchHelp(){
-		Intent help = new Intent(android.content.Intent.ACTION_VIEW); // O ACTION_WEB_SEARCH?
-		//help.putExtra("http://www.renfe.es");
-		return help;
+		return this.launchBrowser("http://renfe.mobi/");
 	}
 }

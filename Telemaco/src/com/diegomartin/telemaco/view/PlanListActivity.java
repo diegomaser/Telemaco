@@ -25,7 +25,7 @@ public class PlanListActivity extends ListActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.trip = (Trip) getIntent().getExtras().get("trip");
+        this.trip = (Trip) getIntent().getExtras().get(ActionsFacade.EXTRA_TRIP);
         
         //setContentView(R.layout.main);
         

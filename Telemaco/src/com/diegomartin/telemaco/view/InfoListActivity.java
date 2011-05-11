@@ -2,9 +2,8 @@ package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
-import com.diegomartin.telemaco.model.Trip;
-
 import android.app.ExpandableListActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.Menu;
@@ -19,12 +18,12 @@ import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
 public class InfoListActivity extends ExpandableListActivity {
 
     private ExpandableListAdapter adapter;
-    private Trip trip;
+    private Bundle trip;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.trip = (Trip) getIntent().getExtras().get("trip");
+        this.trip = (Bundle) getIntent().getExtras();
         
         // Set up our adapter
         adapter = new MyExpandableListAdapter(InfoListActivity.this);
@@ -43,6 +42,8 @@ public class InfoListActivity extends ExpandableListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+        	case R.id.add:
+        		return this.addCity();
 	        case R.id.help:
 	        	return this.help();
 	        case R.id.update:
@@ -84,6 +85,13 @@ public class InfoListActivity extends ExpandableListActivity {
     
     private boolean update(){
     	startActivity(ActionsFacade.getInstance().launchSync());
+    	return true;
+    }
+    
+    private boolean addCity(){
+    	Intent addCity = new Intent();
+    	addCity.putExtras(this.trip);
+    	startActivity(addCity);
     	return true;
     }
 }

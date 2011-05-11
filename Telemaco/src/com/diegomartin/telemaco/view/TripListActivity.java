@@ -117,14 +117,14 @@ public class TripListActivity extends ListActivity {
     
     private boolean openItem(Trip trip){
     	Intent intent = new Intent(getApplicationContext(), TripTabActivity.class);
-		intent.putExtra("trip", trip);
+		intent.putExtra(ActionsFacade.EXTRA_TRIP, trip);
     	startActivity(intent);
 		return true;
     }
     
     private boolean editItem(Trip trip){
     	Intent intent = new Intent(getApplicationContext(), TripActivity.class);
-		intent.putExtra("trip", trip);
+		intent.putExtra(ActionsFacade.EXTRA_TRIP, trip);
 		startActivity(intent);
 		this.refresh();
 		return true;

@@ -25,7 +25,7 @@ public class PlacesListActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
-        this.trip = (Trip) getIntent().getExtras().get("trip");
+        this.trip = (Trip) getIntent().getExtras().get(ActionsFacade.EXTRA_TRIP);
         
         ArrayList<IListItem> items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
