@@ -1,9 +1,12 @@
 package com.diegomartin.telemaco.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Trip extends IListItem {
+public class Trip extends IListItem implements Serializable {
+	private static final long serialVersionUID = -5034304037509612937L;
+	
 	private long id;
 	private String name;
 	private String description;

@@ -17,8 +17,9 @@ public class TripControl {
 		TripDAO.create(trip);
 	}
 	
-	public static void updateTrip(int id, String name, String description, Date startDate, Date endDate){
+	public static void updateTrip(long id, String name, String description, Date startDate, Date endDate){
 		Trip trip = new Trip();
+		trip.setId(id);
 		trip.setName(name);
 		trip.setDescription(description);
 		trip.setStartDate(startDate);

@@ -36,7 +36,7 @@ public class TripListActivity extends ListActivity {
 
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	  Trip listItem = getItem((int)id);
+        	  Trip listItem = getItem(id);
               openItem(listItem);
           }
         });
@@ -98,7 +98,7 @@ public class TripListActivity extends ListActivity {
     	return TripControl.readTrips().getList();
     }
     
-    private Trip getItem(int id){
+    private Trip getItem(long id){
     	return (Trip) TripControl.readTrips().get(id);
     }
     
@@ -113,33 +113,29 @@ public class TripListActivity extends ListActivity {
         return true;
     }
     
-    private boolean openItem(Trip t){
+    private boolean openItem(Trip trip){
     	Intent intent = new Intent(getApplicationContext(), TripTabActivity.class);
-		intent.putExtra("id", t.getId());
+		intent.putExtra("trip", trip);
     	startActivity(intent);
 		return true;
     }
     
-    private boolean editItem(Trip t){
+    private boolean editItem(Trip trip){
     	Intent intent = new Intent(getApplicationContext(), TripActivity.class);
-		intent.putExtra("id", t.getId());
-		intent.putExtra("name", t.getName());
-		intent.putExtra("description", t.getDescription());
-		intent.putExtra("startDate", t.getStartDate());
-		intent.putExtra("endDate", t.getEndDate());
+		intent.putExtra("trip", trip);
 		startActivity(intent);
 		this.refresh();
 		return true;
     }
     
-    private boolean deleteItem(Trip t){
-    	TripControl.deleteTrip(t.getId());
+    private boolean deleteItem(Trip trip){
+    	TripControl.deleteTrip(trip.getId());
 		this.refresh();
 		return true;
     }
     
-    private boolean shareItem(Trip t) {
-    	startActivity(ActionsFacade.getInstance().share(t.getName(), t.getDescription()));
+    private boolean shareItem(Trip trip) {
+    	startActivity(ActionsFacade.getInstance().share(trip.getName(), trip.getDescription()));
 		return true;
 	}
 }

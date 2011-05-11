@@ -13,8 +13,8 @@ public class Objects{
 		this.list.add(obj);
 	}
 	
-	public Object get(int id){
-		return this.list.get(id);
+	public Object get(long id){
+		return this.list.get((int) id);
 	}
 	
 	public int size(){

@@ -6,6 +6,7 @@ import java.sql.Date;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.TripControl;
+import com.diegomartin.telemaco.model.Trip;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -26,6 +27,7 @@ public class TripActivity extends Activity {
     private Button endDateButton;
     private Button saveButton;
     
+    private long id;
     private EditText name;
     private EditText description;
     private Date startDate;
@@ -55,20 +57,43 @@ public class TripActivity extends Activity {
             }
         });
         
-        this.saveButton.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            	TripControl.newTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
-                finish();
-            }
-        });
+        Bundle received = getIntent().getExtras();
         
-        // get the current date
-        final Calendar c = Calendar.getInstance();
-        this.startDate = new Date(c.getTimeInMillis());
-        this.endDate = new Date(c.getTimeInMillis());
-        updateDisplay();
-        
+        if(received == null) {
+        	// New trip
+        	// get the current date
+            final Calendar c = Calendar.getInstance();
+            this.startDate = new Date(c.getTimeInMillis());
+            this.endDate = new Date(c.getTimeInMillis());
+            updateDisplay();
+            
+            this.saveButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                	TripControl.newTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
+                    finish();
+                }
+            });
+
+        } else {
+        	// Edit Trip
+            Trip trip = (Trip) received.get("trip");
+        	
+        	this.id = trip.getId();
+        	this.name.setText(trip.getName());
+        	this.description.setText(trip.getDescription());
+        	this.startDate = trip.getStartDate();
+        	this.endDate = trip.getEndDate();
+            updateDisplay();
+            
+            this.saveButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                	TripControl.updateTrip(id, name.getText().toString(), description.getText().toString(), startDate, endDate);
+                    finish();
+                }
+            });
+        }
 	}
 	
 	// the callback received when the user "sets" the date in the dialog
