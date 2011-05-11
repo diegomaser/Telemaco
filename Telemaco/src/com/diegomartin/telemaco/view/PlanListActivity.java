@@ -3,9 +3,10 @@ package com.diegomartin.telemaco.view;
 import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Place;
+import com.diegomartin.telemaco.model.Trip;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -19,10 +20,13 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class PlanListActivity extends ListActivity {
-	/** Called when the activity is first created. */
+	private Trip trip;
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.trip = (Trip) getIntent().getExtras().get("trip");
+        
         //setContentView(R.layout.main);
         
         ArrayList<IListItem> items = getItems();
@@ -43,17 +47,19 @@ public class PlanListActivity extends ListActivity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.rearrange:
-        	startActivity(new Intent(getApplicationContext(),PlanRearrangeActivity.class));
-            return true;
+        	return rearrangePlan();
         case R.id.help:
-        	return true;
+        	return this.help();
+        case R.id.update:
+        	return this.update();
+        case R.id.share:
+        	return this.share();
         default:
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    
-    @Override
+
+	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.plan_contextmenu, menu);
@@ -124,5 +130,31 @@ public class PlanListActivity extends ListActivity {
 		MiLista.add(trip10);
 
 		return MiLista;
+    }
+    
+    private boolean rearrangePlan() {
+    	Intent i = new Intent(getApplicationContext(),PlanRearrangeActivity.class);
+    	// TODO: What do I pass to the RearrangeActivity?
+    	//i.putExtra(name, value);
+    	startActivity(i);
+        return true;
+	}
+    
+    private boolean help(){
+    	startActivity(ActionsFacade.getInstance().launchHelp());
+    	return true;
+    }
+    
+    private boolean update(){
+    	startActivity(ActionsFacade.getInstance().launchSync());
+    	return true;
+    }
+    
+    private boolean share(){
+    	// TODO: This option wasn't intended to share the trip itself, but to share the plan! 
+    	String subject = this.trip.getName();
+    	String txt = this.trip.getDescription();
+    	startActivity(ActionsFacade.getInstance().share(subject, txt));
+    	return true;
     }
 }

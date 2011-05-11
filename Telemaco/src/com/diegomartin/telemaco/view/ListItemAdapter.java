@@ -33,8 +33,10 @@ public class ListItemAdapter extends ArrayAdapter<IListItem> {
 		if (obj != null) {
 			TextView name = (TextView) v.findViewById(R.id.name);
 			TextView description = (TextView) v.findViewById(R.id.description);
-			if (name != null) description.setText(obj.getName());
-			if (description != null) name.setText(obj.getDescription());
+			TextView extra = (TextView) v.findViewById(R.id.extra);
+			if (name != null) name.setText(obj.getName());
+			if (description != null) description.setText(obj.getDescription());
+			if (extra != null) extra.setText("");
 		}
 		return v;
 	}

@@ -3,9 +3,11 @@ package com.diegomartin.telemaco.view;
 import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Place;
+import com.diegomartin.telemaco.model.Trip;
+
 import android.app.ListActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -17,11 +19,13 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class PlacesListActivity extends ListActivity {
-    /** Called when the activity is first created. */
+    private Trip trip;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
+        this.trip = (Trip) getIntent().getExtras().get("trip");
         
         ArrayList<IListItem> items = getItems();
         setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
@@ -43,7 +47,9 @@ public class PlacesListActivity extends ListActivity {
         case R.id.rearrange:
             return true;
         case R.id.help:
-        	return true;
+        	return this.help();
+        case R.id.update:
+        	return this.update();
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -120,5 +126,15 @@ public class PlacesListActivity extends ListActivity {
 		MiLista.add(trip10);
 
 		return MiLista;
+    }
+    
+    private boolean help(){
+    	startActivity(ActionsFacade.getInstance().launchHelp());
+    	return true;
+    }
+    
+    private boolean update(){
+    	startActivity(ActionsFacade.getInstance().launchSync());
+    	return true;
     }
 }

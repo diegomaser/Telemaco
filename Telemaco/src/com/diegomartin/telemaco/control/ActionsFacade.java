@@ -69,4 +69,14 @@ public class ActionsFacade {
 		share.putExtra(Intent.EXTRA_TEXT, txt);
 		return Intent.createChooser(share, subject);
 	}
+	
+	public Intent launchSync(){
+		return  new Intent(android.content.Intent.ACTION_SYNC);
+	}
+	
+	public Intent launchHelp(){
+		Intent help = new Intent(android.content.Intent.ACTION_VIEW); // O ACTION_WEB_SEARCH?
+		//help.putExtra("http://www.renfe.es");
+		return help;
+	}
 }

@@ -23,9 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class TripListActivity extends ListActivity {
- 
-    /** Called when the activity is first created. */
-    @Override
+     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
@@ -70,6 +68,10 @@ public class TripListActivity extends ListActivity {
         switch (item.getItemId()) {
 	        case R.id.add:
 	        	return this.addItem();
+	        case R.id.help:
+	        	return this.help();
+	        case R.id.update:
+	        	return this.update();
 	        default:
 	            return super.onOptionsItemSelected(item);
         }
@@ -138,4 +140,14 @@ public class TripListActivity extends ListActivity {
     	startActivity(ActionsFacade.getInstance().share(trip.getName(), trip.getDescription()));
 		return true;
 	}
+    
+    private boolean help(){
+    	startActivity(ActionsFacade.getInstance().launchHelp());
+    	return true;
+    }
+    
+    private boolean update(){
+    	startActivity(ActionsFacade.getInstance().launchSync());
+    	return true;
+    }
 }

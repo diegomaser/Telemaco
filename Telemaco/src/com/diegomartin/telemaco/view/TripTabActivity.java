@@ -9,14 +9,14 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 public class TripTabActivity extends TabActivity {
-	private Bundle trip;
+	private Bundle extra;
 	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.triptab);
+	    
 	    Resources res = getResources();
-
-	    this.trip = getIntent().getExtras();
+	    this.extra = getIntent().getExtras();
 	    
 	    this.addTab(InfoListActivity.class, getText(R.string.info), res.getDrawable(R.drawable.tab_info));
 	    this.addTab(PlanListActivity.class, getText(R.string.plan), res.getDrawable(R.drawable.tab_plan));
@@ -31,7 +31,7 @@ public class TripTabActivity extends TabActivity {
 	    TabHost.TabSpec spec;
 
 		Intent intent = new Intent().setClass(this, cls);
-	    intent.putExtras(this.trip);
+	    intent.putExtras(this.extra);
 	    spec = tabHost.newTabSpec(text.toString()).setIndicator(text, drawing).setContent(intent);
 	    tabHost.addTab(spec);
 	}
