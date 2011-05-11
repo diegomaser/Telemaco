@@ -63,7 +63,7 @@ public class ActionsFacade {
 	
 	public Intent share(String subject, String txt){
 		Intent share = new Intent(android.content.Intent.ACTION_SEND);
-		//share.setType("text/plain");
+		share.setType("text/plain");
 		//share.setType("text/message");
 		share.putExtra(Intent.EXTRA_SUBJECT, subject);
 		share.putExtra(Intent.EXTRA_TEXT, txt);

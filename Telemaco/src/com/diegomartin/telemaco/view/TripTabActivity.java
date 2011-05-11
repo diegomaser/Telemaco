@@ -1,42 +1,38 @@
 package com.diegomartin.telemaco.view;
 
 import com.diegomartin.telemaco.R;
-
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.TabHost;
 
 public class TripTabActivity extends TabActivity {
+	private Bundle trip;
+	
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    setContentView(R.layout.triptab);
+	    Resources res = getResources();
 
-	    Resources res = getResources(); // Resource object to get Drawables
-	    TabHost tabHost = getTabHost();  // The activity TabHost
-	    TabHost.TabSpec spec;  // Resusable TabSpec for each tab
-	    Bundle trip = getIntent().getExtras();
-	    Intent intent;  // Reusable Intent for each tab
+	    this.trip = getIntent().getExtras();
+	    
+	    this.addTab(InfoListActivity.class, getText(R.string.info), res.getDrawable(R.drawable.tab_info));
+	    this.addTab(PlanListActivity.class, getText(R.string.plan), res.getDrawable(R.drawable.tab_plan));
+	    this.addTab(PlacesListActivity.class, getText(R.string.places), res.getDrawable(R.drawable.tab_places));
 
-	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    intent = new Intent().setClass(this, InfoListActivity.class);
-	    intent.putExtras(trip);
-	    // Initialize a TabSpec for each tab and add it to the TabHost
-	    spec = tabHost.newTabSpec("info").setIndicator(getText(R.string.info), res.getDrawable(R.drawable.tab_info)).setContent(intent);
-	    tabHost.addTab(spec);
-
-	    // Do the same for the other tabs
-	    intent = new Intent().setClass(this, PlanListActivity.class);
-	    intent.putExtras(trip);
-	    spec = tabHost.newTabSpec("plan").setIndicator(getText(R.string.plan), res.getDrawable(R.drawable.tab_plan)).setContent(intent);
-	    tabHost.addTab(spec);
-
-	    intent = new Intent().setClass(this, PlacesListActivity.class);
-	    intent.putExtras(trip);
-	    spec = tabHost.newTabSpec("places").setIndicator(getText(R.string.places), res.getDrawable(R.drawable.tab_places)).setContent(intent);
-	    tabHost.addTab(spec);
-
+	    //TabHost tabHost = getTabHost();
 	    //tabHost.setCurrentTab(2);
+	}
+	
+	public void addTab(Class<?> cls, CharSequence text, Drawable drawing){
+	    TabHost tabHost = getTabHost();
+	    TabHost.TabSpec spec;
+
+		Intent intent = new Intent().setClass(this, cls);
+	    intent.putExtras(this.trip);
+	    spec = tabHost.newTabSpec(text.toString()).setIndicator(text, drawing).setContent(intent);
+	    tabHost.addTab(spec);
 	}
 }
