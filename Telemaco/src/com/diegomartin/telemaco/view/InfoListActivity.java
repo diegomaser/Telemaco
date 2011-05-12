@@ -84,7 +84,7 @@ public class InfoListActivity extends ExpandableListActivity {
     }
     
     private boolean update(){
-    	startActivity(ActionsFacade.getInstance().launchSync());
+    	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
     }
     

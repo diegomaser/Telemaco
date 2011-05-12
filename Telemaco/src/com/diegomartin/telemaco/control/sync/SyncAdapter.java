@@ -6,6 +6,7 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SyncResult;
 import android.os.Bundle;
@@ -25,15 +26,30 @@ import java.util.Date;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     private static final String TAG = "Sync";
-    private final AccountManager mAccountManager;
-    private final Context mContext;
-    private Date mLastUpdated;
+    private static final String accountType = "com.diegomartin.telemaco";
+    private static final String user = "User";
+    private final AccountManager accountManager;
+    private final Context context;
+    private Date lastUpdated;
 
-    public SyncAdapter(Context context, boolean autoInitialize) {
-        super(context, autoInitialize);
-        mContext = context;
-        mAccountManager = AccountManager.get(context);
+    public SyncAdapter(Context c, boolean autoInitialize) {
+        super(c, autoInitialize);
+        context = c;
+        accountManager = AccountManager.get(context);
     }
+    
+    public void launchSync(){
+		Account account =  null;
+		for(Account a : accountManager.getAccountsByType(accountType)) {
+		    if (accountManager.getUserData(a, user) != null) {
+		        account = a;
+		        break;
+		    }
+		}
+		Bundle extras = new Bundle();
+		//extras.putString(EXTRA_mystuff, myvalue);
+		ContentResolver.requestSync(account, accountType, extras);
+	}
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
@@ -43,7 +59,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         
         try {
         	Log.i("SyncAdapter", "");
-			authtoken = mAccountManager.blockingGetAuthToken(account, "com.diegomartin.telemaco", true /* notifyAuthFailure */);
+			authtoken = accountManager.blockingGetAuthToken(account, accountType, true /* notifyAuthFailure */);
 			// changes 
 		} catch (OperationCanceledException e) {
 			// TODO Auto-generated catch block

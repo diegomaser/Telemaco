@@ -134,7 +134,7 @@ public class PlacesListActivity extends ListActivity {
     }
     
     private boolean update(){
-    	startActivity(ActionsFacade.getInstance().launchSync());
+    	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
     }
 }

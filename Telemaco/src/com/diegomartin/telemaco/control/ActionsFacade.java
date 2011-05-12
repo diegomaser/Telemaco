@@ -1,5 +1,8 @@
 package com.diegomartin.telemaco.control;
 
+import com.diegomartin.telemaco.control.sync.SyncAdapter;
+
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
@@ -72,17 +75,16 @@ public class ActionsFacade {
 		return Intent.createChooser(share, subject);
 	}
 	
-	public Intent launchSync(){
-		return  new Intent(android.content.Intent.ACTION_SYNC);
+	public void launchSync(Context context){
+		SyncAdapter sa = new SyncAdapter(context, false);
+		sa.launchSync();
 	}
 	
 	public Intent launchBrowser(String url){
-		Intent browse = new Intent(android.content.Intent.ACTION_VIEW); // O ACTION_WEB_SEARCH?
-		browse.setData(Uri.parse(url));
-		return browse;		
+		return new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
 	}
 	
 	public Intent launchHelp(){
-		return this.launchBrowser("http://renfe.mobi/");
+		return this.launchBrowser("http://www.maec.es/es/MenuPpal/Paises/Paginas/listado-paises.aspx");
 	}
 }

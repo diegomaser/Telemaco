@@ -146,7 +146,7 @@ public class PlanListActivity extends ListActivity {
     }
     
     private boolean update(){
-    	startActivity(ActionsFacade.getInstance().launchSync());
+    	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
     }
     

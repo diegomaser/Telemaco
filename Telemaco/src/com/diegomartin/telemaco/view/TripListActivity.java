@@ -23,15 +23,17 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class TripListActivity extends ListActivity {
-     @Override
+	
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.main);
-        this.refresh();
                 
         ListView lv = getListView();
         //lv.setTextFilterEnabled(true);
 
+        this.refresh();
+        
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         	  Trip listItem = getItem(id);
@@ -147,7 +149,7 @@ public class TripListActivity extends ListActivity {
     }
     
     private boolean update(){
-    	startActivity(ActionsFacade.getInstance().launchSync());
+    	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
     }
 }
