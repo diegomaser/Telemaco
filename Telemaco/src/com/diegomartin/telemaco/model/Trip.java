@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Trip extends IListItem implements Serializable {
 	private static final long serialVersionUID = -5034304037509612937L;
 	
@@ -89,5 +92,15 @@ public class Trip extends IListItem implements Serializable {
 
 	public Date getEndDate() {
 		return endDate;
+	}
+	
+	public String toJSON() throws JSONException{
+		  JSONObject obj = new JSONObject();
+		  obj.put("id", this.getId());
+		  obj.put("name", this.getName());
+		  obj.put("description", this.getDescription());
+		  obj.put("startDate", this.getStartDate().toString());
+		  obj.put("endDate", this.getEndDate().toString());
+		  return obj.toString();
 	}
 }
