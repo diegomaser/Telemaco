@@ -129,7 +129,7 @@ public class PlacesListActivity extends ListActivity {
     }
     
     private boolean help(){
-    	startActivity(ActionsFacade.getInstance().launchHelp());
+    	startActivity(ActionsFacade.getInstance().launchHelp(this));
     	return true;
     }
     

@@ -79,12 +79,12 @@ public class InfoListActivity extends ExpandableListActivity {
     }
     
     private boolean help(){
-    	startActivity(ActionsFacade.getInstance().launchHelp());
+    	startActivity(ActionsFacade.getInstance().launchHelp(this));
     	return true;
     }
     
     private boolean update(){
-    	ActionsFacade.getInstance().launchSync(getApplicationContext());
+    	ActionsFacade.getInstance().launchSync(this);
     	return true;
     }
     

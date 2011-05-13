@@ -1,7 +1,9 @@
 package com.diegomartin.telemaco.control;
 
 import com.diegomartin.telemaco.control.sync.SyncAdapter;
+import com.diegomartin.telemaco.view.HTMLViewActivity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -69,7 +71,6 @@ public class ActionsFacade {
 	public Intent share(String subject, String txt){
 		Intent share = new Intent(android.content.Intent.ACTION_SEND);
 		share.setType("text/plain");
-		//share.setType("text/message");
 		share.putExtra(Intent.EXTRA_SUBJECT, subject);
 		share.putExtra(Intent.EXTRA_TEXT, txt);
 		return Intent.createChooser(share, subject);
@@ -80,11 +81,23 @@ public class ActionsFacade {
 		sa.launchSync();
 	}
 	
-	public Intent launchBrowser(String url){
+	public Intent launchBrowserWeb(String url){
 		return new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
 	}
 	
-	public Intent launchHelp(){
-		return this.launchBrowser("http://www.maec.es/es/MenuPpal/Paises/Paginas/listado-paises.aspx");
+	public Intent launchBrowserURL(Activity previousActivity, String url){
+		Intent browser = new Intent(previousActivity, HTMLViewActivity.class);
+		browser.putExtra("uri", url);
+		return browser;
+	}
+	
+	public Intent launchBrowserHTML(Activity previousActivity, String html){
+		Intent browser = new Intent(previousActivity, HTMLViewActivity.class);
+		browser.putExtra("source", html);
+		return browser;
+	}
+	
+	public Intent launchHelp(Activity previousActivity){
+		return this.launchBrowserURL(previousActivity, "http://www.maec.es/es/MenuPpal/Paises/Paginas/listado-paises.aspx");
 	}
 }
