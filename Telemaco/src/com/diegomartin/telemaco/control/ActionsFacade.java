@@ -98,6 +98,6 @@ public class ActionsFacade {
 	}
 	
 	public Intent launchHelp(Activity previousActivity){
-		return this.launchBrowserURL(previousActivity, "http://www.maec.es/es/MenuPpal/Paises/Paginas/listado-paises.aspx");
+		return this.launchBrowserURL(previousActivity, "file:///android_asset/help/help.html");
 	}
 }

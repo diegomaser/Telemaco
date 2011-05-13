@@ -8,10 +8,12 @@ public class HTMLViewActivity extends Activity {
 		@Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
+	        
 	        WebView webview = new WebView(this);
 	        Bundle receive = getIntent().getExtras();
 	        String uri = (String) receive.getString("uri");
 	        String source = (String) receive.getString("source");
+	        
 	        if (uri != null){
 		        webview.loadUrl(uri);
 	        }

@@ -21,6 +21,7 @@
         <activity android:name="com.diegomartin.telemaco.view.PlanRearrangeActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.TripTabActivity" android:label="@string/app_name" android:theme="@android:style/Theme.NoTitleBar"></activity>
         <activity android:name="com.diegomartin.telemaco.view.TripActivity"></activity>
+        <activity android:name="com.diegomartin.telemaco.view.HTMLViewActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.TTSActivity"></activity>
 
 
