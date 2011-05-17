@@ -40,4 +40,7 @@
     <string name="new_transport">New Transport</string>
     <string name="new_note">New Note</string>
     <string name="delete_trip">Delete Trip</string>
+    
+    <string name="search_hint_cities">Search cities</string>
+    <string name="search_hint_countries">Search countries</string>
 </resources>

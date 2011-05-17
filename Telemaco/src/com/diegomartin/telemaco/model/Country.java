@@ -1,8 +1,11 @@
 package com.diegomartin.telemaco.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Country {
+public class Country implements Serializable {
+	private static final long serialVersionUID = -3486635525120846575L;
+	
 	private String name;
 	private String description;
 	

@@ -99,7 +99,7 @@ public class TripListActivity extends ListActivity {
 	}
 
 	private ArrayList<IListItem> getItems() {
-    	return TripControl.readTrips().getList();
+    	return (ArrayList<IListItem>) TripControl.readTrips().getList();
     }
     
     private Trip getItem(long id){

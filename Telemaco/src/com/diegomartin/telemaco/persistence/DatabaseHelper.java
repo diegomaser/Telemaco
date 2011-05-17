@@ -1,5 +1,9 @@
 package com.diegomartin.telemaco.persistence;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import com.diegomartin.telemaco.R;
 
 import android.content.Context;
@@ -8,9 +12,9 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	private final static String CREATE_TABLES = "CREATE TABLE Trip (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, description TEXT, start_date TEXT, end_date TEXT);";
-	private final static String DROP_TABLES = "DROP TABLE IF EXISTS Trip";
-	
+	// TODO: This isn't the best way to ship database with application
+	// http://stackoverflow.com/questions/513084/how-to-ship-an-android-application-with-a-database
+		
 	private static DatabaseHelper instance;
 	private static Context context;
 	
@@ -29,17 +33,49 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL(CREATE_TABLES);
+		String sql;
+				
+		sql = this.readAsset("database/createDB.sql");
+		instance.getWritableDatabase().execSQL(sql);
+		
+		sql = this.readAsset("database/loadDB.sql");
+		instance.getWritableDatabase().execSQL(sql);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL(DROP_TABLES);
-		db.execSQL(CREATE_TABLES);
+		this.cleanDatabase();
 	}
 	
 	public void cleanDatabase(){
-		instance.getWritableDatabase().execSQL(DROP_TABLES);
-		instance.getWritableDatabase().execSQL(CREATE_TABLES);
+		String sql;
+		
+		sql = this.readAsset("database/dropDB.sql");
+		instance.getWritableDatabase().execSQL(sql);
+		
+		sql = this.readAsset("database/createDB.sql");
+		instance.getWritableDatabase().execSQL(sql);
+		
+		sql = this.readAsset("database/loadDB.sql");
+		instance.getWritableDatabase().execSQL(sql);
+	}
+	
+	
+	private String readAsset(String asset) { 
+		BufferedReader in = null; 
+		try { 
+		    in = new BufferedReader(new InputStreamReader(context.getAssets().open(asset)));
+		    String line; 
+		    StringBuilder buffer = new StringBuilder(); 
+		    while ((line = in.readLine()) != null)
+		    	buffer.append(line).append('\n');
+		    return buffer.toString(); 
+		} catch (IOException e) { 
+			return ""; 
+		} finally {
+			if (in!=null)
+				try { in.close(); }
+				catch (IOException e) { }
+		}
 	}
 }

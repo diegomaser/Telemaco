@@ -133,6 +133,8 @@ public final class R {
         public static final int plan=0x7f070006;
         public static final int rearrange=0x7f070013;
         public static final int save=0x7f07001a;
+        public static final int search_hint_cities=0x7f070021;
+        public static final int search_hint_countries=0x7f070022;
         public static final int share=0x7f070015;
         public static final int startDate=0x7f07000b;
         public static final int update=0x7f07000f;
@@ -140,7 +142,9 @@ public final class R {
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;
-        public static final int contacts=0x7f040001;
-        public static final int syncadapter=0x7f040002;
+        public static final int city_search=0x7f040001;
+        public static final int contacts=0x7f040002;
+        public static final int country_search=0x7f040003;
+        public static final int syncadapter=0x7f040004;
     }
 }

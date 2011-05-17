@@ -3,13 +3,13 @@ package com.diegomartin.telemaco.model;
 import java.util.ArrayList;
 
 public class Objects{
-	private ArrayList<IListItem> list;
+	private ArrayList<Object> list;
 	
 	public Objects(){
-		this.list = new ArrayList<IListItem>();
+		this.list = new ArrayList<Object>();
 	}
 	
-	public void add(IListItem obj){
+	public void add(Object obj){
 		this.list.add(obj);
 	}
 	
@@ -21,7 +21,7 @@ public class Objects{
 		return this.list.size();
 	}
 	
-	public ArrayList<IListItem> getList(){
+	public ArrayList<?> getList(){
 		return this.list;
 	}
 	
