@@ -19,7 +19,6 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class CountrySearchActivity extends ListActivity {
-	private Trip trip;
 	private Objects countries;
 	
 	@Override

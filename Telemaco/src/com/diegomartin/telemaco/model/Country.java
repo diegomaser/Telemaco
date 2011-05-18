@@ -6,6 +6,7 @@ import java.util.List;
 public class Country implements Serializable {
 	private static final long serialVersionUID = -3486635525120846575L;
 	
+	private long id;
 	private String name;
 	private String description;
 	
@@ -14,6 +15,14 @@ public class Country implements Serializable {
 	private Currency currency;
 	
 	public Country(){ }
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getId() {
+		return id;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -53,5 +62,9 @@ public class Country implements Serializable {
 
 	public Currency getCurrency() {
 		return currency;
+	}
+	
+	public String toString(){
+		return this.name;
 	}
 }

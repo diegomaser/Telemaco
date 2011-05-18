@@ -42,7 +42,7 @@ public class InfoListActivity extends ExpandableListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
-        	case R.id.add:
+        	case R.id.new_city:
         		return this.addCity();
 	        case R.id.help:
 	        	return this.help();
