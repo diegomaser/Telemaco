@@ -11,7 +11,8 @@
     <string name="description">Descripción</string>
     <string name="startDate">Fecha inicio</string>
     <string name="endDate">Fecha fin</string>
-    
+    <string name="dateFormat">dd/mm/aaaa</string>
+        
     <!-- Menu options -->
     <string name="help">Ayuda</string>
     <string name="update">Actualizar</string>
