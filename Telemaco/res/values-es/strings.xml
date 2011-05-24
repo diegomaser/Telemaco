@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tags -->
+    <string name="login">Acceder</string>
+    <string name="user">Usuario</string>
+    <string name="password">Contraseña</string>
+    <string name="info">Info</string>
+    <string name="plan">Plan</string>
+    <string name="places">Lugares</string>
+    <string name="name">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="startDate">Fecha inicio</string>
+    <string name="endDate">Fecha fin</string>
+    
+    <!-- Menu options -->
+    <string name="help">Ayuda</string>
+    <string name="update">Actualizar</string>
+    <string name="go">Ir a este lugar</string>
+    <string name="map">Ver mapa</string>
+    <string name="addplace">Añadir lugar al plan</string>
+    <string name="rearrange">Reordenar</string>
+    <string name="discard">Cancelar</string>
+    <string name="share">Compartir</string>
+    <string name="changeorder">Cambiar orden</string>
+    
+	<!-- CRUD Operations -->
+    <string name="open">Abrir</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Borrar</string>
+    <string name="save">Guardar</string>
+
+    <string name="new_city">Nueva ciudad</string>
+    <string name="new_trip">Nuevo viaje</string>
+    <string name="new_place">Nuevo lugar</string>
+    <string name="new_transport">Nuevo transporte</string>
+    <string name="new_note">Nueva nota</string>
+    <string name="delete_trip">Borrar viaje</string>
+    
+    <string name="search_hint_cities">Buscar ciudad</string>
+    <string name="search_hint_countries">Buscar país</string>
+</resources>

@@ -1,13 +1,9 @@
 package com.diegomartin.telemaco.test.unit;
 
-import java.sql.Date;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.diegomartin.telemaco.model.Trip;
-import com.diegomartin.telemaco.persistence.TripDAO;
 import com.diegomartin.telemaco.view.TripActivity;
 
 public class TripActivityTest extends ActivityInstrumentationTestCase2<TripActivity> {
