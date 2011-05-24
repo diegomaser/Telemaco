@@ -2,15 +2,30 @@ package com.diegomartin.telemaco.model;
 
 import java.util.List;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class City extends IListItem {
 	private long id;
 	private String name;
 	private String description;
 	private int timezone; // TODO: Actualizar en el diagrama de clases
-	private Country country;
+	private int countryId;
 	
 	public City() {}
 	
+	public City(JSONObject json) {
+		try {
+			this.id = json.getInt("id");
+			this.name = json.getString("name");
+			this.description = json.getString("description");
+			this.timezone = json.getInt("timezone");
+			this.countryId = json.getInt("timezone");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -43,12 +58,12 @@ public class City extends IListItem {
 		return timezone;
 	}
 
-	public void setCountry(Country country) {
-		this.country = country;
+	public void setCountryId(int countryId) {
+		this.countryId = countryId;
 	}
 
-	public Country getCountry() {
-		return country;
+	public int getCountryId() {
+		return countryId;
 	}
 
 	public List<Place> getPlaces() {

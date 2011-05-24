@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Objects;
-import com.diegomartin.telemaco.model.Trip;
 
 import android.R;
 import android.app.ListActivity;

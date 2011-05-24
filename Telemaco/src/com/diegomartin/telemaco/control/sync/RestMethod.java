@@ -33,7 +33,7 @@ public class RestMethod {
     	HttpResponse response;
 		try {
 			response = httpClient.execute(request);
-			callback.onRequestResponse(response);
+			callback.onRequestResponse(request, response);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			callback.onRequestError(ex);

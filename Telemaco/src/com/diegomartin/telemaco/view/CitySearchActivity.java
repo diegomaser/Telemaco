@@ -60,7 +60,7 @@ public class CitySearchActivity extends ListActivity {
 	private void handleIntent(Intent intent) {
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			this.cities = CityControl.searchCities(this.country, query);
+			this.cities = CityControl.searchCities(this, this.country, query);
 			this.refresh();
 	    }
 	}
@@ -72,7 +72,7 @@ public class CitySearchActivity extends ListActivity {
 	}
 	
 	private Objects getItems() {
-    	return CityControl.readCities(this.country);
+    	return CityControl.readCities(this, this.country);
     }
 
     private void saveItem(City city){

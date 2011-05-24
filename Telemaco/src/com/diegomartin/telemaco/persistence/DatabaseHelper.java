@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.Utils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -33,36 +34,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		this.execute("database/createDB.sql");
-		this.execute("database/loadDB.sql");
+		Utils.execute(context, db, "database/createDB.sql");
+		Utils.execute(context, db, "database/loadDB.sql");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		this.execute("database/dropDB.sql");
-		this.execute("database/createDB.sql");
-		this.execute("database/loadDB.sql");
+		Utils.execute(context, db, "database/dropDB.sql");
+		Utils.execute(context, db, "database/createDB.sql");
+		Utils.execute(context, db, "database/loadDB.sql");
 	}
 	
 	public void cleanDatabase(){
-		this.execute("database/dropDB.sql");
-		this.execute("database/createDB.sql");
-		this.execute("database/loadDB.sql");
+		Utils.execute(context, instance.getWritableDatabase(), "database/dropDB.sql");
+		Utils.execute(context, instance.getWritableDatabase(), "database/createDB.sql");
+		Utils.execute(context, instance.getWritableDatabase(), "database/loadDB.sql");
 	}
 	
 	
-	private void execute(String asset) {
-		SQLiteDatabase db = instance.getWritableDatabase();
-		BufferedReader in = null; 
-		try { 
-		    in = new BufferedReader(new InputStreamReader(context.getAssets().open(asset)));
-		    String line;  
-		    while ((line = in.readLine()) != null)
-		    	db.execSQL(line); 
-		} catch (IOException e) { } finally {
-			if (in!=null)
-				try { in.close(); }
-				catch (IOException e) { }
-		}
-	}
+	
 }
