@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Telemaco</string>
     <string name="dbname">TelemacoDB</string>
+    <string name="serverURL">http://localhost:8080/api/</string>
     
     <!-- Tags -->
     <string name="login">Log-in</string>
