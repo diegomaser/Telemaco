@@ -1,4 +1,7 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import patterns
+from django.conf.urls.defaults import include
+
+from django.contrib.auth.decorators import login_required
 
 # Model
 from models import Country
@@ -15,12 +18,11 @@ from models import User
 from models import CityVisit
 from models import PlaceVisit
 
-# Admin interface
+# Admin and databrowse interface
 from django.contrib import admin
-admin.autodiscover()
-
-# Databrowse interface
 from django.contrib import databrowse
+
+admin.autodiscover()
 databrowse.site.register(Country)
 databrowse.site.register(City)
 databrowse.site.register(Currency)
@@ -36,7 +38,13 @@ databrowse.site.register(CityVisit)
 databrowse.site.register(PlaceVisit)
 
 urlpatterns = patterns('',
-                      (r'^$', 'django.views.generic.simple.direct_to_template', dict(template='index.html')),
+                       # URLs for Admin and Databrowse
+                       (r'^admin/doc/', include('django.contrib.admindocs.urls')),
+                       (r'^admin/', include(admin.site.urls)),
+                       (r'^databrowse/(.*)', login_required(databrowse.site.root)),
+                       #(r'^databrowse/(.*)', databrowse.site.root),
+
+                       #(r'^$', 'django.views.generic.simple.direct_to_template', dict(template='index.html')),
                        #(r'^guide/(?P<country>\w+)/(?P<city>\w+)/$', 'guias.guide.views.viewGenericGuide'),
                        #(r'^guide/(?P<object_id>\d+)/$', 'guide.views.viewGuide'),
                        #(r'^trip/$', 'django.views.generic.list_detail.object_list', dict(queryset=Trip.objects.all())),

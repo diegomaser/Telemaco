@@ -1,17 +1,11 @@
-from django.conf.urls.defaults import *
-from django.contrib.auth.decorators import login_required
+from django.conf.urls.defaults import include
+from django.conf.urls.defaults import patterns
 
-from django.contrib import admin
-from django.contrib import databrowse
+import telemaco.urls
+import api.urls
 
 urlpatterns = patterns('',
     # Own apps
-    (r'^telemaco/', include('Telemaco_server.telemaco.urls')),
-    (r'^telemaco/api/',   include('Telemaco_server.api.urls')),
-    
-    # URLs for Admin and Databrowse
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-    (r'^admin/', include(admin.site.urls)),
-    (r'^databrowse/(.*)', login_required(databrowse.site.root)),
-    #(r'^databrowse/(.*)', databrowse.site.root),
+    (r'^telemaco/', include(telemaco.urls)),
+    (r'^telemaco_api/',   include(api.urls)),
 )
