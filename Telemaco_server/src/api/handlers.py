@@ -56,7 +56,7 @@ class CityHandler(BaseHandler):
     allowed_methods = ('GET',)
     model = City
 
-    def read(self, request, object_id, country_id=None):
+    def read(self, request, object_id=None, country_id=None):
         try:
             if object_id:
                 return self.model.objects.get(pk=object_id)
