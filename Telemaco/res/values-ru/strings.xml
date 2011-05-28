@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tags -->
+    <string name="login">Войти</string>
+    <string name="user">Пользователь</string>
+    <string name="password">Пароль</string>
+    <string name="info">Информация</string>
+    <string name="plan">План</string>
+    <string name="places">Места</string>
+    <string name="name">Имя</string>
+    <string name="description">Описание</string>
+    <string name="startDate">Дата начала</string>
+    <string name="endDate">Дата окончания</string>
+    <string name="dateFormat">дд/мм/гггг</string>
+        
+    <!-- Menu options -->
+    <string name="help">Помощь</string>
+    <string name="update">Обновить</string>
+    <string name="go">Перейти</string>
+    <string name="map">Посмотреть карту</string>
+    <string name="addplace">Добавить место в план</string>
+    <string name="rearrange">Перегруппировка</string>
+    <string name="discard">Изменить</string>
+    <string name="share">Поделиться</string>
+    <string name="changeorder">Поменять порядок</string>
+    
+	<!-- CRUD Operations -->
+    <string name="open">Открыть</string>
+    <string name="edit">Опции</string>
+    <string name="delete">Удалить</string>
+    <string name="save">Сохранить</string>
+
+    <string name="new_city">Новый город</string>
+    <string name="new_trip">Новое путешествие</string>
+    <string name="new_place">Новое место</string>
+    <string name="new_transport">Новый транспорт</string>
+    <string name="new_note">Новая пометка</string>
+    <string name="delete_trip">Удалить путешествие</string>
+    
+    <string name="search_hint_cities">Искать город</string>
+    <string name="search_hint_countries">Искать страну</string>
+</resources>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tags -->
+    <string name="login">Ouverture</string>
+    <string name="user">Utilisateur</string>
+    <string name="password">Mot de passe</string>
+    <string name="info">Information</string>
+    <string name="plan">Plan</string>
+    <string name="places">Endroits</string>
+    <string name="name">Nom</string>
+    <string name="description">Description</string>
+    <string name="startDate">Date de début</string>
+    <string name="endDate">Date de fin</string>
+    <string name="dateFormat">jj/mm/aaaa</string>
+    
+    <!-- Menu options -->
+    <string name="help">Aide</string>
+    <string name="update">Mise à jour</string>
+    <string name="go">Allez à l\endroit</string>
+    <string name="map">Voir la carte</string>
+    <string name="addplace">Ajouter endroit pour planifier</string>
+    <string name="rearrange">Réarranger</string>
+    <string name="discard">Jeter</string>
+    <string name="share">Partagez</string>
+    <string name="changeorder">Changer l\'ordre</string>
+    
+	<!-- CRUD Operations -->
+    <string name="open">Ouvrir</string>
+    <string name="edit">Modifier</string>
+    <string name="delete">Supprimer</string>
+    <string name="save">Enregistrer</string>
+
+    <string name="new_city">Nouvelle ville</string>
+    <string name="new_trip">Nouveau voyage</string>
+    <string name="new_place">Nouvelle place</string>
+    <string name="new_transport">Nouveau Transports</string>
+    <string name="new_note">Nouvelle note</string>
+    <string name="delete_trip">Supprimer de voyage</string>
+    
+    <string name="search_hint_cities">Recherchez des villes</string>
+    <string name="search_hint_countries">Pays Recherche</string>
+</resources>

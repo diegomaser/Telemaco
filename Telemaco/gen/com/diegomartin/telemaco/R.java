@@ -113,10 +113,12 @@ public final class R {
         /**  Menu options 
  Menu options 
  Menu options 
+ Menu options 
          */
         public static final int help=0x7f07000f;
         public static final int info=0x7f070007;
         /**  Tags 
+ Tags 
  Tags 
  Tags 
          */
@@ -129,6 +131,7 @@ public final class R {
         public static final int new_transport=0x7f07001f;
         public static final int new_trip=0x7f07001d;
         /**  CRUD Operations 
+ CRUD Operations 
  CRUD Operations 
  CRUD Operations 
          */
