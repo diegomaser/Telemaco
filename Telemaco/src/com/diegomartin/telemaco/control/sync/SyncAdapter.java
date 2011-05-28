@@ -15,23 +15,26 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.Date;
 
+import com.diegomartin.telemaco.R;
+
 /**
  * SyncAdapter implementation for syncing sample SyncAdapter contacts to the
  * platform ContactOperations provider.
  */
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
-    private static final String TAG = "Sync";
-    private static final String accountType = "com.diegomartin.telemaco";
+    //private static final String TAG = "Sync";
     private static final String user = "User";
-    private final AccountManager accountManager;
-    private final Context context;
+    private String accountType;
+    private AccountManager accountManager;
+    private Context context;
     private Date lastUpdated;
 
     public SyncAdapter(Context c, boolean autoInitialize) {
         super(c, autoInitialize);
-        context = c;
-        accountManager = AccountManager.get(context);
+        this.context = c;
+        this.accountManager = AccountManager.get(this.context);
+        this.accountType = this.context.getString(R.string.package_name);
     }
     
     public void launchSync(){

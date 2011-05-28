@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.view.AuthenticatorActivity;
 //import com.example.android.samplesync.client.NetworkUtilities;
 
@@ -66,8 +67,7 @@ class Authenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account,
         String authTokenType, Bundle loginOptions) {
-
-        if (!authTokenType.equals("com.diegomartin.telemaco")) {
+        if (!authTokenType.equals(this.mContext.getString(R.string.package_name))) {
             final Bundle result = new Bundle();
             result.putString(AccountManager.KEY_ERROR_MESSAGE, "invalid authTokenType");
             return result;
@@ -79,7 +79,7 @@ class Authenticator extends AbstractAccountAuthenticator {
             if (verified) {
                 final Bundle result = new Bundle();
                 result.putString(AccountManager.KEY_ACCOUNT_NAME, account.name);
-                result.putString(AccountManager.KEY_ACCOUNT_TYPE, "com.diegomartin.telemaco");
+                result.putString(AccountManager.KEY_ACCOUNT_TYPE, this.mContext.getString(R.string.package_name));
                 result.putString(AccountManager.KEY_AUTHTOKEN, password);
                 return result;
             }
@@ -97,9 +97,9 @@ class Authenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        if ("com.diegomartin.telemaco".equals(authTokenType)) {
+    	if(authTokenType.equals(this.mContext.getString(R.string.package_name))){
             //return mContext.getString(R.string.label);
-        }
+    	}
         return null;
     }
 

@@ -5,6 +5,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
+
+import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.sync.Processor;
 import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
@@ -27,7 +29,7 @@ public class CityControl {
 	
 	public static Objects readCities(Context context, Country country) {
 		// TODO: set url
-		RestMethod.get("http://", new Processor(){
+		RestMethod.get(context.getString(R.string.server_url)+"", new Processor(){
 			public void response(String content) throws JSONException {
 				cities = new Objects();
 				JSONArray arr = new JSONArray(content);
@@ -42,7 +44,7 @@ public class CityControl {
 	
 	public static Objects searchCities(Context context, Country c, String query) {
 		// TODO: set url
-		RestMethod.get("http://", new Processor(){
+		RestMethod.get(context.getString(R.string.server_url)+"", new Processor(){
 			public void response(String content) throws JSONException {
 				cities = new Objects();
 				JSONArray arr = new JSONArray(content);
