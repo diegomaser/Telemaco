@@ -14,6 +14,9 @@ class City(models.Model):
 
     class Meta:
         verbose_name_plural = 'Cities'
+        
+class CitySearch(models.Model):
+    name = models.CharField(max_length=200)
 
 class Country(models.Model):
     plug = models.ForeignKey('Plug')
