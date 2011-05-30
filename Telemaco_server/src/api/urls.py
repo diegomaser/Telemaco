@@ -4,14 +4,17 @@ from django.conf.urls.defaults import url
 from piston.resource import Resource
 from piston.authentication import HttpBasicAuthentication
 
-import handlers
+from CityHandler import CityHandler
+from CitySearchHandler import CitySearchHandler
+from TripHandler import TripHandler
+from UserHandler import UserHandler
+from PlaceHandler import PlaceHandler
 
-#user_handler = Resource(handlers.UserHandler)
-city_handler = Resource(handlers.CityHandler)
-citysearch_handler = Resource(handlers.CitySearchHandler)
-#country_handler = Resource(handlers.CountryHandler)
-#trip_handler = Resource(handlers.TripHandler)
-#place_handler = Resource(handlers.PlaceHandler)
+user_handler = Resource(UserHandler)
+city_handler = Resource(CityHandler)
+citysearch_handler = Resource(CitySearchHandler)
+trip_handler = Resource(TripHandler)
+place_handler = Resource(PlaceHandler)
 
 urlpatterns = patterns('',
     #####
@@ -25,9 +28,6 @@ urlpatterns = patterns('',
 
     url(r'^cities_search/(?P<country_id>[^/]+)/(?P<city>\w+)', citysearch_handler, { 'emitter_format': 'json' }),
     url(r'^cities_search/(?P<country_id>[^/]+)', citysearch_handler, { 'emitter_format': 'json' }),
-    
-#    url(r'^country/(?P<object_id>[^/]+)/', country_handler, { 'emitter_format': 'json' }),
-#    url(r'^countries/', country_handler, { 'emitter_format': 'json' }),
     
 #    url(r'^trip/(?P<object_id>[^/]+)/', trip_handler, { 'emitter_format': 'json' }),
 #    url(r'^trips/', trip_handler, { 'emitter_format': 'json' }),
