@@ -10,6 +10,7 @@ from models import Transport
 from models import User
 from models import CityVisit
 from models import PlaceVisit
+from models import Trip
 
 from django.contrib import admin
 
@@ -25,4 +26,5 @@ admin.site.register(Transport)
 admin.site.register(User)
 admin.site.register(CityVisit)
 admin.site.register(PlaceVisit)
+admin.site.register(Trip)
 

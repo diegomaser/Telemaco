@@ -1,0 +1,23 @@
+package com.diegomartin.telemaco.control;
+
+import java.util.Date;
+import java.util.Locale;
+
+public class ContextControl {
+
+	public static String getCountry(){
+		Locale defaultLocale = Locale.getDefault();
+		String country = defaultLocale.getCountry();
+		return country.toLowerCase();
+	}
+	
+	public static String getLanguage(){
+		Locale defaultLocale = Locale.getDefault();
+		String lang = defaultLocale.getLanguage();
+		return lang.toLowerCase();
+	}
+	
+	public static boolean isDay(long lat, long lng, Date time){
+		return false;
+	}
+}

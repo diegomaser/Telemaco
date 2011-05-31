@@ -1,6 +1,6 @@
 from django.db import models
 #from django.forms import ModelForm
-from django.contrib.auth.models import User as Duser #Django user
+from django.contrib.auth.models import User as DjangoUser
 #from django.contrib.auth.models import User
 
 class City(models.Model):
@@ -109,7 +109,7 @@ class Transport(models.Model):
 class Trip(models.Model):
     cities = models.ManyToManyField('City', through = 'CityVisit')
     places = models.ManyToManyField('Place', through = 'PlaceVisit')
-    user = models.ForeignKey('User', editable=False)
+    user = models.ForeignKey('User')
     
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
@@ -119,7 +119,7 @@ class Trip(models.Model):
     def __unicode__(self):
         return self.name
 
-class User(Duser):
+class User(DjangoUser):
     city = models.ForeignKey('City') # onetoonefield? quiza sea mejor alternativa
 
 class CityVisit(models.Model):

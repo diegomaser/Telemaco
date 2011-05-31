@@ -10,28 +10,30 @@ from TripHandler import TripHandler
 from UserHandler import UserHandler
 from PlaceHandler import PlaceHandler
 
-user_handler = Resource(UserHandler)
+auth = HttpBasicAuthentication(realm="TelemacoAPI")
+
+user_handler = Resource(UserHandler, auth)
 city_handler = Resource(CityHandler)
 citysearch_handler = Resource(CitySearchHandler)
-trip_handler = Resource(TripHandler)
-place_handler = Resource(PlaceHandler)
+trip_handler = Resource(TripHandler, auth)
+place_handler = Resource(PlaceHandler, auth)
 
 urlpatterns = patterns('',
     #####
     # AQUI VA DEFINIDA LA INTERFAZ REST
     #####
     
-    #url(r'^user/(?P<object_id>[^/]+)/', user_handler, { 'emitter_format': 'json' }),
-    #url(r'^users/', user_handler, { 'emitter_format': 'json' }),
+    url(r'^user/(?P<object_id>[^/]+)', user_handler, { 'emitter_format': 'json' }),
+    url(r'^user/', user_handler, { 'emitter_format': 'json' }),
     
-    url(r'^city/(?P<object_id>[^/]+)/', city_handler, { 'emitter_format': 'json' }),
-
-    url(r'^cities_search/(?P<country_id>[^/]+)/(?P<city>\w+)', citysearch_handler, { 'emitter_format': 'json' }),
-    url(r'^cities_search/(?P<country_id>[^/]+)', citysearch_handler, { 'emitter_format': 'json' }),
+    url(r'^city/(?P<object_id>[^/]+)', city_handler, { 'emitter_format': 'json' }),
+    url(r'^city_search/(?P<country_id>[^/]+)/(?P<city>\w+)', citysearch_handler, { 'emitter_format': 'json' }),
+    url(r'^city_search/(?P<country_id>[^/]+)', citysearch_handler, { 'emitter_format': 'json' }),
     
-#    url(r'^trip/(?P<object_id>[^/]+)/', trip_handler, { 'emitter_format': 'json' }),
-#    url(r'^trips/', trip_handler, { 'emitter_format': 'json' }),
+    url(r'^trip/(?P<object_id>[^/]+)', trip_handler, { 'emitter_format': 'json' }),
+    url(r'^trip/', trip_handler, { 'emitter_format': 'json' }),
     
-#    url(r'^places/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
-#    url(r'^place/', place_handler, { 'emitter_format': 'json' }),
+    #url(r'^place/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
+    #url(r'^place/', place_handler, { 'emitter_format': 'json' }),
+    #url(r'^place_search/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
 )
