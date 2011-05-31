@@ -56,7 +56,7 @@ public class TripDAO {
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				Trip trip = new Trip();
-				trip.setId(cursor.getInt(0));
+				trip.setId(cursor.getLong(0));
 				trip.setName(cursor.getString(1));
 				trip.setDescription(cursor.getString(2));
 				trip.setStartDate(Date.valueOf(cursor.getString(3)));

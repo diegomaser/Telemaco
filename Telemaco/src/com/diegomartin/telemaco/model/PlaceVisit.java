@@ -3,26 +3,35 @@ package com.diegomartin.telemaco.model;
 import java.sql.Date;
 
 public class PlaceVisit {
-	private Trip trip;
-	private Place place;
+	private long id;
+	private long trip;
+	private long place;
 	private Date date;
 	private int order;
 	
 	public PlaceVisit(){ }
+	
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public long getId() {
+		return id;
+	}	
 
-	public void setTrip(Trip trip) {
+	public void setTrip(long trip) {
 		this.trip = trip;
 	}
 
-	public Trip getTrip() {
+	public long getTrip() {
 		return trip;
 	}
 
-	public void setPlace(Place place) {
+	public void setPlace(long place) {
 		this.place = place;
 	}
 
-	public Place getPlace() {
+	public long getPlace() {
 		return place;
 	}
 
