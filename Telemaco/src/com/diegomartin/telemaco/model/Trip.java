@@ -2,7 +2,6 @@ package com.diegomartin.telemaco.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,10 +14,10 @@ public class Trip extends IListItem implements Serializable {
 	private String description;
 	private Date startDate;
 	private Date endDate;
-	private List<City> cities;
+	/*private List<City> cities;
 	private List<Transport> transports;
 	private List<Place> places;
-	private List<Note> notes;
+	private List<Note> notes;*/
 	
 	public Trip() {}
 
@@ -46,7 +45,7 @@ public class Trip extends IListItem implements Serializable {
 		return description;
 	}
 
-	public void setCities(List<City> cities) {
+	/*public void setCities(List<City> cities) {
 		this.cities = cities;
 	}
 
@@ -76,7 +75,7 @@ public class Trip extends IListItem implements Serializable {
 
 	public List<Note> getNotes() {
 		return notes;
-	}
+	}*/
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
