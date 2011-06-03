@@ -1,7 +1,7 @@
 package com.diegomartin.telemaco.persistence;
 
 import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.control.Utils;
+import com.diegomartin.telemaco.control.FileUtils;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,21 +30,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		Utils.execute(context, db, "database/createDB.sql");
-		Utils.execute(context, db, "database/loadDB.sql");
+		FileUtils.execute(context, db, "database/createDB.sql");
+		FileUtils.execute(context, db, "database/loadDB.sql");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		Utils.execute(context, db, "database/dropDB.sql");
-		Utils.execute(context, db, "database/createDB.sql");
-		Utils.execute(context, db, "database/loadDB.sql");
+		FileUtils.execute(context, db, "database/dropDB.sql");
+		FileUtils.execute(context, db, "database/createDB.sql");
+		FileUtils.execute(context, db, "database/loadDB.sql");
 	}
 	
 	public void cleanDatabase(){
-		Utils.execute(context, instance.getWritableDatabase(), "database/dropDB.sql");
-		Utils.execute(context, instance.getWritableDatabase(), "database/createDB.sql");
-		Utils.execute(context, instance.getWritableDatabase(), "database/loadDB.sql");
+		FileUtils.execute(context, instance.getWritableDatabase(), "database/dropDB.sql");
+		FileUtils.execute(context, instance.getWritableDatabase(), "database/createDB.sql");
+		FileUtils.execute(context, instance.getWritableDatabase(), "database/loadDB.sql");
 	}
 	
 	

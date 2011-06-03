@@ -1,14 +1,19 @@
 package com.diegomartin.telemaco.control;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.diegomartin.telemaco.control.sync.Processor;
+import com.diegomartin.telemaco.control.sync.RestMethod;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-public class Utils {
+public class FileUtils {
 	public static String read(InputStream is) {
 		BufferedReader in = null;
 	    String buffer = "";
@@ -38,5 +43,24 @@ public class Utils {
 				try { in.close(); }
 				catch (IOException e) { }
 		}
+	}
+	
+	public static void write(String file, String text){
+		BufferedWriter out = null;
+		try {
+			out =new BufferedWriter(new FileWriter(file));
+			out.write(text);
+			out.close();
+		} catch (IOException e) { }
+		finally{
+			if (out!=null)
+				try { out.close(); }
+				catch (IOException e) { }
+		}
+	}
+	
+	public static void downloadAndSave(String file, String url){
+		String text = RestMethod.get(url, new Processor());
+		write(file, text);
 	}
 }

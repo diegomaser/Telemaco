@@ -27,23 +27,25 @@ public class RestMethod {
 	public static final String CONTENT_TYPE = "application/json";
 	public static final String ENCODING = "UTF-8";
 	
-	private static void exec(HttpUriRequest request, IRequestCallback callback){
+	private static String exec(HttpUriRequest request, IRequestCallback callback){
 		final HttpClient httpClient = new DefaultHttpClient();
     	HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), TIMEOUT);
     	HttpResponse response;
+    	String content = "";
 		try {
 			response = httpClient.execute(request);
-			callback.onRequestResponse(request, response);
+			content = callback.onRequestResponse(request, response);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			callback.onRequestError(ex);
 		}
+		return content;
 	}
 	
-	public static void get(final String url, final IRequestCallback callback) {
+	public static String get(final String url, final IRequestCallback callback) {
 		Log.i("HTTP GET", url);
         HttpGet req = new HttpGet(url);
-        exec(req, callback);
+        return exec(req, callback);
     }
 	
     public static void post (final String url, final JSONObject obj, final IRequestCallback callback) {

@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.CityVisit;
+import com.diegomartin.telemaco.model.Trip;
 
 public class CityVisitDAO {
 	private final static String TABLENAME = "CityVisit";
@@ -55,10 +56,10 @@ public class CityVisitDAO {
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				CityVisit city = new CityVisit();
-				city.setId(cursor.getLong(1));
-				city.setTrip(cursor.getLong(2));
-				city.setCity(cursor.getLong(3));
-				city.setDate(Date.valueOf(cursor.getString(4)));
+				city.setId(cursor.getLong(0));
+				city.setTrip(cursor.getLong(1));
+				city.setCity(cursor.getLong(2));
+				city.setDate(Date.valueOf(cursor.getString(3)));
 				cities.add(city);
 			}
 		}
@@ -92,5 +93,24 @@ public class CityVisitDAO {
 	
 	public static int delete(CityVisit c){
 		return delete(c.getId());
+	}
+
+	public static Objects readByTrip(Trip t) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		Objects cities = new Objects();
+		
+		if (db!=null){
+			String columns[] = {"id", "trip", "city", "date"};
+			Cursor cursor = db.query(TABLENAME, columns, "trip=?", new String[] {String.valueOf(t.getId())}, null, null, null);
+			while(cursor.moveToNext()){
+				CityVisit city = new CityVisit();
+				city.setId(cursor.getLong(0));
+				city.setTrip(cursor.getLong(1));
+				city.setCity(cursor.getLong(2));
+				city.setDate(Date.valueOf(cursor.getString(3)));
+				cities.add(city);
+			}
+		}
+		return cities;
 	}
 }

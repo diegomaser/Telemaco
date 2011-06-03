@@ -3,21 +3,20 @@ package com.diegomartin.telemaco.control.sync;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.json.JSONException;
-
-import com.diegomartin.telemaco.control.Utils;
+import com.diegomartin.telemaco.control.FileUtils;
 
 public class Processor implements IRequestCallback{
 	@Override
-	public void onRequestResponse(HttpUriRequest request, HttpResponse response) {
+	public String onRequestResponse(HttpUriRequest request, HttpResponse response) {
 		HttpEntity http = response.getEntity();
+		String content = "";
 		try {
-			String content = Utils.read(http.getContent());
-			this.response(content);
+			content = FileUtils.read(http.getContent());
 		} catch (Exception e) {
 			// TODO: Error handling  
 			e.printStackTrace();
 		}
+		return content;
 	}
 	
 	@Override
@@ -25,6 +24,4 @@ public class Processor implements IRequestCallback{
 		// TODO: Errores deben devolverse al Processor o al SyncAdapter?
 		// Creo que deben capturarse aqui y mostrar Bundle con información del error
 	}
-	
-	public void response(String content) throws JSONException {	}
 }

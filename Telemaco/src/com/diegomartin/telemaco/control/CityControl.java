@@ -1,5 +1,7 @@
 package com.diegomartin.telemaco.control;
 
+import java.util.Date;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,9 +12,11 @@ import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.sync.Processor;
 import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
+import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
+import com.diegomartin.telemaco.persistence.CityVisitDAO;
 import com.diegomartin.telemaco.persistence.CountryDAO;
 
 public class CityControl {
@@ -29,35 +33,49 @@ public class CityControl {
 	
 	public static Objects readCities(Context context, Country country) {
 		// TODO: set url
-		RestMethod.get(context.getString(R.string.server_url)+"", new Processor(){
-			public void response(String content) throws JSONException {
-				cities = new Objects();
-				JSONArray arr = new JSONArray(content);
-				for(int i=0;i<arr.length();i++){
-					City c = new City((JSONObject) arr.get(i));
-					cities.add(c);
-				}
+		String content = RestMethod.get(context.getString(R.string.server_url)+"", new Processor());
+		
+		cities = new Objects();
+		try{
+			JSONArray arr = new JSONArray(content);
+			for(int i=0;i<arr.length();i++){
+				City c = new City((JSONObject) arr.get(i));
+				cities.add(c);
 			}
-		});
+		}
+		catch(JSONException e){ }
 		return cities;
 	}
 	
-	public static Objects searchCities(Context context, Country c, String query) {
+	public static Objects searchCities(Context context, Country country, String query) {
 		// TODO: set url
-		RestMethod.get(context.getString(R.string.server_url)+"", new Processor(){
-			public void response(String content) throws JSONException {
-				cities = new Objects();
-				JSONArray arr = new JSONArray(content);
-				for(int i=0;i<arr.length();i++){
-					City c = new City((JSONObject) arr.get(i));
-					cities.add(c);
-				}
+		String content = RestMethod.get(context.getString(R.string.server_url)+"", new Processor());
+		cities = new Objects();
+		
+		try{
+			JSONArray arr = new JSONArray(content);
+			for(int i=0;i<arr.length();i++){
+				City c = new City((JSONObject) arr.get(i));
+				cities.add(c);
 			}
-		});
+		}
+		catch(JSONException e){ }
 		return cities;
 	}
 
-	public static void addCitytoTrip(City city, Trip trip) {
-		// TODO Auto-generated method stub
+	public static void addCityVisit(City city, Trip trip, Date date) {
+		CityVisit c = new CityVisit();
+		c.setDate(date);
+		c.setCity(city.getId());
+		c.setTrip(trip.getId());
+		CityVisitDAO.create(c);
+	}
+	
+	public static Objects readCityVisits(Trip t){
+		return CityVisitDAO.readByTrip(t);
+	}
+	
+	public static void deleteCityVisit(CityVisit c){
+		CityVisitDAO.delete(c);
 	}
 }
