@@ -48,6 +48,10 @@ public class RestMethod {
         return exec(req, callback);
     }
 	
+	public static String get(final String url) {
+		return get(url, new Processor());
+    }
+	
     public static void post (final String url, final JSONObject obj, final IRequestCallback callback) {
     	Log.i("HTTP POST", url);
     	Log.i("JSON", obj.toString());

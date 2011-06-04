@@ -8,8 +8,6 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
-import com.diegomartin.telemaco.R;
-import com.diegomartin.telemaco.control.sync.Processor;
 import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
@@ -32,8 +30,8 @@ public class CityControl {
 	}
 	
 	public static Objects readCities(Context context, Country country) {
-		// TODO: set url
-		String content = RestMethod.get(context.getString(R.string.server_url)+"", new Processor());
+		String url = RESTResources.getInstance(context).getCitySearchURL(country);
+		String content = RestMethod.get(url);
 		
 		cities = new Objects();
 		try{
@@ -48,8 +46,8 @@ public class CityControl {
 	}
 	
 	public static Objects searchCities(Context context, Country country, String query) {
-		// TODO: set url
-		String content = RestMethod.get(context.getString(R.string.server_url)+"", new Processor());
+		String url = RESTResources.getInstance(context).getCitySearchURL(country, query);
+		String content = RestMethod.get(url);
 		cities = new Objects();
 		
 		try{

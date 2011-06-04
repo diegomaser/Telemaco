@@ -9,6 +9,7 @@ from CitySearchHandler import CitySearchHandler
 from TripHandler import TripHandler
 from UserHandler import UserHandler
 from PlaceHandler import PlaceHandler
+from ResourceHandler import ResourceHandler
 
 auth = HttpBasicAuthentication(realm="TelemacoAPI")
 
@@ -17,11 +18,14 @@ city_handler = Resource(CityHandler)
 citysearch_handler = Resource(CitySearchHandler)
 trip_handler = Resource(TripHandler, auth)
 place_handler = Resource(PlaceHandler, auth)
+resource_handler = Resource(ResourceHandler)
 
 urlpatterns = patterns('',
     #####
     # AQUI VA DEFINIDA LA INTERFAZ REST
     #####
+    
+    url(r'', resource_handler, {'emitter_format' : 'json'} ),
     
     url(r'^user/(?P<object_id>[^/]+)', user_handler, { 'emitter_format': 'json' }),
     url(r'^user/', user_handler, { 'emitter_format': 'json' }),
