@@ -20,7 +20,7 @@ public class City extends IListItem {
 			this.name = json.getString("name");
 			this.description = json.getString("description");
 			this.timezone = json.getInt("timezone");
-			this.countryId = json.getInt("timezone");
+			this.countryId = json.getInt("country");
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

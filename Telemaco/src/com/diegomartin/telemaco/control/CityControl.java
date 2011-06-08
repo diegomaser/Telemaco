@@ -76,4 +76,9 @@ public class CityControl {
 	public static void deleteCityVisit(CityVisit c){
 		CityVisitDAO.delete(c);
 	}
+
+	public static City read(long city) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

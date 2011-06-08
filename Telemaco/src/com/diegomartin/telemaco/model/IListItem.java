@@ -25,7 +25,15 @@ public abstract class IListItem {
 	}
 	//public String getCoordenates();
 	
+	public String getEntityName(){
+		return this.getClass().getSimpleName();
+	}
+	
+	public IListItem getSubobject(IListItem obj){
+		return this.getClass().cast(obj);
+	}
+	
 	public String toString(){
-		return this.getName() + " " + this.getDescription();
+		return this.getName();
 	}
 }

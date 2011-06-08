@@ -25,8 +25,6 @@ urlpatterns = patterns('',
     # AQUI VA DEFINIDA LA INTERFAZ REST
     #####
     
-    url(r'', resource_handler, {'emitter_format' : 'json'} ),
-    
     url(r'^user/(?P<object_id>[^/]+)', user_handler, { 'emitter_format': 'json' }),
     url(r'^user/', user_handler, { 'emitter_format': 'json' }),
     
@@ -40,4 +38,6 @@ urlpatterns = patterns('',
     #url(r'^place/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
     #url(r'^place/', place_handler, { 'emitter_format': 'json' }),
     #url(r'^place_search/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
+    
+    url(r'', resource_handler, {'emitter_format' : 'json'} ),
 )

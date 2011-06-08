@@ -21,7 +21,7 @@ public class PlaceVisitDAO {
 			values.put("trip", p.getTrip());
 			values.put("place", p.getPlace());
 			values.put("date", p.getDate().toString());
-			values.put("order", p.getOrder());
+			values.put("ordenation", p.getOrder());
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -33,7 +33,7 @@ public class PlaceVisitDAO {
 		PlaceVisit placeVisit = new PlaceVisit();
 		
 		if (db!=null){
-			String columns[] = {"place", "trip", "date", "order"};
+			String columns[] = {"place", "trip", "date", "ordenation"};
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if(cursor.moveToNext()){
@@ -52,7 +52,7 @@ public class PlaceVisitDAO {
 		Objects trips = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "place", "trip", "date", "order"};
+			String columns[] = {"id", "place", "trip", "date", "ordenation"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				PlaceVisit placeVisit = new PlaceVisit();
@@ -75,7 +75,7 @@ public class PlaceVisitDAO {
 			values.put("trip", p.getTrip());
 			values.put("place", p.getPlace());
 			values.put("date", p.getDate().toString());
-			values.put("order", p.getOrder());
+			values.put("ordenation", p.getOrder());
 			
 			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(p.getId())});
 			db.close();

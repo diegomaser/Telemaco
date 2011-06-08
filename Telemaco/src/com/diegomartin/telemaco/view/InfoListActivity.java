@@ -1,8 +1,26 @@
 package com.diegomartin.telemaco.view;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import com.diegomartin.telemaco.R;
+
 import com.diegomartin.telemaco.control.ActionsFacade;
+import com.diegomartin.telemaco.control.CityControl;
+import com.diegomartin.telemaco.control.NoteControl;
+import com.diegomartin.telemaco.control.TripControl;
+
+import com.diegomartin.telemaco.model.City;
+import com.diegomartin.telemaco.model.CityVisit;
+import com.diegomartin.telemaco.model.Country;
+import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Note;
+import com.diegomartin.telemaco.model.Objects;
+import com.diegomartin.telemaco.model.Trip;
+import com.diegomartin.telemaco.persistence.CityDAO;
+
 import android.app.ExpandableListActivity;
+import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -11,24 +29,33 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.ExpandableListContextMenuInfo;
+import android.widget.ListView;
+import android.widget.AdapterView.OnItemClickListener;
 
-public class InfoListActivity extends ExpandableListActivity {
-
-    private ExpandableListAdapter adapter;
-    private Bundle trip;
+public class InfoListActivity extends ListActivity {
+    private Trip trip;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.trip = (Bundle) getIntent().getExtras();
+        this.trip = (Trip) getIntent().getExtras().get(ActionsFacade.EXTRA_TRIP);
+        ListView lv = getListView();
+        this.refresh();
         
-        // Set up our adapter
-        adapter = new MyExpandableListAdapter(InfoListActivity.this);
-        setListAdapter(adapter);
-        registerForContextMenu(getExpandableListView());
+        lv.setOnItemClickListener(new OnItemClickListener() {
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        	  IListItem listItem = getItem(id);
+        	  //TODO: Include startActivity
+        	  //if(listItem.getEntityName().equals("City")) openItem((City)listItem);
+        	  //else if(listItem.getEntityName().equals("Country")) openItem((Country)listItem);
+        	  //else if(listItem.getEntityName().equals("Note")) openItem((Note)listItem);
+          }
+        });
+        
+        registerForContextMenu(lv);
     }
     
     @Override
@@ -53,7 +80,6 @@ public class InfoListActivity extends ExpandableListActivity {
         }
     }
 
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     	MenuInflater inflater = getMenuInflater();
@@ -63,18 +89,8 @@ public class InfoListActivity extends ExpandableListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-
-        int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-        if (type == ExpandableListView.PACKED_POSITION_TYPE_CHILD) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            int childPos = ExpandableListView.getPackedPositionChild(info.packedPosition);
-            return true;
-        } else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
-            int groupPos = ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            return true;
-        }
-
+    	//ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
+    	// TODO: Capture actions
         return false;
     }
     
@@ -90,8 +106,33 @@ public class InfoListActivity extends ExpandableListActivity {
     
     private boolean addCity(){
     	Intent addCity = new Intent(this, CountrySearchActivity.class);
-    	addCity.putExtras(this.trip);
+    	addCity.putExtra(ActionsFacade.EXTRA_TRIP, this.trip);
     	startActivity(addCity);
     	return true;
+    }
+    
+	private ArrayList<IListItem> getItems() {
+		ArrayList<IListItem> list = new ArrayList<IListItem>();
+		
+		Objects l = CityControl.readCityVisits(this.trip);
+		for(int i=0;i<l.size();i++){
+			CityVisit visit = (CityVisit) l.get(i);
+			City city = CityControl.read(visit.getCity());
+			Country country = CountryControl.read(city.getCountryId());
+			list.add(city);
+			list.add(country);
+		}
+		
+		list.addAll((ArrayList<IListItem>) NoteControl.read(this.trip).getList());
+		return list;
+    }
+    
+    private IListItem getItem(long id){
+    	return (IListItem) TripControl.readTrips().get(id);
+    }
+    
+    private void refresh(){
+    	ArrayList<IListItem> items = this.getItems();
+        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
     }
 }

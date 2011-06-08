@@ -3,7 +3,7 @@ package com.diegomartin.telemaco.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class Country implements Serializable {
+public class Country extends IListItem implements Serializable {
 	private static final long serialVersionUID = -3486635525120846575L;
 	
 	private long id;
