@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Note;
+import com.diegomartin.telemaco.model.Trip;
 
 public class NoteDAO {
 	private final static String TABLENAME = "Note";
@@ -45,21 +46,21 @@ public class NoteDAO {
 	
 	public static Objects read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects trips = new Objects();
+		Objects notes = new Objects();
 		
 		if (db!=null){
 			String columns[] = {"id", "trip", "name", "text"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
-				Note trip = new Note();
-				trip.setId(cursor.getLong(0));
-				trip.setTrip(cursor.getLong(1));
-				trip.setName(cursor.getString(2));
-				trip.setText(cursor.getString(3));
-				trips.add(trip);
+				Note note = new Note();
+				note.setId(cursor.getLong(0));
+				note.setTrip(cursor.getLong(1));
+				note.setName(cursor.getString(2));
+				note.setText(cursor.getString(3));
+				notes.add(note);
 			}
 		}
-		return trips;
+		return notes;
 	}
 	
 	public static int update(Note t){
@@ -89,5 +90,24 @@ public class NoteDAO {
 	
 	public static int delete(Note t){
 		return delete(t.getId());
+	}
+
+	public static Objects readByTrip(Trip trip) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		Objects notes = new Objects();
+		
+		if (db!=null){
+			String columns[] = {"id", "trip", "name", "text"};
+			Cursor cursor = db.query(TABLENAME, columns, "trip = ?", new String[] {String.valueOf(trip.getId())}, null, null, null);
+			while(cursor.moveToNext()){
+				Note note = new Note();
+				note.setId(cursor.getLong(0));
+				note.setTrip(cursor.getLong(1));
+				note.setName(cursor.getString(2));
+				note.setText(cursor.getString(3));
+				notes.add(note);
+			}
+		}
+		return notes;
 	}
 }

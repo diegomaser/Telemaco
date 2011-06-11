@@ -5,8 +5,7 @@ import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.NoteDAO;
 
 public class NoteControl {
-
-	public static Objects read(Trip trip){
-		return NoteDAO.read();
+	public static Objects readByTrip(Trip trip){
+		return NoteDAO.readByTrip(trip);
 	}
 }

@@ -1,12 +1,11 @@
 package com.diegomartin.telemaco.view;
 
 import java.util.ArrayList;
-import java.util.Collection;
-
 import com.diegomartin.telemaco.R;
 
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
+import com.diegomartin.telemaco.control.CountryControl;
 import com.diegomartin.telemaco.control.NoteControl;
 import com.diegomartin.telemaco.control.TripControl;
 
@@ -14,12 +13,9 @@ import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
-import com.diegomartin.telemaco.persistence.CityDAO;
 
-import android.app.ExpandableListActivity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,8 +26,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -123,7 +117,7 @@ public class InfoListActivity extends ListActivity {
 			list.add(country);
 		}
 		
-		list.addAll((ArrayList<IListItem>) NoteControl.read(this.trip).getList());
+		list.addAll((ArrayList<IListItem>) NoteControl.readByTrip(this.trip).getList());
 		return list;
     }
     

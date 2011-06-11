@@ -66,4 +66,22 @@ public class CityDAO {
 		}
 		return id;
 	}
+
+	public static City read(long city) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		City c = new City();
+
+		if (db!=null){
+			String columns[] = {"id", "name", "description", "country", "timezone"};
+			Cursor cursor = db.query(TABLENAME, columns, "id = ?", new String[] {String.valueOf(city)}, null, null, null);
+			if(cursor.moveToNext()){
+				c.setId(cursor.getInt(0));
+				c.setName(cursor.getString(1));
+				c.setDescription(cursor.getString(2));
+				c.setCountryId(cursor.getInt(3));
+				c.setTimezone(cursor.getInt(4));
+			}
+		}
+		return c;
+	}
 }

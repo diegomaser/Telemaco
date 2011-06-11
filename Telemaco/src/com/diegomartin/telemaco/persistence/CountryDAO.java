@@ -44,4 +44,20 @@ public class CountryDAO {
 		return countries;
 	}
 
+	public static Country read(long id) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		Country country = new Country();
+		
+		if (db!=null){
+			String columns[] = {"id", "name", "description"};
+			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
+			if(cursor.moveToNext()){
+				country.setId(cursor.getInt(0));
+				country.setName(cursor.getString(1));
+				country.setDescription(cursor.getString(2));
+			}
+		}
+		return country;
+	}
+
 }

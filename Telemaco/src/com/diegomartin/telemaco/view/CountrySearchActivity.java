@@ -2,7 +2,7 @@ package com.diegomartin.telemaco.view;
 
 import java.util.ArrayList;
 
-import com.diegomartin.telemaco.control.CityControl;
+import com.diegomartin.telemaco.control.CountryControl;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Objects;
 
@@ -47,7 +47,7 @@ public class CountrySearchActivity extends ListActivity {
 	private void handleIntent(Intent intent) {
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String query = intent.getStringExtra(SearchManager.QUERY);
-			this.countries = CityControl.searchCountries(query);
+			this.countries = CountryControl.searchCountries(query);
 			this.refresh();
 	    }
 	}
@@ -59,7 +59,7 @@ public class CountrySearchActivity extends ListActivity {
 	}
 	
 	private Objects getItems() {
-    	return CityControl.readCountries();
+    	return CountryControl.readCountries();
     }
 	
 	private Country getItem(long id){
