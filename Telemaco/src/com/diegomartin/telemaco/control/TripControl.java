@@ -27,7 +27,7 @@ public class TripControl {
 		TripDAO.update(trip);
 	}
 	
-	public static Trip readTrip(int id){
+	public static Trip readTrip(long id){
 		return TripDAO.read(id);
 	}
 	

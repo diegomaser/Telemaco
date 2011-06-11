@@ -29,6 +29,14 @@ public class CityVisitDAO {
 		return id;
 	}
 	
+	/*public static void createIfNotExists(Trip t, CityVisit c){
+		Objects obj = readByTrip(t);
+		for(int i=0;i<obj.size();i++){
+			CityVisit c = obj.get(i);
+			if 
+		}
+	}*/
+	
 	public static CityVisit read(long id){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		CityVisit city = new CityVisit();

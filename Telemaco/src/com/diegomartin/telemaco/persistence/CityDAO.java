@@ -9,9 +9,10 @@ import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Objects;
 
 public class CityDAO {
-	public static String TABLENAME = "City";
+	private final static String TABLENAME = "City";
+	private final static String WHERE_CONDITION = "id=?";
 	
-	public static Objects read(Country country) {
+	public static Objects readByCountry(Country country) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		Objects cities = new Objects();
 		
@@ -66,6 +67,21 @@ public class CityDAO {
 		}
 		return id;
 	}
+	
+	public static long update(City c) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
+		long id = -1;
+		if (db!=null){
+			ContentValues values = new ContentValues();
+			values.put("name", c.getName());
+			values.put("description", c.getDescription());
+			values.put("timezone", c.getTimezone());
+			values.put("country", c.getCountryId());
+			id = db.update(TABLENAME, values, "id=?", new String[] {String.valueOf(c.getId())});
+			db.close();
+		}
+		return id;
+	}
 
 	public static City read(long city) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
@@ -73,7 +89,7 @@ public class CityDAO {
 
 		if (db!=null){
 			String columns[] = {"id", "name", "description", "country", "timezone"};
-			Cursor cursor = db.query(TABLENAME, columns, "id = ?", new String[] {String.valueOf(city)}, null, null, null);
+			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(city)}, null, null, null);
 			if(cursor.moveToNext()){
 				c.setId(cursor.getInt(0));
 				c.setName(cursor.getString(1));
@@ -81,7 +97,13 @@ public class CityDAO {
 				c.setCountryId(cursor.getInt(3));
 				c.setTimezone(cursor.getInt(4));
 			}
+			return c;
 		}
-		return c;
+		else return null;
+	}
+
+	public static void createOrUpdate(City city) {
+		if (read(city.getId()) != null) update(city);
+		else create(city);
 	}
 }

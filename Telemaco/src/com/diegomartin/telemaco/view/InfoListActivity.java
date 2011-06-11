@@ -13,6 +13,7 @@ import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -102,6 +104,7 @@ public class InfoListActivity extends ListActivity {
     	Intent addCity = new Intent(this, CountrySearchActivity.class);
     	addCity.putExtra(ActionsFacade.EXTRA_TRIP, this.trip);
     	startActivity(addCity);
+    	this.refresh();
     	return true;
     }
     
@@ -122,7 +125,11 @@ public class InfoListActivity extends ListActivity {
     }
     
     private IListItem getItem(long id){
-    	return (IListItem) TripControl.readTrips().get(id);
+    	ListAdapter l = getListAdapter();
+    	Object o = l.getItem((int) id);
+    	if(o instanceof City) return (City) o;
+    	if(o instanceof Country) return (Country) o;
+    	if(o instanceof Note) return (Note) o;
     }
     
     private void refresh(){

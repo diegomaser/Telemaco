@@ -54,6 +54,7 @@ public class CityControl {
 	}
 
 	public static void addCityVisit(City city, Trip trip, Date date) {
+		CityDAO.createOrUpdate(city);
 		CityVisit c = new CityVisit();
 		c.setDate(date);
 		c.setCity(city.getId());
@@ -70,7 +71,6 @@ public class CityControl {
 	}
 
 	public static City read(long city) {
-		// TODO Auto-generated method stub
 		return CityDAO.read(city);
 	}
 }

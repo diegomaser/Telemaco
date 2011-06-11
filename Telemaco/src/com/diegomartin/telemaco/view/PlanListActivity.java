@@ -84,16 +84,16 @@ public class PlanListActivity extends ListActivity {
 		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
 		
 		// Creamos los objetos
-		IListItem trip1 = new Place();
-		IListItem trip2 = new Place();
-		IListItem trip3 = new Place();
-		IListItem trip4 = new Place();
-		IListItem trip5 = new Place();
-		IListItem trip6 = new Place();
-		IListItem trip7 = new Place();
-		IListItem trip8 = new Place();
-		IListItem trip9 = new Place();
-		IListItem trip10 = new Place();
+		Place trip1 = new Place();
+		Place trip2 = new Place();
+		Place trip3 = new Place();
+		Place trip4 = new Place();
+		Place trip5 = new Place();
+		Place trip6 = new Place();
+		Place trip7 = new Place();
+		Place trip8 = new Place();
+		Place trip9 = new Place();
+		Place trip10 = new Place();
 		
 		trip1.setName("Lugar 1");
 		trip2.setName("Lugar 2");

@@ -24,7 +24,7 @@ public class CityTest extends AndroidTestCase {
 	}
 	
 	public void testRead(){
-		int rows = CityDAO.read(this.country).size();
+		int rows = CityDAO.readByCountry(this.country).size();
 		assertEquals(3, rows);
 	}
 	

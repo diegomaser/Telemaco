@@ -41,4 +41,12 @@ public class CityVisit {
 	public Date getDate() {
 		return date;
 	}
+	
+	/*public boolean equals(Object obj){
+		if(obj!=null && obj instanceof CityVisit){
+			CityVisit c = (CityVisit) obj;
+			if(this.getCity() == c.getCity() && this.getTrip() == c.getTrip()) return true;
+		}
+		return false;
+	}*/
 }

@@ -103,7 +103,7 @@ public class TripListActivity extends ListActivity {
     }
     
     private Trip getItem(long id){
-    	return (Trip) TripControl.readTrips().get(id);
+    	return (Trip) TripControl.readTrip(id);
     }
     
     private void refresh(){

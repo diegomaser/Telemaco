@@ -9,13 +9,8 @@ import android.graphics.BitmapFactory;
 public abstract class IListItem {
 	//private char itemType;
 
-	public abstract void setId(long id);
 	public abstract long getId();
-
-	public abstract void setName(String name);
 	public abstract String getName();
-	
-	public abstract void setDescription(String desc);
 	public abstract String getDescription();
 		
 	public Bitmap getImage(){

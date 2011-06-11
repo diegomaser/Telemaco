@@ -1,6 +1,6 @@
 package com.diegomartin.telemaco.model;
 
-public class Note {
+public class Note extends IListItem {
 	private long id;
 	private long trip;
 	private String name;
@@ -35,5 +35,10 @@ public class Note {
 	}
 	public String getText() {
 		return text;
+	}
+
+	@Override
+	public String getDescription() {
+		return this.getText();
 	}
 }
