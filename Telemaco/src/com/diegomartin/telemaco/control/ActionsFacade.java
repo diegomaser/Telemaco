@@ -12,6 +12,9 @@ public class ActionsFacade {
 	// Information source: http://developer.android.com/guide/appendix/g-app-intents.html
 	
 	public final static String EXTRA_TRIP = "trip";
+	public final static String EXTRA_CITY = "city";
+	public final static String EXTRA_COUNTRY = "country";
+	public final static String EXTRA_NOTE = "note";
 	
 	private static ActionsFacade instance;
 	

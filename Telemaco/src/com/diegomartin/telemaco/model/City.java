@@ -1,11 +1,14 @@
 package com.diegomartin.telemaco.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class City extends IListItem {
+public class City extends IListItem implements Serializable{
+	private static final long serialVersionUID = -6631093769443813504L;
+	
 	private long id;
 	private String name;
 	private String description;

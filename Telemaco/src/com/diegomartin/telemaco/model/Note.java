@@ -1,6 +1,10 @@
 package com.diegomartin.telemaco.model;
 
-public class Note extends IListItem {
+import java.io.Serializable;
+
+public class Note extends IListItem implements Serializable {
+	private static final long serialVersionUID = -2473527050617676974L;
+	
 	private long id;
 	private long trip;
 	private String name;

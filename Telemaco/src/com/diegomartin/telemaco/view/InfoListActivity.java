@@ -7,8 +7,6 @@ import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.control.CountryControl;
 import com.diegomartin.telemaco.control.NoteControl;
-import com.diegomartin.telemaco.control.TripControl;
-
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
@@ -16,6 +14,8 @@ import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
+import com.diegomartin.telemaco.persistence.CityVisitDAO;
+import com.diegomartin.telemaco.persistence.NoteDAO;
 
 import android.app.ListActivity;
 import android.content.Intent;
@@ -29,10 +29,12 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class InfoListActivity extends ListActivity {
     private Trip trip;
+    private ArrayList<Object> items;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,10 +46,7 @@ public class InfoListActivity extends ListActivity {
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         	  IListItem listItem = getItem(id);
-        	  //TODO: Include startActivity
-        	  //if(listItem.getEntityName().equals("City")) openItem((City)listItem);
-        	  //else if(listItem.getEntityName().equals("Country")) openItem((Country)listItem);
-        	  //else if(listItem.getEntityName().equals("Note")) openItem((Note)listItem);
+        	  open(listItem);
           }
         });
         
@@ -85,9 +84,43 @@ public class InfoListActivity extends ListActivity {
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
-    	//ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
-    	// TODO: Capture actions
-        return false;
+    	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
+    	long menuItem = getListAdapter().getItemId(info.position);
+    	
+    	switch (item.getItemId()) {
+			case R.id.delete:
+				return delete(menuItem);
+			//case R.id.share:
+			//	return share(menuItem);
+    	}
+    	return super.onOptionsItemSelected(item);
+    }
+    
+    private boolean delete(long id){
+    	Object obj = this.items.get((int) id);
+    	if(obj instanceof CityVisit) CityVisitDAO.delete((CityVisit)obj);
+    	else if(obj instanceof Note) NoteDAO.delete((Note)obj);
+		return true;
+    }
+    
+    private boolean open(IListItem obj){
+    	Intent intent = null;
+    	
+    	if(obj instanceof City){
+        	intent = new Intent(this, CityActivity.class);
+        	intent.putExtra(ActionsFacade.EXTRA_CITY, (City)obj);
+    	}
+    	else if(obj instanceof Country){
+        	intent = new Intent(this, CountryActivity.class);
+        	intent.putExtra(ActionsFacade.EXTRA_COUNTRY, (Country)obj);
+    	}
+    	else if(obj instanceof Note){
+        	intent = new Intent(this, NoteActivity.class);
+        	intent.putExtra(ActionsFacade.EXTRA_NOTE, (Note)obj);
+    	}
+    	
+    	startActivity(intent);
+    	return true;
     }
     
     private boolean help(){
@@ -110,26 +143,26 @@ public class InfoListActivity extends ListActivity {
     
 	private ArrayList<IListItem> getItems() {
 		ArrayList<IListItem> list = new ArrayList<IListItem>();
-		
+		items = new ArrayList<Object>();
 		Objects l = CityControl.readCityVisits(this.trip);
 		for(int i=0;i<l.size();i++){
 			CityVisit visit = (CityVisit) l.get(i);
+			items.add(visit);
+			items.add(visit);
 			City city = CityControl.read(visit.getCity());
 			Country country = CountryControl.read(city.getCountryId());
 			list.add(city);
 			list.add(country);
 		}
-		
-		list.addAll((ArrayList<IListItem>) NoteControl.readByTrip(this.trip).getList());
+		ArrayList<Note> notes = (ArrayList<Note>) NoteControl.readByTrip(this.trip).getList(); 
+		list.addAll(notes);
 		return list;
     }
     
     private IListItem getItem(long id){
     	ListAdapter l = getListAdapter();
-    	Object o = l.getItem((int) id);
-    	if(o instanceof City) return (City) o;
-    	if(o instanceof Country) return (Country) o;
-    	if(o instanceof Note) return (Note) o;
+    	IListItem o = (IListItem) l.getItem((int) id);
+    	return o;
     }
     
     private void refresh(){
