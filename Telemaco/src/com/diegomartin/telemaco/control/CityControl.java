@@ -73,4 +73,9 @@ public class CityControl {
 	public static City read(long city) {
 		return CityDAO.read(city);
 	}
+
+	public static Objects readByTrip(Trip t) {
+		Objects visits =  CityVisitDAO.readByTrip(t);
+		return visits;
+	}
 }

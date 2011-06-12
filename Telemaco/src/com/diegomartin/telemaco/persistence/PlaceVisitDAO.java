@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.PlaceVisit;
+import com.diegomartin.telemaco.model.Trip;
 
 public class PlaceVisitDAO {
 	private final static String TABLENAME = "PlaceVisit";
@@ -95,5 +96,25 @@ public class PlaceVisitDAO {
 	
 	public static int delete(PlaceVisit t){
 		return delete(t.getId());
+	}
+
+	public static Objects readByTrip(Trip t) {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		Objects list = new Objects();
+		if (db!=null){
+			String columns[] = {"id", "place", "trip", "date", "ordenation"};
+	
+			Cursor cursor = db.query(TABLENAME, columns, "trip=?", new String[] {String.valueOf(t.getId())}, null, null, null);
+			while(cursor.moveToNext()){
+				PlaceVisit placeVisit = new PlaceVisit();
+				placeVisit.setId(cursor.getLong(0));
+				placeVisit.setPlace(cursor.getLong(1));
+				placeVisit.setTrip(cursor.getLong(2));
+				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
+				placeVisit.setOrder(cursor.getInt(4));
+				list.add(placeVisit);
+			}
+		}
+		return list;
 	}
 }

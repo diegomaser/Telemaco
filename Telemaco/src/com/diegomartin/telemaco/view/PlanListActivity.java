@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
+import com.diegomartin.telemaco.control.PlaceControl;
 import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.Trip;
@@ -82,53 +83,7 @@ public class PlanListActivity extends ListActivity {
     
     public ArrayList<IListItem> getItems() {
 		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
-		
-		// Creamos los objetos
-		Place trip1 = new Place();
-		Place trip2 = new Place();
-		Place trip3 = new Place();
-		Place trip4 = new Place();
-		Place trip5 = new Place();
-		Place trip6 = new Place();
-		Place trip7 = new Place();
-		Place trip8 = new Place();
-		Place trip9 = new Place();
-		Place trip10 = new Place();
-		
-		trip1.setName("Lugar 1");
-		trip2.setName("Lugar 2");
-		trip3.setName("Lugar 3");
-		trip4.setName("Lugar 4");
-		trip5.setName("Lugar 5");
-		trip6.setName("Lugar 6");
-		trip7.setName("Lugar 7");
-		trip8.setName("Lugar 8");
-		trip9.setName("Lugar 9");
-		trip10.setName("Lugar 10");
-		
-		trip1.setDescription("Esto es una prueba");
-		trip2.setDescription("Esto es otra prueba");
-		trip3.setDescription("Otra prueba más");
-		trip4.setDescription("Otra descripción");
-		trip5.setDescription("Más pruebas");
-		trip6.setDescription("Más pruebas");
-		trip7.setDescription("Más pruebas");
-		trip8.setDescription("Más pruebas");
-		trip9.setDescription("Más pruebas");
-		trip10.setDescription("Más pruebas");
-		
-		//Añadimos los libros a la lista
-		MiLista.add(trip1);
-		MiLista.add(trip2);
-		MiLista.add(trip3);
-		MiLista.add(trip4);
-		MiLista.add(trip5);
-		MiLista.add(trip6);
-		MiLista.add(trip7);
-		MiLista.add(trip8);
-		MiLista.add(trip9);
-		MiLista.add(trip10);
-
+		//PlaceControl.
 		return MiLista;
     }
     

@@ -97,5 +97,4 @@ public class PlaceDAO {
 	public static int delete(Place p){
 		return delete(p.getId());
 	}
-	
 }
