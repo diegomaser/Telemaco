@@ -6,7 +6,6 @@ import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.PlaceControl;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.Trip;
 
 import android.app.ListActivity;
@@ -82,8 +81,7 @@ public class PlanListActivity extends ListActivity {
 	}
     
     public ArrayList<IListItem> getItems() {
-		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
-		//PlaceControl.
+		ArrayList<IListItem> MiLista = (ArrayList<IListItem>) PlaceControl.readByTrip(this.trip).getList();
 		return MiLista;
     }
     
