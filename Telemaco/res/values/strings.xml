@@ -17,6 +17,7 @@
     <string name="startDate">Start date</string>
     <string name="endDate">End date</string>
     <string name="dateFormat">dd/mm/yyyy</string>
+    <string name="text">Text</string>
     
     <!-- Menu options -->
     <string name="help">Help</string>

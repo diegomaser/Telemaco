@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.sql.Date;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.Trip;
 
@@ -77,7 +78,7 @@ public class TripActivity extends Activity {
 
         } else {
         	// Edit Trip
-            Trip trip = (Trip) received.get("trip");
+            Trip trip = (Trip) received.get(ActionsFacade.EXTRA_TRIP);
         	
         	this.id = trip.getId();
         	this.name.setText(trip.getName());

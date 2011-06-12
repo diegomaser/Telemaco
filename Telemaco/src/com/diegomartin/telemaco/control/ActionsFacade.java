@@ -84,7 +84,7 @@ public class ActionsFacade {
 		sa.launchSync();
 	}
 	
-	public Intent launchBrowserWeb(String url){
+	public Intent launchExternalBrowser(String url){
 		return new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url));
 	}
 	

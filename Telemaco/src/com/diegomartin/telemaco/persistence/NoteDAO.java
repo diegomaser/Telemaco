@@ -12,14 +12,14 @@ public class NoteDAO {
 	private final static String TABLENAME = "Note";
 	private final static String WHERE_CONDITION = "id=?";
 	
-	public static long create(Note t){
+	public static long create(Note n){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
 		long id = -1;
 		if (db!=null){
 			ContentValues values = new ContentValues();
-			values.put("trip", t.getTrip());
-			values.put("name", t.getName());
-			values.put("text", t.getText());
+			values.put("trip", n.getTrip());
+			values.put("name", n.getName());
+			values.put("text", n.getText());
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -63,16 +63,16 @@ public class NoteDAO {
 		return notes;
 	}
 	
-	public static int update(Note t){
+	public static int update(Note n){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
 		int rows = 0;
 		if (db!=null){
 			ContentValues values = new ContentValues();
-			values.put("trip", t.getTrip());
-			values.put("name", t.getName());
-			values.put("text", t.getText());
+			values.put("trip", n.getTrip());
+			values.put("name", n.getName());
+			values.put("text", n.getText());
 			
-			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(t.getId())});
+			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(n.getId())});
 			db.close();
 		}
 		return rows;

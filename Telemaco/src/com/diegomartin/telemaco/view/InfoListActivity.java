@@ -54,6 +54,12 @@ public class InfoListActivity extends ListActivity {
     }
     
     @Override
+    public void onResume(){
+    	super.onResume();
+    	this.refresh();
+    }
+    
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_menu, menu);
@@ -116,6 +122,7 @@ public class InfoListActivity extends ListActivity {
     	}
     	else if(obj instanceof Note){
         	intent = new Intent(this, NoteActivity.class);
+        	intent.putExtras(getIntent());
         	intent.putExtra(ActionsFacade.EXTRA_NOTE, (Note)obj);
     	}
     	

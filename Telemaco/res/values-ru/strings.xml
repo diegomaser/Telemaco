@@ -12,6 +12,7 @@
     <string name="startDate">Дата начала</string>
     <string name="endDate">Дата окончания</string>
     <string name="dateFormat">дд/мм/гггг</string>
+    <string name="text">Текст</string>
         
     <!-- Menu options -->
     <string name="help">Помощь</string>

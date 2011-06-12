@@ -12,6 +12,7 @@
     <string name="startDate">Date de début</string>
     <string name="endDate">Date de fin</string>
     <string name="dateFormat">jj/mm/aaaa</string>
+    <string name="text">Texte</string>
     
     <!-- Menu options -->
     <string name="help">Aide</string>
