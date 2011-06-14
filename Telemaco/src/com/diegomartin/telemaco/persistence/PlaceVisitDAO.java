@@ -94,6 +94,7 @@ public class PlaceVisitDAO {
 		return rows;
 	}
 	
+	
 	public static int delete(PlaceVisit t){
 		return delete(t.getId());
 	}

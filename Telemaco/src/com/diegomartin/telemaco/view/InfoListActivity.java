@@ -106,6 +106,7 @@ public class InfoListActivity extends ListActivity {
     	Object obj = this.items.get((int) id);
     	if(obj instanceof CityVisit) CityVisitDAO.delete((CityVisit)obj);
     	else if(obj instanceof Note) NoteDAO.delete((Note)obj);
+    	this.refresh();
 		return true;
     }
     
