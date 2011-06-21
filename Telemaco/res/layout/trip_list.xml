@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?> 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+        android:orientation="vertical"
+        android:layout_width="fill_parent" 
+        android:layout_height="fill_parent">
+        
+	    <ImageView android:layout_width="fill_parent"
+   				   android:layout_height="wrap_content"
+			       android:gravity="center"
+				   android:src="@drawable/maleta2"
+				   android:padding="20dip" />
+				   
+		<TextView android:text="@+string/trips"
+				  android:layout_height="wrap_content"
+				  android:layout_width="fill_parent"
+				  android:padding="20dip"
+				  android:textSize="20px"
+				  android:gravity="center" />
+        
+        <ListView android:layout_width="fill_parent" 
+		    	  android:layout_height="wrap_content"
+		    	  android:layout_weight="1"
+			      android:id="@+id/list" />
+			      
+		<Button android:layout_width="wrap_content" 
+		        android:layout_height="wrap_content"
+		        android:id="@+id/add"
+		        android:layout_gravity="center_horizontal"
+		        android:text="@+string/new_trip" />
+</LinearLayout>

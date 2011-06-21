@@ -4,6 +4,10 @@
     <string name="login">Acceder</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
+    
+    <string name="trips">Mis viajes</string>
+    <string name="interest_info">Información de interés</string>
+    
     <string name="info">Info</string>
     <string name="plan">Plan</string>
     <string name="places">Lugares</string>
@@ -13,6 +17,13 @@
     <string name="endDate">Fecha fin</string>
     <string name="dateFormat">dd/mm/aaaa</string>
     <string name="text">Texto</string>
+    
+    <string name="city_info">Información de la ciudad</string>
+    <string name="country_info">Información del país</string>
+    <string name="tourism_info">Información turística</string>
+    <string name="plug_info">Información eléctrica</string>
+    <string name="currency_info">Información de moneda</string>
+    <string name="language_info">Información del idioma</string>
         
     <!-- Menu options -->
     <string name="help">Ayuda</string>

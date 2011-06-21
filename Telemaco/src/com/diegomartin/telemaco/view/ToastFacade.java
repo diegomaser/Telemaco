@@ -1,0 +1,11 @@
+package com.diegomartin.telemaco.view;
+
+import android.content.Context;
+import android.widget.Toast;
+
+public class ToastFacade {
+	public static void show(Context c, String txt){
+		Toast t = Toast.makeText(c, txt, Toast.LENGTH_SHORT);
+		t.show();
+	}
+}

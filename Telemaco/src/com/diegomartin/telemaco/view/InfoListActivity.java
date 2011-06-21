@@ -6,7 +6,6 @@ import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.control.CountryControl;
-import com.diegomartin.telemaco.control.NoteControl;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
@@ -17,7 +16,7 @@ import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.CityVisitDAO;
 import com.diegomartin.telemaco.persistence.NoteDAO;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -26,31 +25,45 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 
-public class InfoListActivity extends ListActivity {
+public class InfoListActivity extends Activity {
+	private ListView lv;
+	private Button add; 
+	
     private Trip trip;
     private ArrayList<Object> items;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.info_list);
+
         this.trip = (Trip) getIntent().getExtras().get(ActionsFacade.EXTRA_TRIP);
-        ListView lv = getListView();
+        this.lv = (ListView) findViewById(R.id.list);
+        this.add = (Button) findViewById(R.id.add);
         this.refresh();
         
-        lv.setOnItemClickListener(new OnItemClickListener() {
+        this.lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         	  IListItem listItem = getItem(id);
         	  open(listItem);
           }
         });
         
-        registerForContextMenu(lv);
+        this.add.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+          	  addCity();
+            }
+          });
+        
+        registerForContextMenu(this.lv);
     }
     
     @Override
@@ -91,7 +104,7 @@ public class InfoListActivity extends ListActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
-    	long menuItem = getListAdapter().getItemId(info.position);
+    	long menuItem = this.lv.getAdapter().getItemId(info.position);
     	
     	switch (item.getItemId()) {
 			case R.id.delete:
@@ -151,30 +164,30 @@ public class InfoListActivity extends ListActivity {
     
 	private ArrayList<IListItem> getItems() {
 		ArrayList<IListItem> list = new ArrayList<IListItem>();
-		items = new ArrayList<Object>();
+		this.items = new ArrayList<Object>();
 		Objects l = CityControl.readCityVisits(this.trip);
 		for(int i=0;i<l.size();i++){
 			CityVisit visit = (CityVisit) l.get(i);
-			items.add(visit);
-			items.add(visit);
+			this.items.add(visit);
+			this.items.add(visit);
 			City city = CityControl.read(visit.getCity());
 			Country country = CountryControl.read(city.getCountryId());
 			list.add(city);
 			list.add(country);
 		}
-		ArrayList<Note> notes = (ArrayList<Note>) NoteControl.readByTrip(this.trip).getList(); 
-		list.addAll(notes);
+		//ArrayList<Note> notes = (ArrayList<Note>) NoteControl.readByTrip(this.trip).getList(); 
+		//list.addAll(notes);
 		return list;
     }
     
     private IListItem getItem(long id){
-    	ListAdapter l = getListAdapter();
+    	ListAdapter l = this.lv.getAdapter();
     	IListItem o = (IListItem) l.getItem((int) id);
     	return o;
     }
     
     private void refresh(){
-    	ArrayList<IListItem> items = this.getItems();
-        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	ArrayList<IListItem> i = this.getItems();
+    	this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, i));
     }
 }

@@ -8,12 +8,13 @@ import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Trip;
 
-import android.app.ListActivity;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -21,15 +22,20 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 
-public class TripListActivity extends ListActivity {
+public class TripListActivity extends Activity {
+	private ListView lv;
+	private Button add; 
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.main);
+        setContentView(R.layout.trip_list);
                 
-        ListView lv = getListView();
+        
+         this.lv = (ListView) findViewById(R.id.list);
+         this.add = (Button) findViewById(R.id.add);
         //lv.setTextFilterEnabled(true);
 
         this.refresh();
@@ -38,6 +44,12 @@ public class TripListActivity extends ListActivity {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         	  Trip listItem = getItem(id);
               openItem(listItem);
+          }
+        });
+        
+        add.setOnClickListener(new OnClickListener() {
+          public void onClick(View view) {
+        	  addItem();
           }
         });
         
@@ -82,7 +94,7 @@ public class TripListActivity extends ListActivity {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
-    	long menuItem = getListAdapter().getItemId(info.position);
+    	long menuItem = this.lv.getAdapter().getItemId(info.position);
     	Trip listItem = this.getItem((int)menuItem);
     	
     	switch (item.getItemId()) {
@@ -108,7 +120,7 @@ public class TripListActivity extends ListActivity {
     
     private void refresh(){
     	ArrayList<IListItem> items = this.getItems();
-        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, items));
     }
     
     private boolean addItem(){

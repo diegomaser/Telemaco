@@ -29,7 +29,7 @@ public class CityTest extends AndroidTestCase {
 	}
 	
 	public void testSearch(){
-		int rows = CityDAO.read(this.country, "Mad").size();
+		int rows = CityDAO.readByCountry(this.country, "Mad").size();
 		assertEquals(1, rows);
 	}
 	

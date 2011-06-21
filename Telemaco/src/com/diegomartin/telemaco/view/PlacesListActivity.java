@@ -19,6 +19,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class PlacesListActivity extends ListActivity {
@@ -98,5 +99,14 @@ public class PlacesListActivity extends ListActivity {
     private boolean update(){
     	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
+    }
+    
+    private void refresh(){
+    	ArrayList<IListItem> items = this.getItems();
+    	if (items.size()>0) setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	else{
+    		String[] list = {getString(R.string.new_place)};
+    		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
+    	}
     }
 }

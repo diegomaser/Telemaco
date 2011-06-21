@@ -17,6 +17,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.ArrayAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class PlanListActivity extends ListActivity {
@@ -109,5 +110,10 @@ public class PlanListActivity extends ListActivity {
     	String txt = this.trip.getDescription();
     	startActivity(ActionsFacade.getInstance().share(subject, txt));
     	return true;
+    }
+    
+    private void refresh(){
+    	ArrayList<IListItem> items = this.getItems();
+    	setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
     }
 }
