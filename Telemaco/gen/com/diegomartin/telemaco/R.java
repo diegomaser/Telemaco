@@ -49,10 +49,10 @@ public final class R {
     public static final class id {
         public static final int add=0x7f090001;
         public static final int changeorder=0x7f090019;
-        public static final int delete=0x7f090012;
+        public static final int delete=0x7f090013;
         public static final int description=0x7f090005;
         public static final int discard=0x7f09001e;
-        public static final int edit=0x7f090011;
+        public static final int edit=0x7f090012;
         public static final int endDate=0x7f090010;
         public static final int extra=0x7f090006;
         public static final int go=0x7f090017;
@@ -64,14 +64,14 @@ public final class R {
         public static final int map=0x7f090018;
         public static final int name=0x7f090004;
         public static final int new_city=0x7f090014;
-        public static final int new_place=0x7f09001c;
-        public static final int new_transport=0x7f09001b;
-        public static final int open=0x7f09001a;
+        public static final int new_place=0x7f09001b;
+        public static final int new_transport=0x7f09001a;
+        public static final int open=0x7f090011;
         public static final int password=0x7f090009;
         public static final int password_edit=0x7f09000a;
-        public static final int rearrange=0x7f09001d;
+        public static final int rearrange=0x7f09001c;
         public static final int save=0x7f09000d;
-        public static final int share=0x7f090013;
+        public static final int share=0x7f09001d;
         public static final int startDate=0x7f09000f;
         public static final int text=0x7f09000c;
         public static final int text1=0x7f09000e;

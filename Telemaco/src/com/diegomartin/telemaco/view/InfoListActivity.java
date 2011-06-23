@@ -107,6 +107,9 @@ public class InfoListActivity extends Activity {
     	long menuItem = this.lv.getAdapter().getItemId(info.position);
     	
     	switch (item.getItemId()) {
+    		case R.id.open:
+          	  IListItem listItem = getItem(menuItem);
+          	  return open(listItem);
 			case R.id.delete:
 				return delete(menuItem);
 			//case R.id.share:
@@ -171,7 +174,7 @@ public class InfoListActivity extends Activity {
 			this.items.add(visit);
 			this.items.add(visit);
 			City city = CityControl.read(visit.getCity());
-			Country country = CountryControl.read(city.getCountryId());
+			Country country = CountryControl.read(city.getCountry());
 			list.add(city);
 			list.add(country);
 		}

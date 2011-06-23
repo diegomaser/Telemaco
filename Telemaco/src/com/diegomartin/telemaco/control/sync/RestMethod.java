@@ -14,6 +14,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.json.JSONObject;
 
+import com.diegomartin.telemaco.view.ToastFacade;
+
+import android.content.Context;
 import android.util.Log;
 
 public class RestMethod {
@@ -27,32 +30,32 @@ public class RestMethod {
 	public static final String CONTENT_TYPE = "application/json";
 	public static final String ENCODING = "UTF-8";
 	
-	private static String exec(HttpUriRequest request, IRequestCallback callback){
+	private static String exec(Context c, HttpUriRequest request, IRequestCallback callback){
 		final HttpClient httpClient = new DefaultHttpClient();
     	HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), TIMEOUT);
     	HttpResponse response;
     	String content = "";
 		try {
 			response = httpClient.execute(request);
-			content = callback.onRequestResponse(request, response);
+			content = callback.onRequestResponse(request, response, c);
 		} catch (Exception ex) {
-			ex.printStackTrace();
-			callback.onRequestError(ex);
+			ToastFacade.show(c, ex);
+			callback.onRequestError(ex, c);
 		}
 		return content;
 	}
 	
-	public static String get(final String url, final IRequestCallback callback) {
+	public static String get(Context c, final String url, final IRequestCallback callback) {
 		Log.i("HTTP GET", url);
         HttpGet req = new HttpGet(url);
-        return exec(req, callback);
+        return exec(c, req, callback);
     }
 	
-	public static String get(final String url) {
-		return get(url, new Processor());
+	public static String get(Context c, final String url) {
+		return get(c, url, new Processor());
     }
 	
-    public static void post (final String url, final JSONObject obj, final IRequestCallback callback) {
+    public static void post (Context c, final String url, final JSONObject obj, final IRequestCallback callback) {
     	Log.i("HTTP POST", url);
     	Log.i("JSON", obj.toString());
     	
@@ -64,15 +67,15 @@ public class RestMethod {
 		try {
 			entity = new StringEntity(obj.toString(), ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			ToastFacade.show(c, e);
 		}
 	    entity.setContentType(CONTENT_TYPE);
 	    req.setEntity(entity);
 	    
-	    exec(req, callback);
+	    exec(c, req, callback);
     }
 	
-	public static void put (final String url, final JSONObject obj, final IRequestCallback callback) {
+	public static void put (Context c, final String url, final JSONObject obj, final IRequestCallback callback) {
     	Log.i("HTTP PUT", url);
     	Log.i("JSON", obj.toString());
     	
@@ -84,18 +87,18 @@ public class RestMethod {
 		try {
 			entity = new StringEntity(obj.toString(), ENCODING);
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			ToastFacade.show(c, e);
 		}
 	    entity.setContentType(CONTENT_TYPE);
 	    req.setEntity(entity);
 	    
-	    exec(req, callback);
+	    exec(c, req, callback);
     }
 	
-    public static void delete (final String url, final IRequestCallback callback) {
+    public static void delete(Context c, final String url, final IRequestCallback callback) {
 		Log.i("HTTP DELETE", url);
 		HttpDelete req = new HttpDelete(url);
 		req.addHeader("Accept", CONTENT_TYPE);
-    	exec(req, callback);
+    	exec(c, req, callback);
     }
 }

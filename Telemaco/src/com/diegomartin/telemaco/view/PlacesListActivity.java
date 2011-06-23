@@ -22,6 +22,7 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
+//TODO: Add new city button to main layout
 public class PlacesListActivity extends ListActivity {
     private Trip trip;
     

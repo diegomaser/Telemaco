@@ -9,22 +9,22 @@ import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Objects;
 
 public class CityDAO {
-	private final static String TABLENAME = "City";
-	private final static String WHERE_CONDITION = "id=?";
+	private static final String TABLENAME = "City";
+	private static final String WHERE_CONDITION = "id=?";
+	private static final String columns[] = {"id", "name", "description", "country", "timezone"};
 	
 	public static Objects readByCountry(Country country) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		Objects cities = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "country", "timezone"};
 			Cursor cursor = db.query(TABLENAME, columns, "country = ?", new String[] {String.valueOf(country.getId())}, null, null, null);
 			while(cursor.moveToNext()){
 				City c = new City();
 				c.setId(cursor.getInt(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountryId(cursor.getInt(3));
+				c.setCountry(cursor.getInt(3));
 				c.setTimezone(cursor.getInt(4));				
 				cities.add(c);
 			}
@@ -37,14 +37,13 @@ public class CityDAO {
 		Objects cities = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "country", "timezone"};
 			Cursor cursor = db.query(TABLENAME, columns, "country = ? AND name LIKE ?", new String[] {String.valueOf(country.getId()), '%'+country.getName()+'%'}, null, null, null);
 			while(cursor.moveToNext()){
 				City c = new City();
 				c.setId(cursor.getInt(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountryId(cursor.getInt(3));
+				c.setCountry(cursor.getInt(3));
 				c.setTimezone(cursor.getInt(4));
 				cities.add(c);
 			}
@@ -61,7 +60,7 @@ public class CityDAO {
 			values.put("name", c.getName());
 			values.put("description", c.getDescription());
 			values.put("timezone", c.getTimezone());
-			values.put("countryId", c.getCountryId());
+			values.put("country", c.getCountry());
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -76,7 +75,7 @@ public class CityDAO {
 			values.put("name", c.getName());
 			values.put("description", c.getDescription());
 			values.put("timezone", c.getTimezone());
-			values.put("country", c.getCountryId());
+			values.put("country", c.getCountry());
 			id = db.update(TABLENAME, values, "id=?", new String[] {String.valueOf(c.getId())});
 			db.close();
 		}
@@ -88,13 +87,12 @@ public class CityDAO {
 		City c = new City();
 
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "country", "timezone"};
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(city)}, null, null, null);
 			if(cursor.moveToNext()){
 				c.setId(cursor.getLong(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountryId(cursor.getInt(3));
+				c.setCountry(cursor.getInt(3));
 				c.setTimezone(cursor.getInt(4));
 			}
 		}

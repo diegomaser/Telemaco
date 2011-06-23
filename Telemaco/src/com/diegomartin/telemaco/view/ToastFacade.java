@@ -8,4 +8,8 @@ public class ToastFacade {
 		Toast t = Toast.makeText(c, txt, Toast.LENGTH_SHORT);
 		t.show();
 	}
+
+	public static void show(Context c, Exception e) {
+		show(c, e.toString());
+	}
 }

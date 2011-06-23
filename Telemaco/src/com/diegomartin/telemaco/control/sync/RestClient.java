@@ -1,5 +1,5 @@
 /* Source: http://www.gruposp2p.org/wordpress/?p=380 */
-
+//TODO: Pending to copy some thread handling to RestMethod. Deprecated: Should be removed.
 package com.diegomartin.telemaco.control.sync;
 
 import org.apache.http.HttpResponse;

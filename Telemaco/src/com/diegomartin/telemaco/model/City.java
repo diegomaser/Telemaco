@@ -6,6 +6,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
+import com.diegomartin.telemaco.view.ToastFacade;
+
 public class City extends IListItem implements Serializable{
 	private static final long serialVersionUID = -6631093769443813504L;
 	
@@ -13,19 +17,19 @@ public class City extends IListItem implements Serializable{
 	private String name;
 	private String description;
 	private int timezone; // TODO: Actualizar en el diagrama de clases
-	private int countryId;
+	private int country;
 	
 	public City() {}
 	
-	public City(JSONObject json) {
+	public City(JSONObject json, Context c) {
 		try {
 			this.id = json.getInt("id");
 			this.name = json.getString("name");
 			this.description = json.getString("description");
 			this.timezone = json.getInt("timezone");
-			this.countryId = json.getInt("country");
+			this.country = json.getInt("country");
 		} catch (JSONException e) {
-			e.printStackTrace();
+			ToastFacade.show(c, e);
 		}
 	}
 
@@ -61,12 +65,12 @@ public class City extends IListItem implements Serializable{
 		return timezone;
 	}
 
-	public void setCountryId(int countryId) {
-		this.countryId = countryId;
+	public void setCountry(int countryId) {
+		this.country = countryId;
 	}
 
-	public int getCountryId() {
-		return countryId;
+	public int getCountry() {
+		return country;
 	}
 
 	public List<Place> getPlaces() {

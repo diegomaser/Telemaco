@@ -13,6 +13,7 @@ import com.diegomartin.telemaco.model.Trip;
 public class CityVisitDAO {
 	private final static String TABLENAME = "CityVisit";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "trip", "city", "date"};
 
 	public static long create(CityVisit c){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -42,14 +43,12 @@ public class CityVisitDAO {
 		CityVisit city = new CityVisit();
 		
 		if (db!=null){
-			String columns[] = {"trip", "city", "date"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if(cursor.moveToNext()){
-				city.setId(id);
-				city.setTrip(cursor.getLong(0));
-				city.setCity(cursor.getLong(1));
-				city.setDate(Date.valueOf(cursor.getString(2)));
+				city.setId(cursor.getLong(0));
+				city.setTrip(cursor.getLong(1));
+				city.setCity(cursor.getLong(2));
+				city.setDate(Date.valueOf(cursor.getString(3)));
 			}
 		}
 		return city;
@@ -60,7 +59,6 @@ public class CityVisitDAO {
 		Objects cities = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "trip", "city", "date"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				CityVisit city = new CityVisit();
@@ -108,15 +106,14 @@ public class CityVisitDAO {
 		Objects cities = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "trip", "city", "date"};
 			Cursor cursor = db.query(TABLENAME, columns, "trip=?", new String[] {String.valueOf(t.getId())}, null, null, null);
 			while(cursor.moveToNext()){
-				CityVisit city = new CityVisit();
-				city.setId(cursor.getLong(0));
-				city.setTrip(cursor.getLong(1));
-				city.setCity(cursor.getLong(2));
-				city.setDate(Date.valueOf(cursor.getString(3)));
-				cities.add(city);
+				CityVisit visit = new CityVisit();
+				visit.setId(cursor.getLong(0));
+				visit.setTrip(cursor.getLong(1));
+				visit.setCity(cursor.getLong(2));
+				visit.setDate(Date.valueOf(cursor.getString(3)));
+				cities.add(visit);
 			}
 		}
 		return cities;

@@ -106,7 +106,7 @@ public class CitySearchActivity extends ListActivity {
     }
 
     private void saveItem(City city, Date date){
-    	CityControl.addCityVisit(city, trip, date);
+    	CityControl.addCityVisit(this, city, trip, date);
     	finish();
     }
 }

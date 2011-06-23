@@ -11,6 +11,7 @@ import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.model.User;
+import com.diegomartin.telemaco.view.ToastFacade;
 
 import android.content.Context;
 
@@ -31,7 +32,7 @@ public class RESTResources {
 	
 	private RESTResources(Context c){
 		String baseURL = c.getString(R.string.server_url);
-		String response = RestMethod.get(baseURL);
+		String response = RestMethod.get(c, baseURL);
 		try {
 			JSONArray arr = new JSONArray(response);
 			
@@ -47,7 +48,9 @@ public class RESTResources {
 				else if(name.equals(PLACE)) this.placeURL = url;
 			}
 			
-		} catch (JSONException e) { }
+		} catch (JSONException e) {
+			ToastFacade.show(c, e);
+		}
 	}
 	
 	public static RESTResources getInstance(Context c){
@@ -71,6 +74,10 @@ public class RESTResources {
 
 	public String getCityURL() {
 		return this.cityURL;
+	}
+	
+	public String getCityURL(City city) {
+		return this.cityURL + "/" + String.valueOf(city.getId());
 	}
 
 	public String getCitySearchURL(Country country) {

@@ -3,25 +3,28 @@ package com.diegomartin.telemaco.control.sync;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpUriRequest;
+
+import android.content.Context;
+
 import com.diegomartin.telemaco.control.FileUtils;
+import com.diegomartin.telemaco.view.ToastFacade;
 
 public class Processor implements IRequestCallback{
 	@Override
-	public String onRequestResponse(HttpUriRequest request, HttpResponse response) {
+	public String onRequestResponse(HttpUriRequest request, HttpResponse response, Context c) {
 		HttpEntity http = response.getEntity();
 		String content = "";
 		try {
-			content = FileUtils.read(http.getContent());
+			content = FileUtils.read(http.getContent(), c);
 		} catch (Exception e) {
-			// TODO: Error handling  
-			e.printStackTrace();
+			ToastFacade.show(c, e);
 		}
 		return content;
 	}
 	
 	@Override
-	public void onRequestError(Throwable exception) {
+	public void onRequestError(Throwable e, Context c) {
 		// TODO: Errores deben devolverse al Processor o al SyncAdapter?
-		// Creo que deben capturarse aqui y mostrar Bundle con información del error
+		ToastFacade.show(c, e.getMessage());
 	}
 }

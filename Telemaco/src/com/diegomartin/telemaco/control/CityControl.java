@@ -16,6 +16,7 @@ import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.CityDAO;
 import com.diegomartin.telemaco.persistence.CityVisitDAO;
+import com.diegomartin.telemaco.view.ToastFacade;
 
 public class CityControl {
 
@@ -23,41 +24,61 @@ public class CityControl {
 	
 	public static Objects readCities(Context context, Country country) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country);
-		String content = RestMethod.get(url);
+		String content = RestMethod.get(context, url);
 		
 		cities = new Objects();
 		try{
 			JSONArray arr = new JSONArray(content);
 			for(int i=0;i<arr.length();i++){
-				City c = new City((JSONObject) arr.get(i));
+				City c = new City((JSONObject) arr.get(i), context);
 				cities.add(c);
 			}
 		}
-		catch(JSONException e){ }
+		catch(JSONException e){
+			ToastFacade.show(context, e);
+		}
 		return cities;
 	}
 	
 	public static Objects searchCities(Context context, Country country, String query) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country, query);
-		String content = RestMethod.get(url);
+		String content = RestMethod.get(context, url);
 		cities = new Objects();
 		
 		try{
 			JSONArray arr = new JSONArray(content);
 			for(int i=0;i<arr.length();i++){
-				City c = new City((JSONObject) arr.get(i));
+				City c = new City((JSONObject) arr.get(i), context);
 				cities.add(c);
 			}
 		}
-		catch(JSONException e){ }
+		catch(JSONException e){
+			ToastFacade.show(context, e);
+		}
 		return cities;
 	}
+	
+	public static City getCity(Context context, City city){
+		String url = RESTResources.getInstance(context).getCityURL(city);
+		String content = RestMethod.get(context, url);
+		City c = null;
+		try {
+			c = new City(new JSONObject(content), context);
+		} catch (JSONException e) {
+			ToastFacade.show(context, e);
+		}
+		return c;
+	}
 
-	public static void addCityVisit(City city, Trip trip, Date date) {
-		CityDAO.createOrUpdate(city);
+	public static void addCityVisit(Context context, City city, Trip trip, Date date) {
+		// We create the city with all the information we have in the server
+		City fullCity = CityControl.getCity(context, city);
+		CityDAO.createOrUpdate(fullCity);
+		
+		// We create the city visit in our trip
 		CityVisit c = new CityVisit();
 		c.setDate(date);
-		c.setCity(city.getId());
+		c.setCity(fullCity.getId());
 		c.setTrip(trip.getId());
 		CityVisitDAO.create(c);
 	}
