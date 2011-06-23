@@ -6,6 +6,7 @@ from telemaco.models import City
 class CityHandler(BaseHandler):
     allowed_methods = ('GET',)
     model = City
+    exclude = ()
     
     def read(self, request, object_id=None):
         try:

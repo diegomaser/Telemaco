@@ -25,18 +25,19 @@ public class CityControl {
 	public static Objects readCities(Context context, Country country) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country);
 		String content = RestMethod.get(context, url);
-		
 		cities = new Objects();
+		
 		try{
 			JSONArray arr = new JSONArray(content);
 			for(int i=0;i<arr.length();i++){
-				City c = new City((JSONObject) arr.get(i), context);
+				City c = new City(arr, context, i);
 				cities.add(c);
 			}
 		}
 		catch(JSONException e){
 			ToastFacade.show(context, e);
 		}
+		
 		return cities;
 	}
 	

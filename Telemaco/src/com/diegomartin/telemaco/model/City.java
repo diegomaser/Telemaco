@@ -3,6 +3,7 @@ package com.diegomartin.telemaco.model;
 import java.io.Serializable;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,19 +18,32 @@ public class City extends IListItem implements Serializable{
 	private String name;
 	private String description;
 	private int timezone; // TODO: Actualizar en el diagrama de clases
-	private int country;
+	private long country;
 	
 	public City() {}
 	
-	public City(JSONObject json, Context c) {
+	public City(JSONArray arr, Context context, int i) {
+		try{
+			JSONObject json = (JSONObject) arr.get(i);
+			this.id = json.getLong("id");
+			this.name = json.getString("name");
+		}
+		catch(JSONException e){
+			ToastFacade.show(context, e);
+		}
+	}
+	
+	public City(JSONObject json, Context context) {
 		try {
-			this.id = json.getInt("id");
+			this.id = json.getLong("id");
 			this.name = json.getString("name");
 			this.description = json.getString("description");
 			this.timezone = json.getInt("timezone");
-			this.country = json.getInt("country");
-		} catch (JSONException e) {
-			ToastFacade.show(c, e);
+			 JSONObject c = json.getJSONObject("country");
+			 this.country = c.getLong("id");
+		}
+		catch(JSONException e){
+			ToastFacade.show(context, e);
 		}
 	}
 
@@ -65,12 +79,12 @@ public class City extends IListItem implements Serializable{
 		return timezone;
 	}
 
-	public void setCountry(int countryId) {
+	public void setCountry(long countryId) {
 		this.country = countryId;
 	}
 
-	public int getCountry() {
-		return country;
+	public long getCountry() {
+		return this.country;
 	}
 
 	public List<Place> getPlaces() {

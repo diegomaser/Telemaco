@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 public class ToastFacade {
 	public static void show(Context c, String txt){
-		Toast t = Toast.makeText(c, txt, Toast.LENGTH_SHORT);
+		Toast t = Toast.makeText(c, txt, Toast.LENGTH_LONG);
 		t.show();
 	}
 
