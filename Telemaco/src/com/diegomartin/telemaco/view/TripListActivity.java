@@ -7,7 +7,10 @@ import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Trip;
+import com.diegomartin.telemaco.persistence.DatabaseHelper;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,8 +34,19 @@ public class TripListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
         setContentView(R.layout.trip_list);
-                
+        
+        DatabaseHelper.setContext(this);
+
+        AccountManager am = AccountManager.get(this);
+        Account[] accounts = am.getAccountsByType(getString(R.string.package_name));
+        
+        Intent activity = null;
+        if (accounts.length == 0) activity = new Intent(this, AuthenticatorActivity.class);
+        else activity = new Intent(this, TripListActivity.class);
+        
+        startActivity(activity);
         
          this.lv = (ListView) findViewById(R.id.list);
          this.add = (Button) findViewById(R.id.add);

@@ -3,17 +3,17 @@ package com.diegomartin.telemaco.test.unit;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
-import com.diegomartin.telemaco.Telemaco;
+import com.diegomartin.telemaco.view.AuthenticatorActivity;
 
-public class LoginTest extends ActivityInstrumentationTestCase2<Telemaco> {
-    private Telemaco activity;
+public class LoginTest extends ActivityInstrumentationTestCase2<AuthenticatorActivity> {
+    private AuthenticatorActivity activity;
     private TextView userTextView;
     private TextView passwordTextView;
     private String user;
     private String password;
 	
 	public LoginTest() {
-		super("com.diegomartin.telemaco", Telemaco.class);
+		super("com.diegomartin.telemaco", AuthenticatorActivity.class);
 	}
 	
 	@Override

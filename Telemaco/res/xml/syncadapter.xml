@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.android.contacts"
-    android:accountType="com.diegomartin.telemaco"
-    android:supportsUploading="false"
+    android:contentAuthority="com.diegomartin.telemaco"
+    android:accountType="@string/package_name"
+    android:supportsUploading="true"
+    android:userVisible="true"
 />
+<!--  android:accountType="com.google" -->

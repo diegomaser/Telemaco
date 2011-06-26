@@ -7,8 +7,12 @@
     
     <!-- Tags -->
     <string name="login">Log-in</string>
+    <string name="register">New user</string>
     <string name="user">User</string>
     <string name="password">Password</string>
+    <string name="password_again">Repeat password</string>
+    <string name="bad_password">Username and password incorrect</string>
+    <string name="empty_password">Username and password cannot be empty</string>
     
     <string name="trips">My trips</string>
     <string name="interest_info">Interest information</string>

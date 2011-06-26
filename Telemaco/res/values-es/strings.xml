@@ -2,8 +2,12 @@
 <resources>
     <!-- Tags -->
     <string name="login">Acceder</string>
+    <string name="register">Nuevo usuario</string>
     <string name="user">Usuario</string>
     <string name="password">Contraseña</string>
+    <string name="password_again">Repite contraseña</string>
+    <string name="bad_password">Usuario y contraseña incorrectos</string>
+    <string name="empty_password">El usuario y la contraseña no pueden estar vacíos</string>
     
     <string name="trips">Mis viajes</string>
     <string name="interest_info">Información de interés</string>

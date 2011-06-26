@@ -23,6 +23,8 @@ public class RestMethod {
 	// TODO: Thread aparte para las requests
 	// TODO: Setear User-Agent para que las consultas a Wikipedia funcionen
 	// TODO: Traer HTML en el GET
+	// TODO: 403 error handling
+	// TODO: automatically including user and password if necessary.
 	// Reference: http://developer.android.com/resources/samples/SampleSyncAdapter/src/com/example/android/samplesync/client/NetworkUtilities.html
 	// Source: http://www.gruposp2p.org/wordpress/?p=380
 	
@@ -38,6 +40,9 @@ public class RestMethod {
 		try {
 			response = httpClient.execute(request);
 			content = callback.onRequestResponse(request, response, c);
+		//}
+		//catch (ClientProtocolException ex){
+		//	if (response.getStatusLine().getStatusCode() == 403) ToastFacade.show(c, c.getString(R.string.bad_password));
 		} catch (Exception ex) {
 			ToastFacade.show(c, ex);
 			callback.onRequestError(ex, c);
