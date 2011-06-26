@@ -55,6 +55,6 @@
 	    	android:layout_height="wrap_content"
 			android:text="@string/register"
 	        android:layout_gravity="center_horizontal"
-	        android:drawableLeft="@drawable/ic_menu_add"       
+	        android:drawableLeft="@drawable/ic_button_register"       
 	/>
 </LinearLayout>
