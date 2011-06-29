@@ -48,6 +48,9 @@
             <intent-filter><action android:name="android.content.SyncAdapter" /></intent-filter>
             <meta-data android:name="android.content.SyncAdapter" android:resource="@xml/syncadapter" />
         </service>	
+        <!--  <provider android:name="com.diegomartin.telemaco.control.sync.Provider"
+        		  android:authorities="com.diegomartin.telemaco" /> -->
+        
     </application>
     
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>

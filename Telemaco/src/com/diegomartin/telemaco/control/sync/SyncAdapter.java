@@ -32,6 +32,11 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
+    	AccountManager am = AccountManager.get(this.context);
+    	//String user = am.getUserData(account, AccountManager.KEY_ACCOUNT_NAME);
+    	String user = account.name;
+    	String password = am.getPassword(account);
+
     	//this.lastUpdated = new Date(System.currentTimeMillis());
         //String authtoken = null;
 		//authtoken = accountManager.blockingGetAuthToken(account, accountType, true /* notifyAuthFailure */);

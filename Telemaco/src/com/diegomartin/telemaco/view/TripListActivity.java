@@ -12,6 +12,7 @@ import com.diegomartin.telemaco.persistence.DatabaseHelper;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.AdapterView;
@@ -36,44 +37,45 @@ public class TripListActivity extends Activity {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.trip_list);
-        
         DatabaseHelper.setContext(this);
-
+        
         AccountManager am = AccountManager.get(this);
         Account[] accounts = am.getAccountsByType(getString(R.string.package_name));
         
-        Intent activity = null;
-        if (accounts.length == 0) activity = new Intent(this, AuthenticatorActivity.class);
-        else activity = new Intent(this, TripListActivity.class);
-        
-        startActivity(activity);
-        
-         this.lv = (ListView) findViewById(R.id.list);
-         this.add = (Button) findViewById(R.id.add);
-        //lv.setTextFilterEnabled(true);
+        if (accounts.length == 0){
+        	Intent login = new Intent(this, AuthenticatorActivity.class);
+        	startActivity(login);
+        }
+        else{
+        	for(Account a: accounts){
+        		ContentResolver.setIsSyncable(a, getString(R.string.package_name), 1);        		
+        	}
 
-        this.refresh();
-        
-        lv.setOnItemClickListener(new OnItemClickListener() {
-          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	  Trip listItem = getItem(id);
-              openItem(listItem);
-          }
-        });
-        
-        add.setOnClickListener(new OnClickListener() {
-          public void onClick(View view) {
-        	  addItem();
-          }
-        });
-        
-        registerForContextMenu(lv);
+            this.lv = (ListView) findViewById(R.id.list);
+            this.lv.setOnItemClickListener(new OnItemClickListener() {
+              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            	  Trip listItem = getItem(id);
+                  openItem(listItem);
+              }
+            });
+            
+            this.add = (Button) findViewById(R.id.add);
+            this.add.setOnClickListener(new OnClickListener() {
+              public void onClick(View view) {
+            	  addItem();
+              }
+            });
+            
+            this.refresh();
+            registerForContextMenu(this.lv);
+        }
     }
     
     @Override
     public void onResume(){
     	super.onResume();
-    	this.refresh();
+    	this.onCreate(null);
+    	//this.refresh();
     }
     
     @Override
@@ -134,7 +136,7 @@ public class TripListActivity extends Activity {
     
     private void refresh(){
     	ArrayList<IListItem> items = this.getItems();
-    	this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	if (this.lv != null) this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, items));
     }
     
     private boolean addItem(){

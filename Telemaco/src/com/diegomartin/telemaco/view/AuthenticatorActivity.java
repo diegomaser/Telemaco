@@ -1,9 +1,11 @@
 package com.diegomartin.telemaco.view;
 
+import org.apache.http.HttpStatus;
+
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
-import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -53,29 +55,32 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
     }
     
     public void addAccount(){
-    	String user = this.username.getText().toString().toLowerCase();
-		String pwd = this.password.getText().toString();
+    	String user = this.username.getText().toString().trim().toLowerCase();
+		String pwd = this.password.getText().toString().trim();
 		    	
-    	if(!(user.trim().length() == 0) && !(pwd.trim().length() == 0)){
+    	if(!(user.length() == 0) && !(pwd.length() == 0)){
     		String url = RESTResources.getInstance(this).getTripURL();
-        	RestMethod.get(this, url);
+        	int statusCode = RestMethod.login(this, url, user, pwd);
+        	if (statusCode == HttpStatus.SC_UNAUTHORIZED){
+        		ToastFacade.show(this, getString(R.string.bad_password));
+        		this.password.setText("");
+        	}
+        	else{
+            	Account account = new Account(user, getString(R.string.package_name));
+            	AccountManager am = AccountManager.get(this);
+
+            	am.addAccountExplicitly(account, pwd, null);
+            	ContentResolver.setSyncAutomatically(account, getString(R.string.package_name), true);
+            	
+                final Intent intent = new Intent();
+                intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, user);
+                intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
+                intent.putExtra(AccountManager.KEY_AUTHTOKEN, pwd);
+                setAccountAuthenticatorResult(intent.getExtras());
+                setResult(RESULT_OK, intent);
+                finish();
+        	}
     	}
     	else ToastFacade.show(this, getString(R.string.empty_password));
-
-    	Account account = new Account(user, getString(R.string.package_name));
-    	AccountManager am = AccountManager.get(this);
-    	boolean accountCreated = am.addAccountExplicitly(account, pwd, null);
-    	 
-    	Bundle extras = getIntent().getExtras();
-    	if (extras != null) {
-	    	if (accountCreated) {  // Pass the new account back to the account manager
-		    	AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
-		    	Bundle result = new Bundle();
-		    	result.putString(AccountManager.KEY_ACCOUNT_NAME, user);
-		    	result.putString(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
-		    	response.onResult(result);
-	    	}
-	    	finish();
-    	}
 	}
 }
