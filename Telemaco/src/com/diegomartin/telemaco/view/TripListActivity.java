@@ -48,7 +48,7 @@ public class TripListActivity extends Activity {
         }
         else{
         	for(Account a: accounts){
-        		ContentResolver.setIsSyncable(a, getString(R.string.package_name), 1);        		
+        		ContentResolver.setSyncAutomatically(a, getString(R.string.package_name), true);
         	}
 
             this.lv = (ListView) findViewById(R.id.list);
