@@ -14,6 +14,12 @@ public class Trip extends IListItem implements Serializable {
 	private String description;
 	private Date startDate;
 	private Date endDate;
+	
+	private boolean pendingDelete;
+	private boolean pendingUpdate;
+	private boolean pendingCreate;
+	private java.util.Date lastUpdated;
+	
 	/*private List<City> cities;
 	private List<Transport> transports;
 	private List<Place> places;
@@ -93,6 +99,38 @@ public class Trip extends IListItem implements Serializable {
 		return endDate;
 	}
 	
+	public void setPendingDelete(boolean pendingDelete) {
+		this.pendingDelete = pendingDelete;
+	}
+
+	public boolean isPendingDelete() {
+		return pendingDelete;
+	}
+
+	public void setPendingUpdate(boolean pendingUpdate) {
+		this.pendingUpdate = pendingUpdate;
+	}
+
+	public boolean isPendingUpdate() {
+		return pendingUpdate;
+	}
+
+	public void setPendingCreate(boolean pendingCreate) {
+		this.pendingCreate = pendingCreate;
+	}
+
+	public boolean isPendingCreate() {
+		return pendingCreate;
+	}
+
+	public void setLastUpdated(java.util.Date lastUpdated) {
+		this.lastUpdated = lastUpdated;
+	}
+
+	public java.util.Date getLastUpdated() {
+		return lastUpdated;
+	}
+
 	public String toJSON() throws JSONException{
 		  JSONObject obj = new JSONObject();
 		  obj.put("id", this.getId());
