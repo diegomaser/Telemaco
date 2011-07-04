@@ -98,19 +98,19 @@ public class CityControl {
 		return CityVisitDAO.readByTrip(t);
 	}
 	
-	public static void markAsCreated(long id, boolean create){
+	public static void setPendingCreate(long id, boolean create){
 		CityVisit city = CityVisitDAO.read(id);
 		city.setPendingCreate(create);
 		CityVisitDAO.update(city);
 	}
 		
-	public static void markAsUpdated(long id, boolean update){
+	public static void setPendingUpdate(long id, boolean update){
 		CityVisit city = CityVisitDAO.read(id);
 		city.setPendingUpdate(update);
 		CityVisitDAO.update(city);
 	}
 	
-	public static void markAsDeleted(long id){
+	public static void setPendingDelete(long id){
 		CityVisit city = CityVisitDAO.read(id);
 		city.setPendingDelete(true);
 		CityVisitDAO.update(city);

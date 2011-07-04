@@ -138,6 +138,10 @@ public class RestMethod {
 
 	    exec(c, req, callback, user, password);
     }
+    
+    public static void post (Context c, final String url, final JSONObject obj, String user, String password) {
+    	post(c, url, obj, new Processor(), user, password);
+    }
 	
     // PUT
 	public static void put (Context c, final String url, final JSONObject obj, final IRequestCallback callback, String user, String password) {
@@ -159,11 +163,19 @@ public class RestMethod {
 	    exec(c, req, callback, user, password);
     }
 	
+	public static void put (Context c, final String url, final JSONObject obj, String user, String password) {
+		put(c, url, obj, new Processor(), user, password);
+	}
+	
 	// DELETE
     public static void delete(Context c, final String url, final IRequestCallback callback, String user, String password) {
 		Log.i("HTTP DELETE", url);
 		HttpDelete req = new HttpDelete(url);
 		req.addHeader("Accept", CONTENT_TYPE);
     	exec(c, req, callback, user, password);
+    }
+    
+    public static void delete(Context c, final String url, String user, String password) {
+    	delete(c, url, new Processor(), user, password);
     }
 }

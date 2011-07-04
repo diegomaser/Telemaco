@@ -7,6 +7,7 @@ import java.util.Date;
 import org.apache.http.ParseException;
 import org.apache.http.auth.AuthenticationException;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -57,7 +58,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         //String authtoken = null;
 		//authtoken = accountManager.blockingGetAuthToken(account, accountType, true /* notifyAuthFailure */);
 
-    	//try{
+    	try{
 	    	// We sync entity by entity
 	    	// 2-way
     		syncTrips();
@@ -85,32 +86,45 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 		} catch (IOException e) {
             syncResult.stats.numIoExceptions++;
 		} catch (final AuthenticationException e) {
-            //am.invalidateAuthToken(getString(R.string.package_name), authtoken);
+            //am.invalidateAuthToken(getString(R.string.package_name), authtoken);*/
         } catch (final ParseException e) {
             syncResult.stats.numParseExceptions++;
         } catch (final JSONException e) {
             syncResult.stats.numParseExceptions++;
-        }*/
+        }
     }
     
-    private void syncTrips(){
-    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readNotDeleted().getList();
+    private void syncTrips() throws JSONException{
+    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readAll().getList();
     	
+    	String tripURL = RESTResources.getInstance(this.context).getTripURL();
     	for (Trip trip: trips){
     		// Changes up
+    		
     		if(trip.isPendingDelete()){
-    			String url = RESTResources.getInstance(this.context).getPlaceURL();
-    			//RestMethod.delete(this.context, url, this.user, this.password);
+    			String url = tripURL + "delete/" + trip.getId();
+    			RestMethod.delete(this.context, url, this.user, this.password);
+    			TripControl.delete(trip.getId());
     		}
     		if(trip.isPendingCreate()){
-    			
+    			String url = tripURL + "";
+    			JSONObject obj = new JSONObject(trip.toJSON());
+    			RestMethod.post(this.context, url, obj, this.user, this.password);
+    			TripControl.setPendingCreate(trip.getId(), false);
     		}
     		else if (trip.isPendingUpdate()){
-    			
+    			String url = tripURL + "";
+    			JSONObject obj = new JSONObject(trip.toJSON());
+    			RestMethod.put(this.context, url, obj, this.user, this.password);
+    			TripControl.setPendingUpdate(trip.getId(), false);
     		}
     		// Changes down
     		String url = RESTResources.getInstance(this.context).getPlaceURL();
-    		RestMethod.get(this.context, url, this.user, this.password);
+    		String content = RestMethod.get(this.context, url, this.user, this.password);
     	}
+    }
+    
+    private void syncCityVisits(){
+    	
     }
 }

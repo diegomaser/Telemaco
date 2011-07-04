@@ -46,7 +46,7 @@ public class TripControl {
 	}
 	
 	// IU operations
-	public static void markAsCreated(long id, boolean create){
+	public static void setPendingCreate(long id, boolean create){
 		Trip trip = TripDAO.read(id);
 		trip.setPendingCreate(create);
 		TripDAO.update(trip);
@@ -56,13 +56,13 @@ public class TripControl {
 		return TripDAO.readNotDeleted();
 	}
 	
-	public static void markAsUpdated(long id, boolean update){
+	public static void setPendingUpdate(long id, boolean update){
 		Trip trip = TripDAO.read(id);
 		trip.setPendingUpdate(update);
 		TripDAO.update(trip);
 	}
 	
-	public static void markAsDeleted(long id){
+	public static void setPendingDelete(long id){
 		Trip trip = TripDAO.read(id);
 		trip.setPendingDelete(true);
 		TripDAO.update(trip);

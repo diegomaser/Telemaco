@@ -119,7 +119,7 @@ public class InfoListActivity extends Activity {
     
     private boolean delete(long id){
     	Object obj = this.items.get((int) id);
-    	if(obj instanceof CityVisit) CityControl.markAsDeleted(id);
+    	if(obj instanceof CityVisit) CityControl.setPendingDelete(((CityVisit) obj).getId());
     	else if(obj instanceof Note) NoteDAO.delete((Note)obj);
     	this.refresh();
 		return true;

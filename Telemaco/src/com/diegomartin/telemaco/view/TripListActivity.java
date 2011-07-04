@@ -161,7 +161,7 @@ public class TripListActivity extends Activity {
     }
     
     private boolean deleteItem(Trip trip){
-    	TripControl.markAsDeleted(trip.getId());
+    	TripControl.setPendingDelete(trip.getId());
 		this.refresh();
 		return true;
     }

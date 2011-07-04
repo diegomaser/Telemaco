@@ -72,7 +72,7 @@ public class TripActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                 	long id = TripControl.createTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
-                	TripControl.markAsCreated(id, true);
+                	TripControl.setPendingCreate(id, true);
                     finish();
                 }
             });
@@ -92,7 +92,7 @@ public class TripActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                 	TripControl.updateTrip(id, name.getText().toString(), description.getText().toString(), startDate, endDate);
-                	TripControl.markAsUpdated(id, true);
+                	TripControl.setPendingUpdate(id, true);
                     finish();
                 }
             });
