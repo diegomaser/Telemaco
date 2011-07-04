@@ -127,7 +127,7 @@ public class TripListActivity extends Activity {
 	}
 
 	private ArrayList<IListItem> getItems() {
-    	return (ArrayList<IListItem>) TripControl.readTrips().getList();
+    	return (ArrayList<IListItem>) TripControl.readNotDeleted().getList();
     }
     
     private Trip getItem(long id){
@@ -161,7 +161,7 @@ public class TripListActivity extends Activity {
     }
     
     private boolean deleteItem(Trip trip){
-    	TripControl.deleteTrip(trip.getId());
+    	TripControl.markAsDeleted(trip.getId());
 		this.refresh();
 		return true;
     }

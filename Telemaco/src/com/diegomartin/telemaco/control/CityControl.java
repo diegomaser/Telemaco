@@ -19,9 +19,9 @@ import com.diegomartin.telemaco.persistence.CityVisitDAO;
 import com.diegomartin.telemaco.view.ToastFacade;
 
 public class CityControl {
-
 	private static Objects cities; 
 	
+	// Search operations to add a city
 	public static Objects readCities(Context context, Country country) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country);
 		String content = RestMethod.get(context, url);
@@ -70,8 +70,18 @@ public class CityControl {
 		}
 		return c;
 	}
-
-	public static void addCityVisit(Context context, City city, Trip trip, Date date) {
+	
+	// Common operations
+	public static City read(long city) {
+		return CityDAO.read(city);
+	}
+	
+	public static void deleteCityVisit(CityVisit c){
+		CityVisitDAO.delete(c);
+	}
+	
+	// UI operations
+	public static long createCityVisit(Context context, City city, Trip trip, Date date) {
 		// We create the city with all the information we have in the server
 		City fullCity = CityControl.getCity(context, city);
 		CityDAO.createOrUpdate(fullCity);
@@ -81,23 +91,28 @@ public class CityControl {
 		c.setDate(date);
 		c.setCity(fullCity.getId());
 		c.setTrip(trip.getId());
-		CityVisitDAO.create(c);
+		return CityVisitDAO.create(c);
 	}
 	
-	public static Objects readCityVisits(Trip t){
+	public static Objects readByTrip(Trip t) {
 		return CityVisitDAO.readByTrip(t);
 	}
 	
-	public static void deleteCityVisit(CityVisit c){
-		CityVisitDAO.delete(c);
+	public static void markAsCreated(long id, boolean create){
+		CityVisit city = CityVisitDAO.read(id);
+		city.setPendingCreate(create);
+		CityVisitDAO.update(city);
 	}
-
-	public static City read(long city) {
-		return CityDAO.read(city);
+		
+	public static void markAsUpdated(long id, boolean update){
+		CityVisit city = CityVisitDAO.read(id);
+		city.setPendingUpdate(update);
+		CityVisitDAO.update(city);
 	}
-
-	public static Objects readByTrip(Trip t) {
-		Objects visits =  CityVisitDAO.readByTrip(t);
-		return visits;
+	
+	public static void markAsDeleted(long id){
+		CityVisit city = CityVisitDAO.read(id);
+		city.setPendingDelete(true);
+		CityVisitDAO.update(city);
 	}
 }

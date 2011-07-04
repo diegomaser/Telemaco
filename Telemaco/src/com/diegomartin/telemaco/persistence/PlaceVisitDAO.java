@@ -13,6 +13,7 @@ import com.diegomartin.telemaco.model.Trip;
 public class PlaceVisitDAO {
 	private final static String TABLENAME = "PlaceVisit";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "place", "trip", "date", "ordenation", "pending_create", "pending_update", "pending_delete"};
 	
 	public static long create(PlaceVisit p){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -23,6 +24,16 @@ public class PlaceVisitDAO {
 			values.put("place", p.getPlace());
 			values.put("date", p.getDate().toString());
 			values.put("ordenation", p.getOrder());
+			
+			if(p.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			
+			if(p.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			
+			if(p.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
+
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -34,15 +45,22 @@ public class PlaceVisitDAO {
 		PlaceVisit placeVisit = new PlaceVisit();
 		
 		if (db!=null){
-			String columns[] = {"place", "trip", "date", "ordenation"};
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if(cursor.moveToNext()){
-				placeVisit.setId(id);
-				placeVisit.setPlace(cursor.getLong(0));
-				placeVisit.setTrip(cursor.getLong(1));
-				placeVisit.setDate(Date.valueOf(cursor.getString(2)));
-				placeVisit.setOrder(cursor.getInt(3));
+				placeVisit.setId(cursor.getLong(0));
+				placeVisit.setPlace(cursor.getLong(1));
+				placeVisit.setTrip(cursor.getLong(2));
+				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
+				placeVisit.setOrder(cursor.getInt(4));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+				
+				placeVisit.setPendingCreate(pendingCreate>0);
+				placeVisit.setPendingUpdate(pendingUpdate>0);
+				placeVisit.setPendingDelete(pendingDelete>0);
 			}
 		}
 		return placeVisit;
@@ -53,7 +71,6 @@ public class PlaceVisitDAO {
 		Objects trips = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "place", "trip", "date", "ordenation"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				PlaceVisit placeVisit = new PlaceVisit();
@@ -62,6 +79,15 @@ public class PlaceVisitDAO {
 				placeVisit.setTrip(cursor.getLong(2));
 				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
 				placeVisit.setOrder(cursor.getInt(4));
+								
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+
+				placeVisit.setPendingCreate(pendingCreate>0);
+				placeVisit.setPendingUpdate(pendingUpdate>0);
+				placeVisit.setPendingDelete(pendingDelete>0);
+
 				trips.add(placeVisit);
 			}
 		}
@@ -77,6 +103,15 @@ public class PlaceVisitDAO {
 			values.put("place", p.getPlace());
 			values.put("date", p.getDate().toString());
 			values.put("ordenation", p.getOrder());
+			
+			if(p.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			
+			if(p.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			
+			if(p.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
 			
 			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(p.getId())});
 			db.close();
@@ -103,9 +138,7 @@ public class PlaceVisitDAO {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		Objects list = new Objects();
 		if (db!=null){
-			String columns[] = {"id", "place", "trip", "date", "ordenation"};
-	
-			Cursor cursor = db.query(TABLENAME, columns, "trip=?", new String[] {String.valueOf(t.getId())}, null, null, null);
+			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, null);
 			while(cursor.moveToNext()){
 				PlaceVisit placeVisit = new PlaceVisit();
 				placeVisit.setId(cursor.getLong(0));
@@ -113,6 +146,15 @@ public class PlaceVisitDAO {
 				placeVisit.setTrip(cursor.getLong(2));
 				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
 				placeVisit.setOrder(cursor.getInt(4));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+				
+				placeVisit.setPendingCreate(pendingCreate>0);
+				placeVisit.setPendingUpdate(pendingUpdate>0);
+				placeVisit.setPendingDelete(pendingDelete>0);
+				
 				list.add(placeVisit);
 			}
 		}

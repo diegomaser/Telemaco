@@ -7,6 +7,9 @@ public class CityVisit {
 	private long trip;
 	private long city;
 	private Date date;
+	private boolean pendingCreate;
+	private boolean pendingUpdate;
+	private boolean pendingDelete;
 	
 	public CityVisit(){ }
 
@@ -41,12 +44,28 @@ public class CityVisit {
 	public Date getDate() {
 		return date;
 	}
-	
-	/*public boolean equals(Object obj){
-		if(obj!=null && obj instanceof CityVisit){
-			CityVisit c = (CityVisit) obj;
-			if(this.getCity() == c.getCity() && this.getTrip() == c.getTrip()) return true;
-		}
-		return false;
-	}*/
+
+	public void setPendingCreate(boolean pendingCreate) {
+		this.pendingCreate = pendingCreate;
+	}
+
+	public boolean isPendingCreate() {
+		return pendingCreate;
+	}
+
+	public void setPendingUpdate(boolean pendingUpdate) {
+		this.pendingUpdate = pendingUpdate;
+	}
+
+	public boolean isPendingUpdate() {
+		return pendingUpdate;
+	}
+
+	public void setPendingDelete(boolean pendingDelete) {
+		this.pendingDelete = pendingDelete;
+	}
+
+	public boolean isPendingDelete() {
+		return pendingDelete;
+	}
 }

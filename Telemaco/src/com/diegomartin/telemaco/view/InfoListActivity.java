@@ -13,8 +13,7 @@ import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
-import com.diegomartin.telemaco.persistence.CityVisitDAO;
-import com.diegomartin.telemaco.persistence.NoteDAO;
+import com.diegomartin.telemaco.persistence.NoteDAO; // FIXME: Remove DAO import
 
 import android.app.Activity;
 import android.content.Intent;
@@ -120,7 +119,7 @@ public class InfoListActivity extends Activity {
     
     private boolean delete(long id){
     	Object obj = this.items.get((int) id);
-    	if(obj instanceof CityVisit) CityVisitDAO.delete((CityVisit)obj);
+    	if(obj instanceof CityVisit) CityControl.markAsDeleted(id);
     	else if(obj instanceof Note) NoteDAO.delete((Note)obj);
     	this.refresh();
 		return true;
@@ -168,7 +167,7 @@ public class InfoListActivity extends Activity {
 	private ArrayList<IListItem> getItems() {
 		ArrayList<IListItem> list = new ArrayList<IListItem>();
 		this.items = new ArrayList<Object>();
-		Objects l = CityControl.readCityVisits(this.trip);
+		Objects l = CityControl.readByTrip(this.trip);
 		for(int i=0;i<l.size();i++){
 			CityVisit visit = (CityVisit) l.get(i);
 			this.items.add(visit);

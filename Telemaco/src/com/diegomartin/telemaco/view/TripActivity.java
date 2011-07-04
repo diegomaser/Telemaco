@@ -71,7 +71,8 @@ public class TripActivity extends Activity {
             this.saveButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                	TripControl.newTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
+                	long id = TripControl.createTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
+                	TripControl.markAsCreated(id, true);
                     finish();
                 }
             });
@@ -91,6 +92,7 @@ public class TripActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                 	TripControl.updateTrip(id, name.getText().toString(), description.getText().toString(), startDate, endDate);
+                	TripControl.markAsUpdated(id, true);
                     finish();
                 }
             });

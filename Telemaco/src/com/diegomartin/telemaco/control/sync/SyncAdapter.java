@@ -94,7 +94,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     
     private void syncTrips(){
-    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readTrips().getList();
+    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readNotDeleted().getList();
     	
     	for (Trip trip: trips){
     		// Changes up

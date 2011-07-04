@@ -13,7 +13,7 @@ import com.diegomartin.telemaco.model.Trip;
 public class CityVisitDAO {
 	private final static String TABLENAME = "CityVisit";
 	private final static String WHERE_CONDITION = "id=?";
-	private final static String columns[] = {"id", "trip", "city", "date"};
+	private final static String columns[] = {"id", "trip", "city", "date", "pending_create", "pending_update", "pending_delete"};
 
 	public static long create(CityVisit c){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -24,19 +24,20 @@ public class CityVisitDAO {
 			values.put("trip", c.getTrip());
 			values.put("date", c.getDate().toString());
 			
+			if(c.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			
+			if(c.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			
+			if(c.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
+			
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
 		return id;
 	}
-	
-	/*public static void createIfNotExists(Trip t, CityVisit c){
-		Objects obj = readByTrip(t);
-		for(int i=0;i<obj.size();i++){
-			CityVisit c = obj.get(i);
-			if 
-		}
-	}*/
 	
 	public static CityVisit read(long id){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
@@ -49,6 +50,14 @@ public class CityVisitDAO {
 				city.setTrip(cursor.getLong(1));
 				city.setCity(cursor.getLong(2));
 				city.setDate(Date.valueOf(cursor.getString(3)));
+				
+				int pendingCreate = cursor.getInt(4);
+				int pendingUpdate = cursor.getInt(5);
+				int pendingDelete= cursor.getInt(6);
+				
+				city.setPendingCreate(pendingCreate>0);
+				city.setPendingUpdate(pendingUpdate>0);
+				city.setPendingDelete(pendingDelete>0);
 			}
 		}
 		return city;
@@ -66,6 +75,15 @@ public class CityVisitDAO {
 				city.setTrip(cursor.getLong(1));
 				city.setCity(cursor.getLong(2));
 				city.setDate(Date.valueOf(cursor.getString(3)));
+				
+				int pendingCreate = cursor.getInt(4);
+				int pendingUpdate = cursor.getInt(5);
+				int pendingDelete= cursor.getInt(6);
+				
+				city.setPendingCreate(pendingCreate>0);
+				city.setPendingUpdate(pendingUpdate>0);
+				city.setPendingDelete(pendingDelete>0);
+
 				cities.add(city);
 			}
 		}
@@ -80,6 +98,15 @@ public class CityVisitDAO {
 			values.put("city", c.getCity());
 			values.put("trip", c.getTrip());
 			values.put("date", c.getDate().toString());
+			
+			if(c.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			
+			if(c.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			
+			if(c.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
 			
 			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(c.getId())});
 			db.close();
@@ -106,13 +133,22 @@ public class CityVisitDAO {
 		Objects cities = new Objects();
 		
 		if (db!=null){
-			Cursor cursor = db.query(TABLENAME, columns, "trip=?", new String[] {String.valueOf(t.getId())}, null, null, null);
+			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, null);
 			while(cursor.moveToNext()){
 				CityVisit visit = new CityVisit();
 				visit.setId(cursor.getLong(0));
 				visit.setTrip(cursor.getLong(1));
 				visit.setCity(cursor.getLong(2));
 				visit.setDate(Date.valueOf(cursor.getString(3)));
+				
+				int pendingCreate = cursor.getInt(4);
+				int pendingUpdate = cursor.getInt(5);
+				int pendingDelete= cursor.getInt(6);
+				
+				visit.setPendingCreate(pendingCreate>0);
+				visit.setPendingUpdate(pendingUpdate>0);
+				visit.setPendingDelete(pendingDelete>0);
+
 				cities.add(visit);
 			}
 		}

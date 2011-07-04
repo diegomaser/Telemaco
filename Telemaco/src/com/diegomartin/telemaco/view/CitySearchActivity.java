@@ -106,7 +106,8 @@ public class CitySearchActivity extends ListActivity {
     }
 
     private void saveItem(City city, Date date){
-    	CityControl.addCityVisit(this, city, trip, date);
+    	long id = CityControl.createCityVisit(this, city, trip, date);
+    	CityControl.markAsCreated(id, true);
     	finish();
     }
 }

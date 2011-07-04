@@ -12,6 +12,8 @@ import android.database.sqlite.SQLiteDatabase;
 public class TripDAO {
 	private final static String TABLENAME = "Trip";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "name", "description", "start_date", "end_date", "pending_create", "pending_update", "pending_delete"};
+
 	
 	public static long create(Trip t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -22,6 +24,14 @@ public class TripDAO {
 			values.put("description", t.getDescription());
 			values.put("start_date", t.getStartDate().toString());
 			values.put("end_date", t.getEndDate().toString());
+			
+			if (t.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			if (t.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			if (t.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
+			
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -33,15 +43,21 @@ public class TripDAO {
 		Trip trip = new Trip();
 		
 		if (db!=null){
-			String columns[] = {"name", "description", "start_date", "end_date"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if(cursor.moveToNext()){
-				trip.setId(id);
-				trip.setName(cursor.getString(0));
-				trip.setDescription(cursor.getString(1));
-				trip.setStartDate(Date.valueOf(cursor.getString(2)));
-				trip.setEndDate(Date.valueOf(cursor.getString(3)));
+				trip.setId(cursor.getLong(0));
+				trip.setName(cursor.getString(1));
+				trip.setDescription(cursor.getString(2));
+				trip.setStartDate(Date.valueOf(cursor.getString(3)));
+				trip.setEndDate(Date.valueOf(cursor.getString(4)));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+				
+				trip.setPendingCreate(pendingCreate>0);
+				trip.setPendingUpdate(pendingUpdate>0);
+				trip.setPendingDelete(pendingDelete>0);
 			}
 		}
 		return trip;
@@ -52,7 +68,6 @@ public class TripDAO {
 		Objects trips = new Objects();
 		
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "start_date", "end_date"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				Trip trip = new Trip();
@@ -61,6 +76,15 @@ public class TripDAO {
 				trip.setDescription(cursor.getString(2));
 				trip.setStartDate(Date.valueOf(cursor.getString(3)));
 				trip.setEndDate(Date.valueOf(cursor.getString(4)));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+				
+				trip.setPendingCreate(pendingCreate>0);
+				trip.setPendingUpdate(pendingUpdate>0);
+				trip.setPendingDelete(pendingDelete>0);
+
 				trips.add(trip);
 			}
 		}
@@ -76,6 +100,13 @@ public class TripDAO {
 			values.put("description", t.getDescription());
 			values.put("start_date", t.getStartDate().toString());
 			values.put("end_date", t.getEndDate().toString());
+
+			if (t.isPendingCreate()) values.put("pending_create", 1);
+			else values.put("pending_create", 0);
+			if (t.isPendingUpdate()) values.put("pending_update", 1);
+			else values.put("pending_update", 0);
+			if (t.isPendingDelete()) values.put("pending_delete", 1);
+			else values.put("pending_delete", 0);
 			
 			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(t.getId())});
 			db.close();
@@ -95,5 +126,33 @@ public class TripDAO {
 	
 	public static int delete(Trip t){
 		return delete(t.getId());
+	}
+
+	public static Objects readNotDeleted() {
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		Objects trips = new Objects();
+		
+		if (db!=null){
+			Cursor cursor = db.query(TABLENAME, columns, "pending_delete=0", null, null, null, null);
+			while(cursor.moveToNext()){
+				Trip trip = new Trip();
+				trip.setId(cursor.getLong(0));
+				trip.setName(cursor.getString(1));
+				trip.setDescription(cursor.getString(2));
+				trip.setStartDate(Date.valueOf(cursor.getString(3)));
+				trip.setEndDate(Date.valueOf(cursor.getString(4)));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+				
+				trip.setPendingCreate(pendingCreate>0);
+				trip.setPendingUpdate(pendingUpdate>0);
+				trip.setPendingDelete(pendingDelete>0);
+
+				trips.add(trip);
+			}
+		}
+		return trips;
 	}
 }

@@ -8,6 +8,9 @@ public class PlaceVisit {
 	private long place;
 	private Date date;
 	private int order;
+	private boolean pendingCreate;
+	private boolean pendingUpdate;
+	private boolean pendingDelete;
 	
 	public PlaceVisit(){ }
 	
@@ -49,5 +52,29 @@ public class PlaceVisit {
 
 	public int getOrder() {
 		return order;
+	}
+
+	public void setPendingCreate(boolean pendingCreate) {
+		this.pendingCreate = pendingCreate;
+	}
+
+	public boolean isPendingCreate() {
+		return pendingCreate;
+	}
+
+	public void setPendingUpdate(boolean pendingUpdate) {
+		this.pendingUpdate = pendingUpdate;
+	}
+
+	public boolean isPendingUpdate() {
+		return pendingUpdate;
+	}
+
+	public void setPendingDelete(boolean pendingDelete) {
+		this.pendingDelete = pendingDelete;
+	}
+
+	public boolean isPendingDelete() {
+		return pendingDelete;
 	}
 }
