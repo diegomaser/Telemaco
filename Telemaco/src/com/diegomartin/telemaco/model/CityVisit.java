@@ -2,6 +2,9 @@ package com.diegomartin.telemaco.model;
 
 import java.util.Date;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class CityVisit {
 	private long id;
 	private long trip;
@@ -67,5 +70,14 @@ public class CityVisit {
 
 	public boolean isPendingDelete() {
 		return pendingDelete;
+	}
+
+	public String toJSON() throws JSONException {
+		JSONObject obj = new JSONObject();
+		obj.put("id", this.getId());
+		obj.put("trip", this.getTrip());
+		obj.put("city", this.getCity());
+		obj.put("date", this.getDate().toString());
+		return obj.toString();
 	}
 }

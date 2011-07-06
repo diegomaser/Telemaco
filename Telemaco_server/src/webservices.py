@@ -31,7 +31,7 @@ def downloadURL(url, lang=LANG):
     
 def getCurrencyExchange(src, dest):
     url = 'http://finance.yahoo.com/d/quotes.csv?e=.csv&f=sl1d1t1&s=%s%s=X' % (src, dest)
-    return float(downloadURL(url).split(',')[1])
+    return downloadURL(url).split(',')[1]
 
 def getMap(name, zoom, lang=LANG):
     coor = getCoordinates(name)

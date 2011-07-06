@@ -111,7 +111,7 @@ public class TripListActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
     	long menuItem = this.lv.getAdapter().getItemId(info.position);
-    	Trip listItem = this.getItem((int)menuItem);
+    	Trip listItem = this.getItem(menuItem);
     	
     	switch (item.getItemId()) {
     		case R.id.open:

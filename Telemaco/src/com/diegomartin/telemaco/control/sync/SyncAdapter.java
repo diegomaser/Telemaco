@@ -23,7 +23,9 @@ import android.os.Bundle;
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.RESTResources;
 import com.diegomartin.telemaco.control.TripControl;
+import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Trip;
+import com.diegomartin.telemaco.persistence.CityVisitDAO;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private String accountType;
@@ -119,12 +121,42 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     			TripControl.setPendingUpdate(trip.getId(), false);
     		}
     		// Changes down
-    		String url = RESTResources.getInstance(this.context).getPlaceURL();
-    		String content = RestMethod.get(this.context, url, this.user, this.password);
+    		//String url = RESTResources.getInstance(this.context).getPlaceURL();
+    		//String content = RestMethod.get(this.context, url, this.user, this.password);
     	}
     }
     
-    private void syncCityVisits(){
+    private void syncCityVisits() throws JSONException{
+    	ArrayList<CityVisit> visits = (ArrayList<CityVisit>) CityVisitDAO.read().getList();
+    	
+    	String tripURL = RESTResources.getInstance(this.context).getTripURL();
+    	for (CityVisit visit: visits){
+    		// Changes up
+    		
+    		if(visit.isPendingDelete()){
+    			String url = tripURL + "delete/" + visit.getId();
+    			RestMethod.delete(this.context, url, this.user, this.password);
+    			TripControl.delete(visit.getId());
+    		}
+    		if(visit.isPendingCreate()){
+    			String url = tripURL + "";
+    			JSONObject obj = new JSONObject(visit.toJSON());
+    			RestMethod.post(this.context, url, obj, this.user, this.password);
+    			TripControl.setPendingCreate(visit.getId(), false);
+    		}
+    		else if (visit.isPendingUpdate()){
+    			String url = tripURL + "";
+    			JSONObject obj = new JSONObject(visit.toJSON());
+    			RestMethod.put(this.context, url, obj, this.user, this.password);
+    			TripControl.setPendingUpdate(visit.getId(), false);
+    		}
+    		// Changes down
+    		//String url = RESTResources.getInstance(this.context).getPlaceURL();
+    		//String content = RestMethod.get(this.context, url, this.user, this.password);
+    	}
+    }
+    
+    private void syncCity(){
     	
     }
 }
