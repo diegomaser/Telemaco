@@ -8,7 +8,8 @@ import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.control.PlaceControl;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Objects;
+import com.diegomartin.telemaco.model.Place;
+import com.diegomartin.telemaco.model.PlaceVisit;
 import com.diegomartin.telemaco.model.Trip;
 
 import android.app.ListActivity;
@@ -19,7 +20,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.widget.ArrayAdapter;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
 //TODO: Add new city button to main layout
@@ -82,14 +82,18 @@ public class PlacesListActivity extends ListActivity {
 	}
     
     public ArrayList<IListItem> getItems() {
-		ArrayList<IListItem> MiLista = new ArrayList<IListItem>();
-		Objects cities = CityControl.readByTrip(this.trip);
+		ArrayList<CityVisit> cities = CityControl.readByTrip(this.trip);
+		ArrayList<IListItem> lista = new ArrayList<IListItem>();
+		
 		for(int i=0;i<cities.size();i++){
 			CityVisit visit = (CityVisit) cities.get(i);
-			ArrayList<IListItem> items = (ArrayList<IListItem>) PlaceControl.readByCity(visit.getCity()).getList();
-			MiLista.addAll(items);
+			ArrayList<PlaceVisit> items = PlaceControl.readByCity(visit.getCity());
+			for(PlaceVisit placeVisit: items){
+				Place p = PlaceControl.read(placeVisit.getPlace());
+				lista.add(p);
+			}
 		}
-		return MiLista;
+		return lista;
     }
     
     private boolean help(){
@@ -103,11 +107,6 @@ public class PlacesListActivity extends ListActivity {
     }
     
     private void refresh(){
-    	ArrayList<IListItem> items = this.getItems();
-    	if (items.size()>0) setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
-    	else{
-    		String[] list = {getString(R.string.new_place)};
-    		setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
-    	}
+    	setListAdapter(new ListItemAdapter(this, R.layout.list_item, this.getItems()));
     }
 }

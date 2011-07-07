@@ -1,15 +1,17 @@
 package com.diegomartin.telemaco.persistence;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Place;
 
 public class PlaceDAO {
 	private final static String TABLENAME = "Place";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "name", "description", "lat", "lng", "place_type"};
 	
 	public static long create(Place t){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -32,27 +34,22 @@ public class PlaceDAO {
 		Place place = new Place();
 		
 		if (db!=null){
-			String columns[] = {"name", "description", "lat", "lng", "place_type"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				place.setId(id);
-				place.setName(cursor.getString(0));
-				place.setDescription(cursor.getString(1));
-				place.setLat(cursor.getDouble(2));
-				place.setLng(cursor.getDouble(3));
-				place.setType(cursor.getString(4).charAt(0));
-			}
+			place.setId(cursor.getLong(0));
+			place.setName(cursor.getString(1));
+			place.setDescription(cursor.getString(2));
+			place.setLat(cursor.getDouble(3));
+			place.setLng(cursor.getDouble(4));
+			place.setType(cursor.getString(5).charAt(0));
 		}
 		return place;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<Place> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects places = new Objects();
+		ArrayList<Place> places = new ArrayList<Place>();
 		
 		if (db!=null){
-			String columns[] = {"id", "name", "description", "lat", "lng", "place_type"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				Place place = new Place();

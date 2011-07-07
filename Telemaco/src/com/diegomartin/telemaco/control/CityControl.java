@@ -1,5 +1,6 @@
 package com.diegomartin.telemaco.control;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.json.JSONArray;
@@ -12,20 +13,19 @@ import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.CityDAO;
 import com.diegomartin.telemaco.persistence.CityVisitDAO;
 import com.diegomartin.telemaco.view.ToastFacade;
 
 public class CityControl {
-	private static Objects cities; 
+	private static ArrayList<City> cities; 
 	
 	// Search operations to add a city
-	public static Objects readCities(Context context, Country country) {
+	public static ArrayList<City> readCities(Context context, Country country) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country);
 		String content = RestMethod.get(context, url);
-		cities = new Objects();
+		cities = new ArrayList<City>();
 		
 		try{
 			JSONArray arr = new JSONArray(content);
@@ -41,10 +41,10 @@ public class CityControl {
 		return cities;
 	}
 	
-	public static Objects searchCities(Context context, Country country, String query) {
+	public static ArrayList<City> searchCities(Context context, Country country, String query) {
 		String url = RESTResources.getInstance(context).getCitySearchURL(country, query);
 		String content = RestMethod.get(context, url);
-		cities = new Objects();
+		cities = new ArrayList<City>();
 		
 		try{
 			JSONArray arr = new JSONArray(content);
@@ -94,7 +94,7 @@ public class CityControl {
 		return CityVisitDAO.create(c);
 	}
 	
-	public static Objects readByTrip(Trip t) {
+	public static ArrayList<CityVisit> readByTrip(Trip t) {
 		return CityVisitDAO.readByTrip(t);
 	}
 	

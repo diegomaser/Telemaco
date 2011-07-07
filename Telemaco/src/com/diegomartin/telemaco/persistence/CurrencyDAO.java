@@ -9,6 +9,7 @@ import com.diegomartin.telemaco.model.Currency;
 public class CurrencyDAO {
 	private final static String TABLENAME = "Currency";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "name", "code", "rate"};
 
 	public static long create(Currency c){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -30,15 +31,11 @@ public class CurrencyDAO {
 		Currency currency = new Currency();
 		
 		if (db!=null){
-			String columns[] = {"name", "code", "rate"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				currency.setId(id);
-				currency.setName(cursor.getString(0));
-				currency.setCode(cursor.getString(1));
-				currency.setRate(cursor.getDouble(2));
-			}
+			currency.setId(cursor.getLong(0));
+			currency.setName(cursor.getString(1));
+			currency.setCode(cursor.getString(2));
+			currency.setRate(cursor.getDouble(3));
 		}
 		return currency;
 	}

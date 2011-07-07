@@ -1,8 +1,9 @@
 package com.diegomartin.telemaco.persistence;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
-import com.diegomartin.telemaco.model.Objects;
+import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Trip;
 
 import android.content.ContentValues;
@@ -44,28 +45,26 @@ public class TripDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				trip.setId(cursor.getLong(0));
-				trip.setName(cursor.getString(1));
-				trip.setDescription(cursor.getString(2));
-				trip.setStartDate(Date.valueOf(cursor.getString(3)));
-				trip.setEndDate(Date.valueOf(cursor.getString(4)));
+			trip.setId(cursor.getLong(0));
+			trip.setName(cursor.getString(1));
+			trip.setDescription(cursor.getString(2));
+			trip.setStartDate(Date.valueOf(cursor.getString(3)));
+			trip.setEndDate(Date.valueOf(cursor.getString(4)));
 				
-				int pendingCreate = cursor.getInt(5);
-				int pendingUpdate = cursor.getInt(6);
-				int pendingDelete= cursor.getInt(7);
+			int pendingCreate = cursor.getInt(5);
+			int pendingUpdate = cursor.getInt(6);
+			int pendingDelete= cursor.getInt(7);
 				
-				trip.setPendingCreate(pendingCreate>0);
-				trip.setPendingUpdate(pendingUpdate>0);
-				trip.setPendingDelete(pendingDelete>0);
-			}
+			trip.setPendingCreate(pendingCreate>0);
+			trip.setPendingUpdate(pendingUpdate>0);
+			trip.setPendingDelete(pendingDelete>0);
 		}
 		return trip;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<Trip> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects trips = new Objects();
+		ArrayList<Trip> trips = new ArrayList<Trip>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
@@ -128,9 +127,9 @@ public class TripDAO {
 		return delete(t.getId());
 	}
 
-	public static Objects readNotDeleted() {
+	public static ArrayList<IListItem> readNotDeleted() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects trips = new Objects();
+		ArrayList<IListItem> trips = new ArrayList<IListItem>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, "pending_delete=0", null, null, null, null);

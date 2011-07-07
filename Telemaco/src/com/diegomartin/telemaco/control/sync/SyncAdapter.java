@@ -97,7 +97,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     
     private void syncTrips() throws JSONException{
-    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readAll().getList();
+    	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readAll();
     	
     	String tripURL = RESTResources.getInstance(this.context).getTripURL();
     	for (Trip trip: trips){
@@ -127,7 +127,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     }
     
     private void syncCityVisits() throws JSONException{
-    	ArrayList<CityVisit> visits = (ArrayList<CityVisit>) CityVisitDAO.read().getList();
+    	ArrayList<CityVisit> visits = (ArrayList<CityVisit>) CityVisitDAO.read();
     	
     	String tripURL = RESTResources.getInstance(this.context).getTripURL();
     	for (CityVisit visit: visits){

@@ -1,12 +1,12 @@
 package com.diegomartin.telemaco.persistence;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Trip;
 
@@ -45,27 +45,25 @@ public class CityVisitDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				city.setId(cursor.getLong(0));
-				city.setTrip(cursor.getLong(1));
-				city.setCity(cursor.getLong(2));
-				city.setDate(Date.valueOf(cursor.getString(3)));
+			city.setId(cursor.getLong(0));
+			city.setTrip(cursor.getLong(1));
+			city.setCity(cursor.getLong(2));
+			city.setDate(Date.valueOf(cursor.getString(3)));
 				
-				int pendingCreate = cursor.getInt(4);
-				int pendingUpdate = cursor.getInt(5);
-				int pendingDelete= cursor.getInt(6);
+			int pendingCreate = cursor.getInt(4);
+			int pendingUpdate = cursor.getInt(5);
+			int pendingDelete= cursor.getInt(6);
 				
-				city.setPendingCreate(pendingCreate>0);
-				city.setPendingUpdate(pendingUpdate>0);
-				city.setPendingDelete(pendingDelete>0);
-			}
+			city.setPendingCreate(pendingCreate>0);
+			city.setPendingUpdate(pendingUpdate>0);
+			city.setPendingDelete(pendingDelete>0);
 		}
 		return city;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<CityVisit> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects cities = new Objects();
+		ArrayList<CityVisit> cities = new ArrayList<CityVisit>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
@@ -128,9 +126,9 @@ public class CityVisitDAO {
 		return delete(c.getId());
 	}
 
-	public static Objects readByTrip(Trip t) {
+	public static ArrayList<CityVisit> readByTrip(Trip t) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects cities = new Objects();
+		ArrayList<CityVisit> cities = new ArrayList<CityVisit>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, null);

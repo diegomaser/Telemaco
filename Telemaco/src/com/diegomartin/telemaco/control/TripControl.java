@@ -1,8 +1,9 @@
 package com.diegomartin.telemaco.control;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
-import com.diegomartin.telemaco.model.Objects;
+import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.TripDAO;
 
@@ -26,7 +27,7 @@ public class TripControl {
 		return TripDAO.read(id);
 	}
 	
-	public static Objects readAll(){
+	public static ArrayList<Trip> readAll(){
 		return TripDAO.read();
 	}
 	
@@ -52,7 +53,7 @@ public class TripControl {
 		TripDAO.update(trip);
 	}
 	
-	public static Objects readNotDeleted(){
+	public static ArrayList<IListItem> readNotDeleted(){
 		return TripDAO.readNotDeleted();
 	}
 	

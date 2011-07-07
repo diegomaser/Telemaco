@@ -1,21 +1,22 @@
 package com.diegomartin.telemaco.persistence;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.Country;
-import com.diegomartin.telemaco.model.Objects;
 
 public class CityDAO {
 	private static final String TABLENAME = "City";
 	private static final String WHERE_CONDITION = "id=?";
 	private static final String columns[] = {"id", "name", "description", "country", "timezone"};
 	
-	public static Objects readByCountry(Country country) {
+	public static ArrayList<City> readByCountry(Country country) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects cities = new Objects();
+		ArrayList<City> cities = new ArrayList<City>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, "country = ?", new String[] {String.valueOf(country.getId())}, null, null, null);
@@ -32,9 +33,9 @@ public class CityDAO {
 		return cities;
 	}
 
-	public static Objects readByCountry(Country country, String string) {
+	public static ArrayList<City> readByCountry(Country country, String string) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects cities = new Objects();
+		ArrayList<City> cities = new ArrayList<City>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, "country = ? AND name LIKE ?", new String[] {String.valueOf(country.getId()), '%'+country.getName()+'%'}, null, null, null);
@@ -88,13 +89,11 @@ public class CityDAO {
 
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(city)}, null, null, null);
-			if(cursor.moveToNext()){
-				c.setId(cursor.getLong(0));
-				c.setName(cursor.getString(1));
-				c.setDescription(cursor.getString(2));
-				c.setCountry(cursor.getInt(3));
-				c.setTimezone(cursor.getInt(4));
-			}
+			c.setId(cursor.getLong(0));
+			c.setName(cursor.getString(1));
+			c.setDescription(cursor.getString(2));
+			c.setCountry(cursor.getInt(3));
+			c.setTimezone(cursor.getInt(4));
 		}
 		return c;
 	}

@@ -1,10 +1,11 @@
 package com.diegomartin.telemaco.persistence;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Item;
 
 public class ItemDAO {
@@ -34,19 +35,17 @@ public class ItemDAO {
 			String columns[] = {"name", "description", "place"};
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				item.setId(id);
-				item.setName(cursor.getString(0));
-				item.setDescription(cursor.getString(1));
-				item.setPlace(cursor.getLong(2));
-			}
+			item.setId(id);
+			item.setName(cursor.getString(0));
+			item.setDescription(cursor.getString(1));
+			item.setPlace(cursor.getLong(2));
 		}
 		return item;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<Item> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects Items = new Objects();
+		ArrayList<Item> Items = new ArrayList<Item>();
 		
 		if (db!=null){
 			String columns[] = {"id", "name", "description", "place"};

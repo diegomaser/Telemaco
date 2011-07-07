@@ -11,7 +11,6 @@ import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Note;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.NoteDAO; // FIXME: Remove DAO import
 
@@ -167,7 +166,7 @@ public class InfoListActivity extends Activity {
 	private ArrayList<IListItem> getItems() {
 		ArrayList<IListItem> list = new ArrayList<IListItem>();
 		this.items = new ArrayList<Object>();
-		Objects l = CityControl.readByTrip(this.trip);
+		ArrayList<CityVisit> l = CityControl.readByTrip(this.trip);
 		for(int i=0;i<l.size();i++){
 			CityVisit visit = (CityVisit) l.get(i);
 			this.items.add(visit);

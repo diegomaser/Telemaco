@@ -9,6 +9,7 @@ import com.diegomartin.telemaco.model.Plug;
 public class PlugDAO {
 	private final static String TABLENAME = "Plug";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "name", "description"};
 	
 	public static long create(Plug p){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -25,19 +26,15 @@ public class PlugDAO {
 	
 	public static Plug read(long id){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Plug Plug = new Plug();
+		Plug plug = new Plug();
 		
 		if (db!=null){
-			String columns[] = {"name", "description"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				Plug.setId(id);
-				Plug.setName(cursor.getString(0));
-				Plug.setDescription(cursor.getString(1));
-			}
+			plug.setId(cursor.getLong(0));
+			plug.setName(cursor.getString(1));
+			plug.setDescription(cursor.getString(2));
 		}
-		return Plug;
+		return plug;
 	}
 	
 	public static int update(Plug p){

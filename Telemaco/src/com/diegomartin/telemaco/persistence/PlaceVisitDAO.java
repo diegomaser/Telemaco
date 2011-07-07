@@ -1,12 +1,12 @@
 package com.diegomartin.telemaco.persistence;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.PlaceVisit;
 import com.diegomartin.telemaco.model.Trip;
 
@@ -47,28 +47,26 @@ public class PlaceVisitDAO {
 		if (db!=null){
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				placeVisit.setId(cursor.getLong(0));
-				placeVisit.setPlace(cursor.getLong(1));
-				placeVisit.setTrip(cursor.getLong(2));
-				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
-				placeVisit.setOrder(cursor.getInt(4));
+			placeVisit.setId(cursor.getLong(0));
+			placeVisit.setPlace(cursor.getLong(1));
+			placeVisit.setTrip(cursor.getLong(2));
+			placeVisit.setDate(Date.valueOf(cursor.getString(3)));
+			placeVisit.setOrder(cursor.getInt(4));
 				
-				int pendingCreate = cursor.getInt(5);
-				int pendingUpdate = cursor.getInt(6);
-				int pendingDelete= cursor.getInt(7);
-				
-				placeVisit.setPendingCreate(pendingCreate>0);
-				placeVisit.setPendingUpdate(pendingUpdate>0);
-				placeVisit.setPendingDelete(pendingDelete>0);
-			}
+			int pendingCreate = cursor.getInt(5);
+			int pendingUpdate = cursor.getInt(6);
+			int pendingDelete= cursor.getInt(7);
+			
+			placeVisit.setPendingCreate(pendingCreate>0);
+			placeVisit.setPendingUpdate(pendingUpdate>0);
+			placeVisit.setPendingDelete(pendingDelete>0);
 		}
 		return placeVisit;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<PlaceVisit> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects trips = new Objects();
+		ArrayList<PlaceVisit> trips = new ArrayList<PlaceVisit>();
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
@@ -134,9 +132,9 @@ public class PlaceVisitDAO {
 		return delete(t.getId());
 	}
 
-	public static Objects readByTrip(Trip t) {
+	public static ArrayList<PlaceVisit> readByTrip(Trip t) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects list = new Objects();
+		ArrayList<PlaceVisit> list = new ArrayList<PlaceVisit>();
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, null);
 			while(cursor.moveToNext()){

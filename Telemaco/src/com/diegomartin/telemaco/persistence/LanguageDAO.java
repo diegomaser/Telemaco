@@ -9,6 +9,7 @@ import com.diegomartin.telemaco.model.Language;
 public class LanguageDAO {
 	private final static String TABLENAME = "Language";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "name", "code"};
 
 	public static long create(Language c){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -29,14 +30,11 @@ public class LanguageDAO {
 		Language city = new Language();
 		
 		if (db!=null){
-			String columns[] = {"name", "code"};
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				city.setId(id);
-				city.setName(cursor.getString(0));
-				city.setCode(cursor.getString(1));
-			}
+			city.setId(cursor.getLong(0));
+			city.setName(cursor.getString(1));
+			city.setCode(cursor.getString(2));
 		}
 		return city;
 	}

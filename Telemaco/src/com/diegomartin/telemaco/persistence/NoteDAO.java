@@ -1,16 +1,18 @@
 package com.diegomartin.telemaco.persistence;
 
+import java.util.ArrayList;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Trip;
 
 public class NoteDAO {
 	private final static String TABLENAME = "Note";
 	private final static String WHERE_CONDITION = "id=?";
+	private final static String columns[] = {"id", "trip", "name", "text"};
 	
 	public static long create(Note n){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -31,25 +33,20 @@ public class NoteDAO {
 		Note trip = new Note();
 		
 		if (db!=null){
-			String columns[] = {"trip", "name", "text"};
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			if(cursor.moveToNext()){
-				trip.setId(id);
-				trip.setTrip(cursor.getLong(0));
-				trip.setName(cursor.getString(1));
-				trip.setText(cursor.getString(2));
-			}
+			trip.setId(cursor.getLong(0));
+			trip.setTrip(cursor.getLong(1));
+			trip.setName(cursor.getString(2));
+			trip.setText(cursor.getString(3));
 		}
 		return trip;
 	}
 	
-	public static Objects read() {
+	public static ArrayList<Note> read() {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects notes = new Objects();
+		ArrayList<Note> notes = new ArrayList<Note>();
 		
 		if (db!=null){
-			String columns[] = {"id", "trip", "name", "text"};
 			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
 			while(cursor.moveToNext()){
 				Note note = new Note();
@@ -92,12 +89,11 @@ public class NoteDAO {
 		return delete(t.getId());
 	}
 
-	public static Objects readByTrip(Trip trip) {
+	public static ArrayList<Note> readByTrip(Trip trip) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
-		Objects notes = new Objects();
+		ArrayList<Note> notes = new ArrayList<Note>();
 		
 		if (db!=null){
-			String columns[] = {"id", "trip", "name", "text"};
 			Cursor cursor = db.query(TABLENAME, columns, "trip = ?", new String[] {String.valueOf(trip.getId())}, null, null, null);
 			while(cursor.moveToNext()){
 				Note note = new Note();

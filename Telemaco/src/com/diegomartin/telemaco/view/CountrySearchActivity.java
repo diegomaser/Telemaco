@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.diegomartin.telemaco.control.CountryControl;
 import com.diegomartin.telemaco.model.Country;
-import com.diegomartin.telemaco.model.Objects;
 
 import android.R;
 import android.app.ListActivity;
@@ -18,7 +17,7 @@ import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
 public class CountrySearchActivity extends ListActivity {
-	private Objects countries;
+	private ArrayList<Country> countries;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,17 +52,16 @@ public class CountrySearchActivity extends ListActivity {
 	}
 	
 	private void refresh(){
-		ArrayList<Country> array = (ArrayList<Country>) this.countries.getList();
-		ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(this, R.layout.simple_list_item_1, array);
+		ArrayAdapter<Country> adapter = new ArrayAdapter<Country>(this, R.layout.simple_list_item_1, this.countries);
 		setListAdapter(adapter);
 	}
 	
-	private Objects getItems() {
+	private ArrayList<Country> getItems() {
     	return CountryControl.readCountries();
     }
 	
 	private Country getItem(long id){
-    	return (Country) this.countries.get(id);
+    	return (Country) this.countries.get((int) id);
     }
 	
 	private void startCitySearch(Country country){

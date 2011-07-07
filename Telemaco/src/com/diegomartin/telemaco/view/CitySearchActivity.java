@@ -21,7 +21,6 @@ import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.Country;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.model.Trip;
 
 public class CitySearchActivity extends ListActivity {
@@ -30,7 +29,7 @@ public class CitySearchActivity extends ListActivity {
 	
 	private Country country;
 	private City city;
-	private Objects cities;
+	private ArrayList<City> cities;
 	private Trip trip;
 
 	protected static final int DATE_DIALOG_ID = 0;
@@ -53,7 +52,7 @@ public class CitySearchActivity extends ListActivity {
 
         lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	  city = (City) cities.get(id);
+        	  city = (City) cities.get((int) id);
         	  showDialog(DATE_DIALOG_ID);
           }
         });
@@ -96,12 +95,11 @@ public class CitySearchActivity extends ListActivity {
 	}
 	
 	private void refresh(){
-		ArrayList<City> array = (ArrayList<City>) this.cities.getList();
-		ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, R.layout.simple_list_item_1, array);
+		ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, R.layout.simple_list_item_1, this.cities);
 		setListAdapter(adapter);
 	}
 	
-	private Objects getItems() {
+	private ArrayList<City> getItems() {
     	return CityControl.readCities(this, this.country);
     }
 

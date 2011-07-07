@@ -1,7 +1,8 @@
 package com.diegomartin.telemaco.control;
 
+import java.util.ArrayList;
+
 import com.diegomartin.telemaco.model.Country;
-import com.diegomartin.telemaco.model.Objects;
 import com.diegomartin.telemaco.persistence.CountryDAO;
 
 public class CountryControl {
@@ -10,11 +11,11 @@ public class CountryControl {
 		return CountryDAO.read(id);
 	}
 
-	public static Objects readCountries(){
+	public static ArrayList<Country> readCountries(){
 		return CountryDAO.read();
 	}
 
-	public static Objects searchCountries(String countryName) {
+	public static ArrayList<Country> searchCountries(String countryName) {
 		return CountryDAO.read(countryName);
 	}
 

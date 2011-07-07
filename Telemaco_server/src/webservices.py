@@ -1,13 +1,33 @@
+# Requires: python-sparqlwrapper http://sparql-wrapper.sourceforge.net/
+# Requires: python-simplejson
+# Requires: python-rdflib
+
 import simplejson
 import urllib, urllib2
 from xml.dom.minidom import parseString
-#import flickrapi
+
+import SPARQLWrapper
 
 GOOGLE_MAPS_KEY="abcdef"
-#FLICKR_KEY = ""
 WIKIPEDIA = 1
 WIKITRAVEL = 2
 LANG='en'
+SPARQL_ENDPOINT = 'http://dbpedia.org/sparql'
+
+def querySPARQLtoJSON(query):
+    sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(SPARQLWrapper.JSON)
+    results = sparql.query().convert()
+    return results
+
+def querySPARQLtoRDF(query):
+    sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
+    sparql.setQuery(query)
+    sparql.setReturnFormat(SPARQLWrapper.RDF)
+    results = sparql.query().convert()
+    return results
+
 
 def getWikiPage(name, page, lang=LANG):
     text = downloadURL(getURL(name, page, lang))
@@ -133,11 +153,3 @@ def getWeather(name, lang=LANG):
         weather.append({'date':date, 'condition':condition, 'icon':icon, 'temp':temp, 'min':min, 'max':max, 'wind':wind, 'humidity':humidity})
     
     return weather
-
-
-#def getPhotos(place):
-#    photos = []
-#    flickr = flickrapi.FlickrAPI(FLICKR_KEY)
-#    for photo in flickr.walk(tag_mode='all',tags=place):
-#        photos.append(photo.get('url'))
-#    return photos

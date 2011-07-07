@@ -6,6 +6,8 @@ import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.PlaceControl;
 import com.diegomartin.telemaco.model.IListItem;
+import com.diegomartin.telemaco.model.Place;
+import com.diegomartin.telemaco.model.PlaceVisit;
 import com.diegomartin.telemaco.model.Trip;
 
 import android.app.ListActivity;
@@ -82,8 +84,13 @@ public class PlanListActivity extends ListActivity {
 	}
     
     public ArrayList<IListItem> getItems() {
-		ArrayList<IListItem> MiLista = (ArrayList<IListItem>) PlaceControl.readByTrip(this.trip).getList();
-		return MiLista;
+		ArrayList<PlaceVisit> visits = PlaceControl.readByTrip(this.trip);
+		ArrayList<IListItem> places= new ArrayList<IListItem>();
+		for(PlaceVisit visit: visits){
+			Place place = PlaceControl.read(visit.getPlace());
+			places.add(place);
+		}
+		return places;
     }
     
     private boolean rearrangePlan() {

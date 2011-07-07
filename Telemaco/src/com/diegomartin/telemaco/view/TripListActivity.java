@@ -127,7 +127,7 @@ public class TripListActivity extends Activity {
 	}
 
 	private ArrayList<IListItem> getItems() {
-    	return (ArrayList<IListItem>) TripControl.readNotDeleted().getList();
+    	return TripControl.readNotDeleted();
     }
     
     private Trip getItem(long id){
@@ -136,7 +136,8 @@ public class TripListActivity extends Activity {
     
     private void refresh(){
     	ArrayList<IListItem> items = this.getItems();
-    	if (this.lv != null) this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    	ListItemAdapter adapter = new ListItemAdapter(this, R.layout.list_item, items);
+    	if (this.lv != null) this.lv.setAdapter(adapter);
     }
     
     private boolean addItem(){
