@@ -153,3 +153,7 @@ def getWeather(name, lang=LANG):
         weather.append({'date':date, 'condition':condition, 'icon':icon, 'temp':temp, 'min':min, 'max':max, 'wind':wind, 'humidity':humidity})
     
     return weather
+
+def queryFacebookGraph(query, token):
+    BASE_URL = 'https://graph.facebook.com/'
+    return downloadURL(BASE_URL + query + '?access_token='+token)
