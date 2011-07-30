@@ -6,7 +6,6 @@ try: import simplejson as json
 except ImportError: import json
 import datetime
 
-ACCESS_TOKEN = '167808633292329%7C8d6769f3d1e05caa44b1332f.3-611539591%7CCiU4fQZxbd5u1RD8IgOlWJLaSDo'
 BASE_URL = 'https://graph.facebook.com/'
 
 # Usage of Facebook Graph API (from Facebook Documentation)
@@ -108,5 +107,5 @@ xmlns:dc="http://purl.org/dc/elements/1.1/">
         foaf += '</foaf:Person></foaf:knows>\n'
     
     foaf += "</foaf:Person></rdf:RDF>"
-    print foaf.encode('utf-8')
+    #print foaf.encode('utf-8')
     return foaf
