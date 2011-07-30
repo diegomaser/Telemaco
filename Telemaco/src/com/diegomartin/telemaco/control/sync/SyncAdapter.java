@@ -17,10 +17,12 @@ import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
 
 import com.diegomartin.telemaco.R;
+import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.RESTResources;
 import com.diegomartin.telemaco.control.TripControl;
 import com.diegomartin.telemaco.model.CityVisit;
@@ -64,6 +66,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 	    	// We sync entity by entity
 	    	// 2-way
     		syncTrips();
+    		syncFacebookUser();
 	    	// CityVisit
 	    	// PlaceVisit
 	    	// Transport
@@ -158,5 +161,15 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     
     private void syncCity(){
     	
+    }
+    
+    private void syncFacebookUser() throws JSONException{
+    	SharedPreferences prefs = this.context.getSharedPreferences(this.context.getString(R.string.package_name), Context.MODE_PRIVATE);
+    	String accessToken = prefs.getString(ActionsFacade.EXTRA_ACCESS_TOKEN, "");
+    	String url = RESTResources.getInstance(this.context).getUserURL();    	
+    	JSONObject obj = new JSONObject();
+    	obj.put("access_token", accessToken);
+    	
+    	RestMethod.put(this.context, url, obj, this.user, this.password);
     }
 }

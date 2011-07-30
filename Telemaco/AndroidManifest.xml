@@ -23,6 +23,7 @@
         <activity android:name="com.diegomartin.telemaco.view.CountryActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.NoteActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.HTMLViewActivity"></activity>
+        <activity android:name="com.diegomartin.telemaco.view.FacebookActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.TTSActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.AuthenticatorActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.RegisterActivity"></activity>
