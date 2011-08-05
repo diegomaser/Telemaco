@@ -2,7 +2,9 @@
 # Requires: python-simplejson
 # Requires: python-rdflib
 
-import simplejson
+try: import simplejson as json
+except ImportError: import json
+
 import urllib, urllib2
 from xml.dom.minidom import parseString
 
@@ -79,14 +81,14 @@ def translate(text, lang=LANG):
     query = urllib.urlencode({'q' : text, 'langpair':'|' + lang})
     url = 'http://ajax.googleapis.com/ajax/services/language/translate?v=1.0&%s' % (query)
     translation = downloadURL(url)
-    json = simplejson.loads(translation)
+    json = json.loads(translation)
     return json['responseData']['translatedText']
 
 def search(q):
     query = urllib.urlencode({'q' : q})
     url = 'http://ajax.googleapis.com/ajax/services/search/local?v=1.0&%s&rsz=large' % (query)
     local_search_points = downloadURL(url)
-    json = simplejson.loads(local_search_points)
+    json = json.loads(local_search_points)
     return json['responseData']['results']
 
 def getTimezone(name, country=None):
@@ -94,8 +96,8 @@ def getTimezone(name, country=None):
     query = urllib.urlencode({'lat': lat, 'lng':long})
     url = 'http://ws.geonames.org/timezoneJSON?formatted=true&style=full&%s' % query
     timezone = downloadURL(url)
-    json = simplejson.loads(timezone)
-    return json['rawOffset']
+    obj = json.loads(timezone)
+    return obj['rawOffset']
 
 def getWeather(name, lang=LANG):
     date = None
@@ -155,5 +157,7 @@ def getWeather(name, lang=LANG):
     return weather
 
 def queryFacebookGraph(query, token):
+    #TODO: adapt to use Facebook Batch Requests. http://developers.facebook.com/docs/reference/api/batch/
     BASE_URL = 'https://graph.facebook.com/'
-    return downloadURL(BASE_URL + query + '?access_token='+token)
+    content = downloadURL(BASE_URL + query + '?access_token='+token)
+    return json.loads(content)

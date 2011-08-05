@@ -1,12 +1,10 @@
 #!/usr/bin/python
 
 import webservices as ws
-
-try: import simplejson as json
-except ImportError: import json
 import datetime
 
 BASE_URL = 'https://graph.facebook.com/'
+#TODO: Take in account possible access_token failures 
 
 # Usage of Facebook Graph API (from Facebook Documentation)
 #Users: https://graph.facebook.com/me
@@ -25,10 +23,11 @@ BASE_URL = 'https://graph.facebook.com/'
 #Checkins: https://graph.facebook.com/me/checkins?access_token=2227470867|2.AQASEN1gTG1oN2U3.3600.1310245200.0-611539591|TlXJgC6WgKz8gHNtr-6Pd_CW7uM
 
 def getFoafProfile(access_token):
-    me = json.loads(ws.queryFacebookGraph('me', access_token))
-    likings = json.loads(ws.queryFacebookGraph('me/likes', access_token))
-    groups = json.loads(ws.queryFacebookGraph('me/groups', access_token))
-    friends = json.loads(ws.queryFacebookGraph('me/friends', access_token))
+    #TODO: Should improve execution time with Batch Requests, http://developers.facebook.com/docs/reference/api/batch/
+    me = ws.queryFacebookGraph('me', access_token)
+    likings = ws.queryFacebookGraph('me/likes', access_token)
+    groups = ws.queryFacebookGraph('me/groups', access_token)
+    friends = ws.queryFacebookGraph('me/friends', access_token)
     
     foaf = """
 <?xml version="1.0" encoding="iso-8859-1"?>
@@ -78,9 +77,10 @@ xmlns:dc="http://purl.org/dc/elements/1.1/">
     
     # Knows
     for f in friends['data']:
-        friend = json.loads(ws.queryFacebookGraph(f['id'], access_token))
-        friend_likings = json.loads(ws.queryFacebookGraph(f['id']+'/likes', access_token))
-        friend_groups = json.loads(ws.queryFacebookGraph(f['id']+'/groups', access_token))
+        #TODO: Should improve execution time with Facebook Batch Requests. http://developers.facebook.com/docs/reference/api/batch/
+        friend = ws.queryFacebookGraph(f['id'], access_token)
+        friend_likings = ws.queryFacebookGraph(f['id']+'/likes', access_token)
+        friend_groups = ws.queryFacebookGraph(f['id']+'/groups', access_token)
         
         foaf += '<foaf:knows><foaf:Person>\n'
         foaf += '<foaf:name>'+unicode(friend['name'])+'</foaf:name>\n'
