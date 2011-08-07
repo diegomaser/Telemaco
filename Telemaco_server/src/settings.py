@@ -1,7 +1,6 @@
 # Django settings for Telemaco_server project.
 
 import os
-from django.conf.global_settings import FIXTURE_DIRS
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DEBUG = True
