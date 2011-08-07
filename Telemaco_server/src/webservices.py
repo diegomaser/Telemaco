@@ -5,6 +5,8 @@
 try: import simplejson as json
 except ImportError: import json
 
+from rdflib.Graph import Graph
+import rdflib.URIRef
 import urllib, urllib2
 from xml.dom.minidom import parseString
 
@@ -15,6 +17,23 @@ WIKIPEDIA = 1
 WIKITRAVEL = 2
 LANG='en'
 SPARQL_ENDPOINT = 'http://dbpedia.org/sparql'
+
+def getElement(name):
+    g = Graph()
+    g.parse("http://dbpedia.org/data/"+ name +".rdf")
+    return g
+
+def getProperty(g, prop):
+    baseurl = "http://dbpedia.org/"
+    p = rdflib.URIRef(baseurl + prop)
+
+    for i in g:
+        if i[1]==p:
+            #if type(i[2]) == rdflib.URIRef:
+            if str(i[2]).startswith(baseurl):
+                return str(i[2]).split('/')[-1].replace("_", " ")
+            else:
+                return str(i[2])
 
 def querySPARQLtoJSON(query):
     sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
@@ -29,7 +48,6 @@ def querySPARQLtoRDF(query):
     sparql.setReturnFormat(SPARQLWrapper.RDF)
     results = sparql.query().convert()
     return results
-
 
 def getWikiPage(name, page, lang=LANG):
     text = downloadURL(getURL(name, page, lang))

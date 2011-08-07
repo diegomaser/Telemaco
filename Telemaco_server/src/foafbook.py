@@ -1,10 +1,13 @@
 #!/usr/bin/python
 
+import os
+os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
+
 import webservices as ws
 import datetime
+from telemaco.models import User
 
 BASE_URL = 'https://graph.facebook.com/'
-#TODO: Take in account possible access_token failures 
 
 # Usage of Facebook Graph API (from Facebook Documentation)
 #Users: https://graph.facebook.com/me
@@ -21,6 +24,18 @@ BASE_URL = 'https://graph.facebook.com/'
 #Events: https://graph.facebook.com/me/events?access_token=2227470867|2.AQASEN1gTG1oN2U3.3600.1310245200.0-611539591|TlXJgC6WgKz8gHNtr-6Pd_CW7uM
 #Groups: https://graph.facebook.com/me/groups?access_token=2227470867|2.AQASEN1gTG1oN2U3.3600.1310245200.0-611539591|TlXJgC6WgKz8gHNtr-6Pd_CW7uM
 #Checkins: https://graph.facebook.com/me/checkins?access_token=2227470867|2.AQASEN1gTG1oN2U3.3600.1310245200.0-611539591|TlXJgC6WgKz8gHNtr-6Pd_CW7uM
+
+def updateProfiles():
+    users = User.objects.all()
+    
+    for u in users:
+        try:
+            print 'Getting profile info for user', u.username 
+            u.foaf_profile = getFoafProfile(u.access_token)
+            u.save()
+        except Exception, e:
+            print 'Resource not available or incorrect access token for user', u.username, 'Error', e
+
 
 def getFoafProfile(access_token):
     #TODO: Should improve execution time with Batch Requests, http://developers.facebook.com/docs/reference/api/batch/

@@ -1,0 +1,20 @@
+<ruleml:imp>
+    <ruleml:_rlab ruleml:href="#example1"/>
+    <ruleml:_body>
+        <swrlx:individualPropertyAtom swrlx:property="hasTopic">
+            <ruleml:var>p</ruleml:var>
+            <ruleml:var>"Art"</ruleml:var>
+        </swrlx:individualPropertyAtom> 
+
+        <swrlx:individualPropertyAtom swrlx:property="hasTopic">
+            <ruleml:var>u</ruleml:var>
+            <ruleml:var>"Art"</ruleml:var>
+        </swrlx:individualPropertyAtom>
+    </ruleml:_body> 
+    <ruleml:_head>
+        <swrlx:individualPropertyAtom swrlx:property="recommend"> 
+            <ruleml:var>u</ruleml:var>
+            <ruleml:var>p</ruleml:var>
+        </swrlx:individualPropertyAtom> 
+    </ruleml:_head>
+</ruleml:imp>

@@ -1,0 +1,13 @@
+[{"pk": 1, "model": "telemaco.plug", "fields": {"name": "A", "description": ""}},
+{"pk": 2, "model": "telemaco.plug", "fields": {"name": "B", "description": ""}},
+{"pk": 3, "model": "telemaco.plug", "fields": {"name": "C", "description": ""}},
+{"pk": 4, "model": "telemaco.plug", "fields": {"name": "D", "description": ""}},
+{"pk": 5, "model": "telemaco.plug", "fields": {"name": "E", "description": ""}},
+{"pk": 6, "model": "telemaco.plug", "fields": {"name": "F", "description": ""}},
+{"pk": 7, "model": "telemaco.plug", "fields": {"name": "G", "description": ""}},
+{"pk": 8, "model": "telemaco.plug", "fields": {"name": "H", "description": ""}},
+{"pk": 9, "model": "telemaco.plug", "fields": {"name": "I", "description": ""}},
+{"pk": 10, "model": "telemaco.plug", "fields": {"name": "J", "description": ""}},
+{"pk": 11, "model": "telemaco.plug", "fields": {"name": "K", "description": ""}},
+{"pk": 12, "model": "telemaco.plug", "fields": {"name": "L", "description": ""}},
+{"pk": 13, "model": "telemaco.plug", "fields": {"name": "M", "description": ""}}]
