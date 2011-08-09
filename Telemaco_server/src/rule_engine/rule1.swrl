@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ruleml:imp>
     <ruleml:_rlab ruleml:href="#example1"/>
     <ruleml:_body>
         <swrlx:individualPropertyAtom swrlx:property="hasTopic">
             <ruleml:var>p</ruleml:var>
-            <ruleml:var>"Art"</ruleml:var>
+            <ruleml:var>t</ruleml:var>
         </swrlx:individualPropertyAtom> 
 
         <swrlx:individualPropertyAtom swrlx:property="hasTopic">
             <ruleml:var>u</ruleml:var>
-            <ruleml:var>"Art"</ruleml:var>
+            <ruleml:var>t</ruleml:var>
         </swrlx:individualPropertyAtom>
     </ruleml:_body> 
     <ruleml:_head>

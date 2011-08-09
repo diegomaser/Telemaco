@@ -20,3 +20,6 @@ class RuleEngine:
                 
                 
                 #result = locals()['recommend']()
+                
+e = RuleEngine()
+e.execute()

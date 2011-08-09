@@ -1,5 +1,5 @@
 <ruleml:imp>
-    <ruleml:_rlab ruleml:href="#example1"/>
+    <ruleml:_rlab ruleml:href="#example2"/>
     <ruleml:_body>
         <swrlx:individualPropertyAtom swrlx:property="hasRelation">
             <ruleml:var>u</ruleml:var>

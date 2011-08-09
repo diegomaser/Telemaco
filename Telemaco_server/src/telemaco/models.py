@@ -19,11 +19,11 @@ class CitySearch(models.Model):
     name = models.CharField(max_length=200)
 
 class Country(models.Model):
-    plug = models.ForeignKey('Plug')
-    languages = models.ManyToManyField('Language')
-    currency = models.OneToOneField('Currency')
+    plug = models.ForeignKey('Plug', null=True)
+    languages = models.ManyToManyField('Language', null=True)
+    currency = models.ForeignKey('Currency', null=True)
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, null=True)
 
     def __unicode__(self):
         return self.name
@@ -33,8 +33,8 @@ class Country(models.Model):
 
 class Currency(models.Model):
     name = models.CharField(max_length=200)
-    code = models.CharField(max_length=4)
-    rate = models.DecimalField(max_digits=10,decimal_places=8)
+    code = models.CharField(max_length=4, unique=True)
+    rate = models.DecimalField(max_digits=15,decimal_places=10, null=True)
 
     def __unicode__(self):
         return self.name
@@ -121,6 +121,8 @@ class Trip(models.Model):
 
 class User(DjangoUser):
     city = models.ForeignKey('City') # onetoonefield? quiza sea mejor alternativa
+    facebook_access_token = models.CharField(max_length=200)
+    foaf_profile = models.CharField(max_length=999999)
 
 class CityVisit(models.Model):
     trip = models.ForeignKey('Trip')
