@@ -5,6 +5,7 @@ import webservices as ws
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 from telemaco.models import Country
+from telemaco.models import City
 from telemaco.models import Currency
 
 # We fetch data entity by entity
@@ -17,7 +18,7 @@ SELECT * WHERE {
 ?country rdf:type dbpedia-owl:Country .
 ?country rdfs:label ?name .
 ?country dbpprop:currencyCode ?currency_code .
-?country dbpprop:currency ?currency_name . 
+?country dbpprop:currency ?currency_name .
 ?country dbpedia-owl:abstract ?abstract .
 FILTER(LANGMATCHES(LANG(?abstract), 'EN'))
 FILTER(LANGMATCHES(LANG(?name), 'EN'))
@@ -51,26 +52,34 @@ for c in countries:
 #} LIMIT 1000"""
 
 # Cities of a country
-#for country in Country.objects.all():
-#    query = """
-#    SELECT * WHERE {
-#    ?country rdf:type dbpedia-owl:Country .
-#    #?city rdf:type dbpedia-owl:PopulatedPlace .
-#    #?city rdf:type dbpedia-owl:City .
-#    ?city dbpedia-owl:country ?country .
-#    ?city dbpprop:populationTotal ?population .
-#    ?country rdfs:label """"
-#    query += country.name
-#    query += """"
-#    @en .
-#    FILTER(?population > 2000)
-#    } LIMIT 1000"""
-#    
-#    cities = ws.querySPARQLtoJSON("""
-#    
-#    """)
-#    
-#    print cities
+for country in Country.objects.all().filter(name='Spain'):
+    print 'Querying cities for country', country.name
+    cities = ws.querySPARQLtoJSON("""
+    SELECT * WHERE {
+    ?city dbpedia-owl:country ?country .
+    ?city rdfs:label ?name .
+    ?city dbpedia-owl:abstract ?abstract .
+    ?city geo:lat ?lat .
+    ?city geo:long ?long .
+    ?city dbpprop:populationTotal ?population .
+    ?country rdfs:label '"""+country.name+"""'@en .
+    FILTER(LANGMATCHES(LANG(?abstract), 'EN'))
+    FILTER(LANGMATCHES(LANG(?name), 'EN'))
+    } ORDER BY DESC(?population)
+    LIMIT 1000
+    """)['results']['bindings']
+    
+    #?country rdf:type dbpedia-owl:Country .\ 
+    #?city rdf:type dbpedia-owl:PopulatedPlace . 
+    #?city rdf:type dbpedia-owl:City . 
+    for city in cities:
+        name = city['name']['value']
+        print 'Saving information for city', name, ", ", country.name
+        c, created = City.objects.get_or_create(name=name, defaults={'description':city['abstract']['value'],
+                                                                     'country':country,
+                                                                     'lat':city['lat']['value'],
+                                                                     'lng':city['long']['value']})
+        c.save()
 
 # Currency
 currencies = Currency.objects.all()

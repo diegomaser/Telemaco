@@ -36,18 +36,26 @@ def getProperty(g, prop):
                 return str(i[2])
 
 def querySPARQLtoJSON(query):
-    sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
-    sparql.setQuery(query)
-    sparql.setReturnFormat(SPARQLWrapper.JSON)
-    results = sparql.query().convert()
-    return results
+    try:
+        sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
+        sparql.setQuery(query)
+        sparql.setReturnFormat(SPARQLWrapper.JSON)
+        results = sparql.query().convert()
+        return results
+    except Exception:
+        print 'Following query could not finish normally:', query
+        return []
 
 def querySPARQLtoRDF(query):
-    sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
-    sparql.setQuery(query)
-    sparql.setReturnFormat(SPARQLWrapper.RDF)
-    results = sparql.query().convert()
-    return results
+    try:
+        sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
+        sparql.setQuery(query)
+        sparql.setReturnFormat(SPARQLWrapper.RDF)
+        results = sparql.query().convert()
+        return results
+    except Exception:
+        print 'Following query could not finish normally:', query
+        return []
 
 def getWikiPage(name, page, lang=LANG):
     text = downloadURL(getURL(name, page, lang))

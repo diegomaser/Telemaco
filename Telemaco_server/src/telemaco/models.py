@@ -7,7 +7,9 @@ class City(models.Model):
     country = models.ForeignKey('Country')
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
-    timezone = models.IntegerField()
+    timezone = models.IntegerField(null=True)
+    lat = models.DecimalField(max_digits=12,decimal_places=8)
+    lng = models.DecimalField(max_digits=12,decimal_places=8)
 
     def __unicode__(self):
         return self.name +", "+ str(self.country)
