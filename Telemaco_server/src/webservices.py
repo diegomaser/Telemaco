@@ -41,7 +41,7 @@ def querySPARQLtoJSON(query):
         sparql.setQuery(query)
         sparql.setReturnFormat(SPARQLWrapper.JSON)
         results = sparql.query().convert()
-        return results
+        return results['results']['bindings']
     except Exception:
         print 'Following query could not finish normally:', query
         return []
@@ -52,7 +52,7 @@ def querySPARQLtoRDF(query):
         sparql.setQuery(query)
         sparql.setReturnFormat(SPARQLWrapper.RDF)
         results = sparql.query().convert()
-        return results
+        return results['results']['bindings']
     except Exception:
         print 'Following query could not finish normally:', query
         return []

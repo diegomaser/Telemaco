@@ -24,7 +24,7 @@ SELECT DISTINCT * WHERE {
 FILTER(LANGMATCHES(LANG(?abstract), 'EN'))
 FILTER(LANGMATCHES(LANG(?name), 'EN'))
 } LIMIT 1000
-""")['results']['bindings']
+""")
  
 for c in countries:
     name = c['name']['value']
@@ -73,7 +73,7 @@ for country in Country.objects.all().filter(name='Spain'):
     FILTER(LANGMATCHES(LANG(?name), 'EN'))
     } ORDER BY DESC(?population)
     LIMIT 100
-    """)['results']['bindings']
+    """)
     
     #?country rdf:type dbpedia-owl:Country .\ 
     #?city rdf:type dbpedia-owl:PopulatedPlace . 
@@ -96,14 +96,14 @@ for city in City.objects.all():
     ?place dbpedia-owl:abstract ?abstract .
     ?place geo:lat ?lat .
     ?place geo:long ?long .
-    FILTER(xsd:double(?lat) - xsd:double("""+str(city.lat)+""") <= 0.10 &&
+    FILTER(xsd:double(?jlat) - xsd:double("""+str(city.lat)+""") <= 0.10 &&
     xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.10 &&
     xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.10 &&
     xsd:double("""+str(city.lng)+""") - xsd:double(?long) <= 0.10 &&
     LANGMATCHES(LANG(?name), 'EN') &&
     LANGMATCHES(LANG(?abstract), 'EN')
     ) } LIMIT 1000
-    """)['results']['bindings']
+    """)
 
     for place in places:
         name = place['name']['value']
