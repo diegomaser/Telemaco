@@ -16,7 +16,7 @@ GOOGLE_MAPS_KEY="abcdef"
 WIKIPEDIA = 1
 WIKITRAVEL = 2
 LANG='en'
-SPARQL_ENDPOINT = 'http://dbpedia.org/sparql'
+SPARQL_ENDPOINTS = ['http://live.dbpedia.org/sparql', 'http://dbpedia.org/sparql', 'http://factforge.net/sparql']
 
 def getElement(name):
     g = Graph()
@@ -36,26 +36,38 @@ def getProperty(g, prop):
                 return str(i[2])
 
 def querySPARQLtoJSON(query):
-    try:
-        sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
-        sparql.setQuery(query)
-        sparql.setReturnFormat(SPARQLWrapper.JSON)
-        results = sparql.query().convert()
-        return results['results']['bindings']
-    except Exception:
-        print 'Following query could not finish normally:', query
-        return []
+    repeats = 0
+    while True:
+        try:
+            sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINTS[repeats])
+            sparql.setQuery(query)
+            sparql.setReturnFormat(SPARQLWrapper.JSON)
+            results = sparql.query().convert()
+            return results['results']['bindings']
+        except Exception, e:
+                print 'Repeating query. Error', e
+                repeats += 1
+                
+        if repeats > len(SPARQL_ENDPOINTS):
+            print 'Following query could not finish normally:', query
+            return []
 
 def querySPARQLtoRDF(query):
-    try:
-        sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINT)
-        sparql.setQuery(query)
-        sparql.setReturnFormat(SPARQLWrapper.RDF)
-        results = sparql.query().convert()
-        return results['results']['bindings']
-    except Exception:
-        print 'Following query could not finish normally:', query
-        return []
+    repeats = 0
+    while True:
+        try:
+            sparql = SPARQLWrapper.SPARQLWrapper(SPARQL_ENDPOINTS[repeats])
+            sparql.setQuery(query)
+            sparql.setReturnFormat(SPARQLWrapper.RDF)
+            results = sparql.query().convert()
+            return results['results']['bindings']
+        except Exception, e:
+                print 'Repeating query. Error', e
+                repeats += 1
+                
+        if repeats > len(SPARQL_ENDPOINTS):
+            print 'Following query could not finish normally:', query
+            return []
 
 def getWikiPage(name, page, lang=LANG):
     text = downloadURL(getURL(name, page, lang))

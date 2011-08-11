@@ -8,6 +8,7 @@ from telemaco.models import Country
 from telemaco.models import City
 from telemaco.models import Currency
 from telemaco.models import Place
+from telemaco.models import Language
 
 # We fetch data entity by entity
 print "Executing data_fetch process..."
@@ -15,7 +16,14 @@ print "Executing data_fetch process..."
 # Country
 print 'Getting countries information'
 countries = ws.querySPARQLtoJSON("""
-SELECT DISTINCT * WHERE {
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT DISTINCT *
+WHERE {
 ?country rdf:type dbpedia-owl:Country .
 ?country rdfs:label ?name .
 ?country dbpprop:currencyCode ?currency_code .
@@ -36,7 +44,10 @@ for c in countries:
         country.description = c['abstract']['value']
         currency_code = c['currency_code']['value']
         currency, created = Currency.objects.get_or_create(code=currency_code, defaults={'name': c['currency_name']['value']})
+        #language, created = Language.objects.get_or_create(name=name)
         country.currency = currency
+        country.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
+        country.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         country.save()
         
 # Currency
@@ -61,14 +72,20 @@ for currency in currencies:
 for country in Country.objects.all().filter(name='Spain'):
     print 'Querying cities for country', country.name
     cities = ws.querySPARQLtoJSON("""
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+    PREFIX dbpprop: <http://dbpedia.org/property/>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
     SELECT DISTINCT * WHERE {
     ?city dbpedia-owl:country ?country .
     ?city rdfs:label ?name .
-    ?city dbpedia-owl:abstract ?abstract .
+    ?country rdfs:label '"""+country.name+"""'@en .
+    OPTIONAL {?city dbpedia-owl:abstract ?abstract}
     ?city geo:lat ?lat .
     ?city geo:long ?long .
     ?city dbpprop:populationTotal ?population .
-    ?country rdfs:label '"""+country.name+"""'@en .
     FILTER(LANGMATCHES(LANG(?abstract), 'EN'))
     FILTER(LANGMATCHES(LANG(?name), 'EN'))
     } ORDER BY DESC(?population)
@@ -86,20 +103,29 @@ for country in Country.objects.all().filter(name='Spain'):
                                                                      'country':country,
                                                                      'lat':city['lat']['value'],
                                                                      'lng':city['long']['value']})
+        c.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
+        c.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         c.save()
 
-for city in City.objects.all():
+for city in City.objects.all().filter(name='Madrid'):
     print 'Querying places for city', city
     places = ws.querySPARQLtoJSON("""
+    PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+    PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+    PREFIX dbpprop: <http://dbpedia.org/property/>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+    
     SELECT DISTINCT * WHERE {
     ?place rdfs:label ?name .
-    ?place dbpedia-owl:abstract ?abstract .
+    OPTIONAL{?place dbpedia-owl:abstract ?abstract}
     ?place geo:lat ?lat .
     ?place geo:long ?long .
-    FILTER(xsd:double(?jlat) - xsd:double("""+str(city.lat)+""") <= 0.10 &&
-    xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.10 &&
-    xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.10 &&
-    xsd:double("""+str(city.lng)+""") - xsd:double(?long) <= 0.10 &&
+    FILTER(xsd:double(?jlat) - xsd:double("""+str(city.lat)+""") <= 0.50 &&
+    xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.50 &&
+    xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.50 &&
+    xsd:double("""+str(city.lng)+""") - xsd:double(?long) <= 0.50 &&
     LANGMATCHES(LANG(?name), 'EN') &&
     LANGMATCHES(LANG(?abstract), 'EN')
     ) } LIMIT 1000
@@ -111,8 +137,8 @@ for city in City.objects.all():
         p, created = Place.objects.get_or_create(name=name, defaults={'description':place['abstract']['value'], 
                                                                       'lat': place['lat']['value'],
                                                                       'lng': place['long']['value']})
+        p.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         p.save()
-    
 
 # Item (place)
 

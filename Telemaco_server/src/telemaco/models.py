@@ -10,6 +10,9 @@ class City(models.Model):
     timezone = models.IntegerField(null=True)
     lat = models.DecimalField(max_digits=12,decimal_places=8)
     lng = models.DecimalField(max_digits=12,decimal_places=8)
+    wikipedia_url = models.URLField()
+    wikitravel_url = models.URLField()
+
 
     def __unicode__(self):
         return self.name +", "+ str(self.country)
@@ -26,6 +29,8 @@ class Country(models.Model):
     currency = models.ForeignKey('Currency', null=True)
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200, null=True)
+    wikipedia_url = models.URLField()
+    wikitravel_url = models.URLField()
 
     def __unicode__(self):
         return self.name
@@ -55,7 +60,7 @@ class Item(models.Model):
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
-    code = models.CharField(max_length=5)
+    code = models.CharField(max_length=5, null=True)
 
     def __unicode__(self):
         return self.name
@@ -73,6 +78,7 @@ class Place(models.Model):
     description = models.CharField(max_length=200)
     lat = models.DecimalField(max_digits=12,decimal_places=8)
     lng = models.DecimalField(max_digits=12,decimal_places=8)
+    wikipedia_url = models.URLField()
 
     ACTIVITY_CHOICES = (('H', 'Housing'),
         ('F', 'Food'),
