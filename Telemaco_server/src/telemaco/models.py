@@ -8,10 +8,11 @@ class City(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     timezone = models.IntegerField(null=True)
-    lat = models.DecimalField(max_digits=12,decimal_places=8)
-    lng = models.DecimalField(max_digits=12,decimal_places=8)
-    wikipedia_url = models.URLField()
-    wikitravel_url = models.URLField()
+    timezone_dst = models.IntegerField(null=True)
+    lat = models.DecimalField(max_digits=12,decimal_places=8, null=True)
+    lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
+    wikipedia_url = models.URLField(null=True)
+    wikitravel_url = models.URLField(null=True)
 
 
     def __unicode__(self):
@@ -24,13 +25,17 @@ class CitySearch(models.Model):
     name = models.CharField(max_length=200)
 
 class Country(models.Model):
-    plug = models.ForeignKey('Plug', null=True)
-    languages = models.ManyToManyField('Language', null=True)
-    currency = models.ForeignKey('Currency', null=True)
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200, null=True)
-    wikipedia_url = models.URLField()
-    wikitravel_url = models.URLField()
+    wikipedia_url = models.URLField(null=True)
+    wikitravel_url = models.URLField(null=True)
+
+    plug = models.ManyToManyField('Plug', null=True)
+    plug_frequency = models.CharField(max_length=10)
+    plug_voltage = models.CharField(max_length=10)
+    
+    languages = models.ManyToManyField('Language', null=True)
+    currency = models.ForeignKey('Currency', null=True)
 
     def __unicode__(self):
         return self.name
@@ -75,10 +80,10 @@ class Note(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    lat = models.DecimalField(max_digits=12,decimal_places=8)
-    lng = models.DecimalField(max_digits=12,decimal_places=8)
-    wikipedia_url = models.URLField()
+    description = models.CharField(max_length=200, null=True)
+    lat = models.DecimalField(max_digits=12,decimal_places=8, null=True)
+    lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
+    wikipedia_url = models.URLField(null=True)
 
     ACTIVITY_CHOICES = (('H', 'Housing'),
         ('F', 'Food'),
@@ -91,6 +96,7 @@ class Place(models.Model):
 class Plug(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
+    image = models.URLField()
 
     def __unicode__(self):
         return self.name

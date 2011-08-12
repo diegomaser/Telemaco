@@ -82,9 +82,11 @@ for country in Country.objects.all().filter(name='Spain'):
     ?city dbpedia-owl:country ?country .
     ?city rdfs:label ?name .
     ?country rdfs:label '"""+country.name+"""'@en .
-    OPTIONAL {?city dbpedia-owl:abstract ?abstract}
     ?city geo:lat ?lat .
     ?city geo:long ?long .
+    OPTIONAL {?city dbpedia-owl:abstract ?abstract}
+    OPTIONAL {?city dbpprop:utcOffset ?timezone}
+    OPTIONAL {?city dbpprop:utcOffsetDst ?timezone_dst}
     ?city dbpprop:populationTotal ?population .
     FILTER(LANGMATCHES(LANG(?abstract), 'EN'))
     FILTER(LANGMATCHES(LANG(?name), 'EN'))
@@ -99,15 +101,20 @@ for country in Country.objects.all().filter(name='Spain'):
     for city in cities:
         name = city['name']['value']
         print 'Saving information for city', name, ',', country.name
-        c, created = City.objects.get_or_create(name=name, defaults={'description':city['abstract']['value'],
-                                                                     'country':country,
-                                                                     'lat':city['lat']['value'],
-                                                                     'lng':city['long']['value']})
+        c, created = City.objects.get_or_create(name=name, defaults={'country':country})
+        c.description = city['abstract']['value']
+        c.lat = city['lat']['value']
+        c.lng = city['long']['value']
         c.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         c.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
+        try:
+            c.timezone = city['timezone']['value']
+            c.timezone_dst = city['timezone_dst']['value']
+        except KeyError:
+            pass
         c.save()
 
-for city in City.objects.all().filter(name='Madrid'):
+for city in City.objects.all():
     print 'Querying places for city', city
     places = ws.querySPARQLtoJSON("""
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -115,13 +122,12 @@ for city in City.objects.all().filter(name='Madrid'):
     PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
     PREFIX dbpprop: <http://dbpedia.org/property/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
     
     SELECT DISTINCT * WHERE {
     ?place rdfs:label ?name .
-    OPTIONAL{?place dbpedia-owl:abstract ?abstract}
     ?place geo:lat ?lat .
     ?place geo:long ?long .
+    OPTIONAL{?place dbpedia-owl:abstract ?abstract}
     FILTER(xsd:double(?jlat) - xsd:double("""+str(city.lat)+""") <= 0.50 &&
     xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.50 &&
     xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.50 &&
@@ -134,9 +140,10 @@ for city in City.objects.all().filter(name='Madrid'):
     for place in places:
         name = place['name']['value']
         print 'Saving information for place', name, 'in', city
-        p, created = Place.objects.get_or_create(name=name, defaults={'description':place['abstract']['value'], 
-                                                                      'lat': place['lat']['value'],
-                                                                      'lng': place['long']['value']})
+        p, created = Place.objects.get_or_create(name=name)
+        p.description = place['abstract']['value']
+        p.lat = place['lat']['value']
+        p.lng = place['long']['value']
         p.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         p.save()
 
