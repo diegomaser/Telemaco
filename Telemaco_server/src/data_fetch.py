@@ -50,23 +50,36 @@ for c in countries:
         country.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
         country.save()
         
-# Currency
-currencies = Currency.objects.all()
-for currency in currencies:
-    print "Getting info for currency: ", currency.name
-    currency.rate = ws.getCurrencyExchange("EUR", currency.code)
-    currency.save()
-
 # Languages of a country
-#"""SELECT * WHERE {
-#?country rdf:type dbpedia-owl:Country .
-#?language rdf:type dbpedia-owl:Language .
-#?language dbpprop:iso ?code .
-#?language rdfs:label ?name .
-#?country dbpedia-owl:language ?language .
-#?country rdfs:label "Belgium"@en .
-#FILTER(LANG(?name)='es')
-#} LIMIT 1000"""
+languages = ws.querySPARQLtoJSON("""
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dbpedia-owl: <http://dbpedia.org/ontology/>
+PREFIX dbpprop: <http://dbpedia.org/property/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT * WHERE {
+?country rdf:type dbpedia-owl:Country .
+?country dbpedia-owl:language ?language .
+?language rdfs:label ?name .
+?country rdfs:label ?country_name .
+FILTER(LANGMATCHES(LANG(?name), 'EN'))
+FILTER(LANGMATCHES(LANG(?country_name), 'EN'))
+} LIMIT 1000
+""")
+
+for language in languages:
+    name = language['name']['value']
+    country_name = language['country_name']['value'] 
+
+    for country in Country.objects.filter(name=country_name):
+        print 'Saving information for', name, 'in', country_name
+        language, created = Language.objects.get_or_create(name=name)
+        language.save()
+
+        if language not in country.languages.all():
+            country.languages.add(language)
+            country.save()
 
 # Cities of a country
 for country in Country.objects.all().filter(name='Spain'):
@@ -128,10 +141,10 @@ for city in City.objects.all():
     ?place geo:lat ?lat .
     ?place geo:long ?long .
     OPTIONAL{?place dbpedia-owl:abstract ?abstract}
-    FILTER(xsd:double(?jlat) - xsd:double("""+str(city.lat)+""") <= 0.50 &&
-    xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.50 &&
-    xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.50 &&
-    xsd:double("""+str(city.lng)+""") - xsd:double(?long) <= 0.50 &&
+    FILTER(xsd:double(?lat) - xsd:double("""+str(city.lat)+""") <= 0.10 &&
+    xsd:double("""+str(city.lat)+""") - xsd:double(?lat) <= 0.10 &&
+    xsd:double(?long) - xsd:double("""+str(city.lng)+""") <= 0.10 &&
+    xsd:double("""+str(city.lng)+""") - xsd:double(?long) <= 0.10 &&
     LANGMATCHES(LANG(?name), 'EN') &&
     LANGMATCHES(LANG(?abstract), 'EN')
     ) } LIMIT 1000
@@ -150,5 +163,13 @@ for city in City.objects.all():
 # Item (place)
 
 # Weather
+
+# Currency
+currencies = Currency.objects.all()
+for currency in currencies:
+    print "Getting info for currency: ", currency.name
+    currency.rate = ws.getCurrencyExchange("EUR", currency.code)
+    currency.save()
+
 
 print "Finished process data_fetch."
