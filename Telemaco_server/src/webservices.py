@@ -48,7 +48,7 @@ def querySPARQLtoJSON(query):
                 print 'Repeating query. Error', e
                 repeats += 1
                 
-        if repeats > len(SPARQL_ENDPOINTS):
+        if repeats > len(SPARQL_ENDPOINTS)-1:
             print 'Following query could not finish normally:', query
             return []
 
@@ -65,7 +65,7 @@ def querySPARQLtoRDF(query):
                 print 'Repeating query. Error', e
                 repeats += 1
                 
-        if repeats > len(SPARQL_ENDPOINTS):
+        if repeats > len(SPARQL_ENDPOINTS)-1:
             print 'Following query could not finish normally:', query
             return []
 
