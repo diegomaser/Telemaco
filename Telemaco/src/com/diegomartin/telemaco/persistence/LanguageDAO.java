@@ -30,11 +30,12 @@ public class LanguageDAO {
 		Language city = new Language();
 		
 		if (db!=null){
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			city.setId(cursor.getLong(0));
-			city.setName(cursor.getString(1));
-			city.setCode(cursor.getString(2));
+			if (cursor.moveToNext()){
+				city.setId(cursor.getLong(0));
+				city.setName(cursor.getString(1));
+				city.setCode(cursor.getString(2));
+			}
 		}
 		return city;
 	}

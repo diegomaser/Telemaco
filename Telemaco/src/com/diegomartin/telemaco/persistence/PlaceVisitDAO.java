@@ -47,19 +47,21 @@ public class PlaceVisitDAO {
 		if (db!=null){
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			placeVisit.setId(cursor.getLong(0));
-			placeVisit.setPlace(cursor.getLong(1));
-			placeVisit.setTrip(cursor.getLong(2));
-			placeVisit.setDate(Date.valueOf(cursor.getString(3)));
-			placeVisit.setOrder(cursor.getInt(4));
+			if (cursor.moveToNext()){
+				placeVisit.setId(cursor.getLong(0));
+				placeVisit.setPlace(cursor.getLong(1));
+				placeVisit.setTrip(cursor.getLong(2));
+				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
+				placeVisit.setOrder(cursor.getInt(4));
 				
-			int pendingCreate = cursor.getInt(5);
-			int pendingUpdate = cursor.getInt(6);
-			int pendingDelete= cursor.getInt(7);
-			
-			placeVisit.setPendingCreate(pendingCreate>0);
-			placeVisit.setPendingUpdate(pendingUpdate>0);
-			placeVisit.setPendingDelete(pendingDelete>0);
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+
+				placeVisit.setPendingCreate(pendingCreate>0);
+				placeVisit.setPendingUpdate(pendingUpdate>0);
+				placeVisit.setPendingDelete(pendingDelete>0);
+			}
 		}
 		return placeVisit;
 	}

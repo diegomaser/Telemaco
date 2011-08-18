@@ -34,10 +34,12 @@ public class NoteDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			trip.setId(cursor.getLong(0));
-			trip.setTrip(cursor.getLong(1));
-			trip.setName(cursor.getString(2));
-			trip.setText(cursor.getString(3));
+			if (cursor.moveToNext()){
+				trip.setId(cursor.getLong(0));
+				trip.setTrip(cursor.getLong(1));
+				trip.setName(cursor.getString(2));
+				trip.setText(cursor.getString(3));
+			}
 		}
 		return trip;
 	}

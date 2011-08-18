@@ -40,15 +40,17 @@ public class TransportDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			transport.setId(cursor.getLong(0));
-			transport.setTrip(cursor.getLong(1));
-			transport.setOrigin(cursor.getLong(2));
-			transport.setDestination(cursor.getLong(3));
-			transport.setPlace(cursor.getString(4));
-			transport.setDate(Date.valueOf(cursor.getString(5)));
-			transport.setCode(cursor.getString(6));
-			transport.setReservation(cursor.getString(7));
-			transport.setType(cursor.getString(8).charAt(0));
+			if (cursor.moveToNext()){
+				transport.setId(cursor.getLong(0));
+				transport.setTrip(cursor.getLong(1));
+				transport.setOrigin(cursor.getLong(2));
+				transport.setDestination(cursor.getLong(3));
+				transport.setPlace(cursor.getString(4));
+				transport.setDate(Date.valueOf(cursor.getString(5)));
+				transport.setCode(cursor.getString(6));
+				transport.setReservation(cursor.getString(7));
+				transport.setType(cursor.getString(8).charAt(0));
+			}
 		}
 		return transport;
 	}

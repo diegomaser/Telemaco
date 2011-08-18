@@ -35,12 +35,14 @@ public class PlaceDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			place.setId(cursor.getLong(0));
-			place.setName(cursor.getString(1));
-			place.setDescription(cursor.getString(2));
-			place.setLat(cursor.getDouble(3));
-			place.setLng(cursor.getDouble(4));
-			place.setType(cursor.getString(5).charAt(0));
+			if (cursor.moveToNext()){
+				place.setId(cursor.getLong(0));
+				place.setName(cursor.getString(1));
+				place.setDescription(cursor.getString(2));
+				place.setLat(cursor.getDouble(3));
+				place.setLng(cursor.getDouble(4));
+				place.setType(cursor.getString(5).charAt(0));
+			}
 		}
 		return place;
 	}

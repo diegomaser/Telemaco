@@ -89,11 +89,13 @@ public class CityDAO {
 
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(city)}, null, null, null);
-			c.setId(cursor.getLong(0));
-			c.setName(cursor.getString(1));
-			c.setDescription(cursor.getString(2));
-			c.setCountry(cursor.getInt(3));
-			c.setTimezone(cursor.getInt(4));
+			if(cursor.moveToNext()){
+				c.setId(cursor.getLong(0));
+				c.setName(cursor.getString(1));
+				c.setDescription(cursor.getString(2));
+				c.setCountry(cursor.getInt(3));
+				c.setTimezone(cursor.getInt(4));
+			}
 		}
 		return c;
 	}

@@ -52,9 +52,11 @@ public class CountryDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CLAUSE, new String[] {String.valueOf(id)}, null, null, null);
-			country.setId(cursor.getLong(0));
-			country.setName(cursor.getString(1));
-			country.setDescription(cursor.getString(2));
+			if(cursor.moveToNext()){
+				country.setId(cursor.getLong(0));
+				country.setName(cursor.getString(1));
+				country.setDescription(cursor.getString(2));
+			}
 		}
 		return country;
 	}

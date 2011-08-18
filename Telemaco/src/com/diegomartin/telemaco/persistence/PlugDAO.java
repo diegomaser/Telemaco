@@ -30,9 +30,11 @@ public class PlugDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			plug.setId(cursor.getLong(0));
-			plug.setName(cursor.getString(1));
-			plug.setDescription(cursor.getString(2));
+			if (cursor.moveToNext()){
+				plug.setId(cursor.getLong(0));
+				plug.setName(cursor.getString(1));
+				plug.setDescription(cursor.getString(2));
+			}
 		}
 		return plug;
 	}

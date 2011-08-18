@@ -35,10 +35,12 @@ public class ItemDAO {
 			String columns[] = {"name", "description", "place"};
 
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			item.setId(id);
-			item.setName(cursor.getString(0));
-			item.setDescription(cursor.getString(1));
-			item.setPlace(cursor.getLong(2));
+			if (cursor.moveToNext()){
+				item.setId(id);
+				item.setName(cursor.getString(0));
+				item.setDescription(cursor.getString(1));
+				item.setPlace(cursor.getLong(2));
+			}
 		}
 		return item;
 	}

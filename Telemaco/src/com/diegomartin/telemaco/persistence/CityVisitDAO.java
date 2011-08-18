@@ -45,18 +45,20 @@ public class CityVisitDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			city.setId(cursor.getLong(0));
-			city.setTrip(cursor.getLong(1));
-			city.setCity(cursor.getLong(2));
-			city.setDate(Date.valueOf(cursor.getString(3)));
+			if (cursor.moveToNext()){
+				city.setId(cursor.getLong(0));
+				city.setTrip(cursor.getLong(1));
+				city.setCity(cursor.getLong(2));
+				city.setDate(Date.valueOf(cursor.getString(3)));
 				
-			int pendingCreate = cursor.getInt(4);
-			int pendingUpdate = cursor.getInt(5);
-			int pendingDelete= cursor.getInt(6);
+				int pendingCreate = cursor.getInt(4);
+				int pendingUpdate = cursor.getInt(5);
+				int pendingDelete= cursor.getInt(6);
 				
-			city.setPendingCreate(pendingCreate>0);
-			city.setPendingUpdate(pendingUpdate>0);
-			city.setPendingDelete(pendingDelete>0);
+				city.setPendingCreate(pendingCreate>0);
+				city.setPendingUpdate(pendingUpdate>0);
+				city.setPendingDelete(pendingDelete>0);
+			}
 		}
 		return city;
 	}

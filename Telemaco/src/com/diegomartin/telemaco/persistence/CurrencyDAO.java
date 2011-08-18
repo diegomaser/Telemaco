@@ -32,10 +32,12 @@ public class CurrencyDAO {
 		
 		if (db!=null){
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
-			currency.setId(cursor.getLong(0));
-			currency.setName(cursor.getString(1));
-			currency.setCode(cursor.getString(2));
-			currency.setRate(cursor.getDouble(3));
+			if (cursor.moveToNext()){
+				currency.setId(cursor.getLong(0));
+				currency.setName(cursor.getString(1));
+				currency.setCode(cursor.getString(2));
+				currency.setRate(cursor.getDouble(3));
+			}
 		}
 		return currency;
 	}
