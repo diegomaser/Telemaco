@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import patterns
-from django.conf.urls.defaults import include
+from django.conf.urls.defaults import include 
 
 from django.contrib.auth.decorators import login_required
 
