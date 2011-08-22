@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ruleml:imp>
+<ruleml:imp xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
     <ruleml:_rlab ruleml:href="#example1"/>
     <ruleml:_body>
         <swrlx:individualPropertyAtom swrlx:property="hasTopic">
