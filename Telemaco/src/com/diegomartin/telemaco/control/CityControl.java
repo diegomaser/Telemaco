@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
@@ -54,7 +55,7 @@ public class CityControl {
 			}
 		}
 		catch(JSONException e){
-			ToastFacade.show(context, e);
+			ToastFacade.show(context, context.getString(R.string.not_found));
 		}
 		return cities;
 	}

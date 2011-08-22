@@ -2,6 +2,7 @@ package com.diegomartin.telemaco.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Calendar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -25,7 +26,17 @@ public class Trip extends IListItem implements Serializable {
 	private List<Place> places;
 	private List<Note> notes;*/
 	
-	public Trip() {}
+	public Trip() {
+		this.id = 0;
+		this.name = "";
+		this.description = "";
+		final Calendar c = Calendar.getInstance();
+		this.startDate = new Date(c.getTimeInMillis());
+		this.endDate = new Date(c.getTimeInMillis());
+		this.pendingDelete = false;
+		this.pendingUpdate = false;
+		this.pendingCreate = false;
+	}
 
 	public void setId(long id){
 		this.id = id;

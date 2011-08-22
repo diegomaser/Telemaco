@@ -55,4 +55,5 @@
     
     <string name="search_hint_cities">Buscar ciudad</string>
     <string name="search_hint_countries">Buscar país</string>
+    <string name="not_found">No hay resultados</string>    
 </resources>

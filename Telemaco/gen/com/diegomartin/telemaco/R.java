@@ -147,6 +147,7 @@ public final class R {
         public static final int new_place=0x7f07002b;
         public static final int new_transport=0x7f07002c;
         public static final int new_trip=0x7f07002a;
+        public static final int not_found=0x7f070031;
         /**  CRUD Operations 
  CRUD Operations 
  CRUD Operations 

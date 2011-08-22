@@ -60,4 +60,5 @@
     
     <string name="search_hint_cities">Search cities</string>
     <string name="search_hint_countries">Search countries</string>
+    <string name="not_found">No results found</string>
 </resources>
