@@ -4,6 +4,7 @@ import os
 os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
 
 import webservices as ws
+import foafbook
 
 from telemaco.models import Country
 from telemaco.models import City
@@ -19,6 +20,7 @@ def main():
     getCities()
     getPlaces()
     getCurrencies()
+    foafbook.updateProfiles()
     print "Finished process data_fetch."
     
 def getCountries():
@@ -93,7 +95,7 @@ def getLanguages():
                 
 def getCities():
     # Cities of a country
-    for country in Country.objects.all().filter(name='Spain'):
+    for country in Country.objects.all().filter(name='Netherlands'):
         print 'Querying cities for country', country.name
         cities = ws.querySPARQLtoJSON("""
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
