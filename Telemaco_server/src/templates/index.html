@@ -1,0 +1,70 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Telemaco</title>
+<style type="text/css">
+body {
+    color: black;
+    background-color: LightSteelBlue;
+    padding-left: 15em;
+}
+
+h1 { 
+    text-align: center;
+}
+
+a {
+    color: black;
+}
+
+img {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.navbar {
+    position: absolute;
+    top: 4em;
+    left: 1em;
+    width: 13em;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.right {
+    text-align: right;
+    font-style: italic;
+}
+
+
+</style>
+
+</head>
+
+<body>
+
+<ul class="navbar">
+<li><a href="admin/">Interfaz de administraci�n</a> </li>
+<li><a href="databrowse/">Navegador de la base de datos</a></li>
+</ul>
+
+<h1>Bienvenido al servidor del proyecto Telemaco</h1>
+
+<img src="maleta.png" width="200px" height="200px" />
+
+<h2>Informaci�n de funcionamiento del servidor.</h2>
+
+<ul>
+<li>Desde el men� de la izquierda se puede acceder a la interfaz de administraci�n del servidor o navegar en la informaci�n disponible en la base de datos.</li>
+<li>La aplicaci�n m�vil debe incluir en el par�metro de configuraci�n <i>server_url</i> del fichero <i>Telemaco/res/values/strings.xml</i> la URL de conexi�n al servidor <i>http://localhost:8000/telemaco_api/</i> </li>
+<li>El proceso data_fetch.py debe ser ejecutado peri�dicamente para que la base de datos se mantenga actualizada.</li>
+<li>Puede usarse manage.py para realizar otras tareas de mantenimiento.</li>
+<li>Para m�s informaci�n, consulte el manual del usuario.</li>
+</ul>
+
+<br><hr>
+
+<div class="right">Diego Mart�n-Serrano, 2011</div>
+
+</body></html>

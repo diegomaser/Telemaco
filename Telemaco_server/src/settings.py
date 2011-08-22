@@ -1,6 +1,7 @@
 # Django settings for Telemaco_server project.
 
 import os
+from django.conf.global_settings import LOGIN_REDIRECT_URL
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 DEBUG = True
@@ -53,7 +54,7 @@ MEDIA_ROOT = ''
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = os.path.join(PROJECT_PATH, 'media')
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -84,6 +85,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 FIXTURE_DIRS = (
@@ -103,3 +105,5 @@ INSTALLED_APPS = (
     'telemaco',
     'api',
 )
+
+LOGIN_REDIRECT_URL = '/telemaco/admin/'

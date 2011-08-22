@@ -42,9 +42,8 @@ urlpatterns = patterns('',
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        (r'^databrowse/(.*)', login_required(databrowse.site.root)),
-                       #(r'^databrowse/(.*)', databrowse.site.root),
-
-                       #(r'^$', 'django.views.generic.simple.direct_to_template', dict(template='index.html')),
+                       (r'^$', 'django.views.generic.simple.direct_to_template', dict(template='index.html')),
+                       
                        #(r'^guide/(?P<country>\w+)/(?P<city>\w+)/$', 'guias.guide.views.viewGenericGuide'),
                        #(r'^guide/(?P<object_id>\d+)/$', 'guide.views.viewGuide'),
                        #(r'^trip/$', 'django.views.generic.list_detail.object_list', dict(queryset=Trip.objects.all())),
