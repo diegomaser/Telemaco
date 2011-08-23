@@ -11,7 +11,9 @@
 			<li><a href="/telemaco/">Inicio</a> </li>
 			
 	        {% if user.is_authenticated %}
-	            <li><a href="/accounts/logout/">Desconectar usuario {{ user.username }}</a></li>
+	        	Bienvenido {{ user.username }}
+    	        <li><a href="/telemaco/admin/password_change/">Cambiar contraseña</a></li>	        	
+	            <li><a href="/accounts/logout/">Salir</a></li>
 	        {% else %}
 	            <li><a href="/accounts/login/">Acceder</a></li>
 	        {% endif %}
