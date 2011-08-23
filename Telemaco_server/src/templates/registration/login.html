@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %} Login {% endblock %}
+
+{% block content %}
+
+	<h1>Introduzca su usuario y contraseña</h1>
+	
+	{% if form.errors %}
+	<p>Su usuario y contraseña no son correctos. Por favor, intentalo de nuevo.</p>
+	{% endif %}
+	
+	<form method="post" action="{% url django.contrib.auth.views.login %}">
+	    {{ form.as_p }}
+	    <input type="submit" value="Log-in" />
+	    <input type="hidden" name="next" value="{{ next }}" />
+	    {% csrf_token %}
+	</form>
+
+{% endblock %}

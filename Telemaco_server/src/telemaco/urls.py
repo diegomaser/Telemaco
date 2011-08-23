@@ -1,6 +1,5 @@
 from django.conf.urls.defaults import patterns
 from django.conf.urls.defaults import include 
-
 from django.contrib.auth.decorators import login_required
 
 # Model
@@ -42,7 +41,7 @@ urlpatterns = patterns('',
                        (r'^admin/doc/', include('django.contrib.admindocs.urls')),
                        (r'^admin/', include(admin.site.urls)),
                        (r'^databrowse/(.*)', login_required(databrowse.site.root)),
-                       (r'^$', 'django.views.generic.simple.direct_to_template', dict(template='index.html')),
+                       (r'^$', 'django.views.generic.simple.direct_to_template', dict(template='telemaco/index.html')),
                        
                        #(r'^guide/(?P<country>\w+)/(?P<city>\w+)/$', 'guias.guide.views.viewGenericGuide'),
                        #(r'^guide/(?P<object_id>\d+)/$', 'guide.views.viewGuide'),

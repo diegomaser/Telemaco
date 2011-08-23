@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns=http://www.w3.org/1999/xhtml xml:lang="es" lang="es">
+<head>
+	<title>Telemaco - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/style.css" />
+</head>
+<body>
+    <div id="sidebar">
+		<ul class="navbar">
+			<li><a href="/telemaco/">Inicio</a> </li>
+			
+	        {% if user.is_authenticated %}
+	            <li><a href="/accounts/logout/">Desconectar usuario {{ user.username }}</a></li>
+	        {% else %}
+	            <li><a href="/accounts/login/">Acceder</a></li>
+	        {% endif %}
+	         
+			<br/>
+			
+			<li><a href="/telemaco/admin/">Interfaz de administración</a> </li>
+			<li><a href="/telemaco/databrowse/">Navegador de la base de datos</a></li>
+			<li><a href="/telemaco/admin/doc/">Documentación del servidor</a> </li>
+		</ul>
+    </div>
+    <div id="content">
+        {% block content %}{% endblock %}
+        <br><hr>
+		<div class="right">Diego Martín-Serrano, 2011</div>
+    </div>
+</body>
+</html>

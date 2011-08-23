@@ -1,0 +1,34 @@
+body {
+    color: black;
+    background-color: LightSteelBlue;
+    padding-left: 15em;
+}
+
+h1 { 
+    text-align: center;
+}
+
+a {
+    color: black;
+}
+
+img {
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.navbar {
+    position: absolute;
+    top: 4em;
+    left: 1em;
+    width: 13em;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+div.right {
+    text-align: right;
+    font-style: italic;
+}

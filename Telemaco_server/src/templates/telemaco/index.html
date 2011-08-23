@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} Bienvenida {% endblock %}
+
+{% block content %}
+	<h1>Bienvenido al servidor del proyecto Telemaco</h1>
+	
+	<img src="{{ STATIC_URL }}img/maleta.png" width="200px" height="200px" />
+	
+	<h2>Información de funcionamiento del servidor.</h2>
+	
+	<ul>
+	<li>Desde el menú de la izquierda se puede acceder a la interfaz de administración del servidor, navegar en la información disponible en la base de datos o revisar la documentación generada por Django-Admin.</li>
+	<li>La aplicación móvil debe incluir en el parámetro de configuración <i>server_url</i> del fichero <i>Telemaco/res/values/strings.xml</i> la URL de conexión al servidor <i>http://localhost:8000/telemaco_api/</i> </li>
+	<li>El proceso data_fetch.py debe ser ejecutado periódicamente para que la base de datos se mantenga actualizada.</li>
+	<li>Puede usarse manage.py para realizar otras tareas de mantenimiento.</li>
+	<li>Para más información, consulte el manual del usuario.</li>
+	</ul>
+{% endblock %}
