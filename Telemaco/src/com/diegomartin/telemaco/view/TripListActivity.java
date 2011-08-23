@@ -30,7 +30,7 @@ import android.view.View.OnClickListener;
 
 public class TripListActivity extends Activity {
 	private ListView lv;
-	private Button add; 
+	private Button add;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,9 @@ public class TripListActivity extends Activity {
             this.lv.setOnItemClickListener(new OnItemClickListener() {
               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             	  Trip listItem = getItem(id);
+            	  //Trip listItem = (Trip) lv.getItemAtPosition(position);
                   openItem(listItem);
+                  //long menuItem = this.lv.getAdapter().getItemId(info.position);
               }
             });
             
