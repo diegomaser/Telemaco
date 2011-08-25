@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-	<!-- TODO: Revisar iconos. Deben ser diferentes si está seleccionado o no -->
     <!-- When selected, use grey -->
     <item android:drawable="@drawable/ic_tab_agenda_grey"
           android:state_selected="true" />
