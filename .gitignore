@@ -3,6 +3,6 @@
 */dist/*
 
 # Compile
-*.apk
+#*.apk
 *.class
 *.pyc
