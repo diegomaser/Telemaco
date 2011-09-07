@@ -1,8 +1,5 @@
 #!/usr/bin/python
 
-import os
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-
 import webservices as ws
 import datetime
 from telemaco.models import User
@@ -10,6 +7,14 @@ from telemaco.models import User
 BASE_URL = 'https://graph.facebook.com/'
 
 # Usage of Facebook Graph API (from Facebook Documentation)
+
+#TODO: Filter categories of Facebook Places
+#TODO: Include page matching with app places
+#TODO: Include checkins and pages and exclude groups
+
+#TODO: Should improve execution time with Batch Requests, http://developers.facebook.com/docs/reference/api/batch/
+#TODO: Use FQL https://api.facebook.com/method/fql.query?query=QUERY
+
 #Users: https://graph.facebook.com/me
 #Pages: https://graph.facebook.com/cocacola
 #Likes: https://graph.facebook.com/me/likes?access_token=2227470867|2.AQASEN1gTG1oN2U3.3600.1310245200.0-611539591|TlXJgC6WgKz8gHNtr-6Pd_CW7uM
@@ -38,7 +43,7 @@ def updateProfiles():
 
 
 def getFoafProfile(access_token):
-    #TODO: Should improve execution time with Batch Requests, http://developers.facebook.com/docs/reference/api/batch/
+    
     me = ws.queryFacebookGraph('me', access_token)
     likings = ws.queryFacebookGraph('me/likes', access_token)
     groups = ws.queryFacebookGraph('me/groups', access_token)
