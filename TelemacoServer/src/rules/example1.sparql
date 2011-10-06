@@ -1,0 +1,5 @@
+CONSTRUCT { ?x1 :hasUncle ?x3 }
+WHERE
+{ ?x1 :hasParent ?x2 .
+  ?x2 :hasBrother ?x3 .
+}

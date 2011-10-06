@@ -1,0 +1,24 @@
+<swrl:Variable rdf:ID="x1"/>
+<swrl:Variable rdf:ID="x2"/>
+<swrl:Variable rdf:ID="x3"/>
+<ruleml:Imp> 
+  <ruleml:body rdf:parseType="Collection">
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="hasParent"/> 
+      <swrl:argument1 rdf:resource="#x1" />
+      <swrl:argument2 rdf:resource="#x2" />
+    </swrl:IndividualPropertyAtom>
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="hasBrother"/> 
+      <swrl:argument1 rdf:resource="#x2" />
+      <swrl:argument2 rdf:resource="#x3" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:body>
+  <ruleml:head rdf:parseType="Collection"> 
+    <swrl:IndividualPropertyAtom> 
+      <swrl:propertyPredicate rdf:resource="hasUncle"/> 
+      <swrl:argument1 rdf:resource="#x1" />
+      <swrl:argument2 rdf:resource="#x3" />
+    </swrl:IndividualPropertyAtom>
+  </ruleml:head> 
+</ruleml:Imp>
