@@ -8,7 +8,10 @@ from rdflib.Graph import Graph
 # http://en.wikipedia.org/wiki/Semantic_reasoner
 
 class RuleEngine:
-    rules = ['rule1.swrl', 'rule2.swrl']
+    rules = ['',
+             '',
+             'rule1.swrl',
+             'rule2.swrl']
     working_memory = Graph()
     
     def execute(self):
@@ -32,11 +35,20 @@ class RuleEngine:
 
             
             g = Graph()
-            g.parse('swrl1.n3', format='n3')
+            
+            if rule.endswith('.n3'):
+                g.parse(rule, format='n3')
+            elif rule.endswith('.rdf'):
+                g.parse(rule, format='rdf')
+            elif rule.endswith('.xml'):
+                g.parse(rule, format='xml')
+            elif rule.endswith('.sparql'):
+                g.parse(rule, format='sparql')
+            else:
+                g.parse(rule)
            
             for stmt in g:
-                print stmt
-                
+                print stmt                
                 
 e = RuleEngine()
 e.execute()
