@@ -9,6 +9,7 @@ from CitySearchHandler import CitySearchHandler
 from TripHandler import TripHandler
 from UserHandler import UserHandler
 from PlaceHandler import PlaceHandler
+from RecommendationHandler import RecommendationHandler
 from ResourceHandler import ResourceHandler
 
 auth = HttpBasicAuthentication(realm="TelemacoAPI")
@@ -18,6 +19,7 @@ city_handler = Resource(CityHandler)
 citysearch_handler = Resource(CitySearchHandler)
 trip_handler = Resource(TripHandler, auth)
 place_handler = Resource(PlaceHandler, auth)
+recommendation_handler = Resource(RecommendationHandler, auth)
 resource_handler = Resource(ResourceHandler)
 
 urlpatterns = patterns('',
@@ -38,6 +40,10 @@ urlpatterns = patterns('',
     #url(r'^place/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
     #url(r'^place/', place_handler, { 'emitter_format': 'json' }),
     #url(r'^place_search/(?P<object_id>[^/]+)/', place_handler, { 'emitter_format': 'json' }),
+    
+    #url(r'^recommendations/(?P<object_id>[^/]+)/', recommendation_handler, { 'emitter_format': 'json' }),
+    #url(r'^recommendations/', recommendation_handler, { 'emitter_format': 'json' }),
+    #url(r'^recommendations/(?P<object_id>[^/]+)/', recommendation_handler, { 'emitter_format': 'json' }),
     
     url(r'', resource_handler, {'emitter_format' : 'json'} ),
 )
