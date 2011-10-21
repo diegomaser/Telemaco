@@ -5,6 +5,7 @@ from django.contrib.auth.models import User as DjangoUser
 
 class City(models.Model):
     country = models.ForeignKey('Country')
+    rdf = models.CharField(max_length=999999, null=True)
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     timezone = models.IntegerField(null=True)
@@ -102,6 +103,7 @@ class CitySearch(models.Model):
 
 class Country(models.Model):
     name = models.CharField(max_length=200)
+    rdf = models.CharField(max_length=999999, null=True)
     description = models.CharField(max_length=200, null=True)
     wikipedia_url = models.URLField(null=True)
     wikitravel_url = models.URLField(null=True)
@@ -156,6 +158,8 @@ class Note(models.Model):
 
 class Place(models.Model):
     name = models.CharField(max_length=200)
+    city = models.ForeignKey('City')
+    rdf = models.CharField(max_length=999999, null=True)
     description = models.CharField(max_length=200, null=True)
     lat = models.DecimalField(max_digits=12,decimal_places=8, null=True)
     lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
@@ -211,8 +215,8 @@ class Trip(models.Model):
 
 class User(DjangoUser):
     city = models.ForeignKey('City') # onetoonefield? quiza sea mejor alternativa
-    facebook_access_token = models.CharField(max_length=200)
-    foaf_profile = models.CharField(max_length=999999)
+    facebook_access_token = models.CharField(max_length=200, null=True)
+    foaf_profile = models.CharField(max_length=999999, null=True)
 
 class CityVisit(models.Model):
     trip = models.ForeignKey('Trip')
