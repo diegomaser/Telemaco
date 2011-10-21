@@ -10,12 +10,11 @@ def ratio(stra, strb):
     return round(ratio*100, 2)
 
 def getPlace(topic):
-    places = Place.objects.all()
     max_ratio = 0
     max_place = None
-    for p in places:
+    for p in Place.objects.all():
         ratio = ratio(topic, p.name)
         if ratio > max_ratio:
             max_ratio = ratio
-            max_place = p.name
+            max_place = p
     return max_place

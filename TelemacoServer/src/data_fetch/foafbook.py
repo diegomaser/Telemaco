@@ -44,10 +44,78 @@ def updateProfiles():
 
 def getFoafProfile(access_token):
     
-    me = ws.queryFacebookGraph('me', access_token)
-    likings = ws.queryFacebookGraph('me/likes', access_token)
-    groups = ws.queryFacebookGraph('me/groups', access_token)
-    friends = ws.queryFacebookGraph('me/friends', access_token)
+    #me = ws.queryFacebookGraph('me', access_token)
+    #friends = ws.queryFacebookGraph('me/friends', access_token)
+    #likings = ws.queryFacebookGraph('me/likes', access_token)
+    
+    users = """
+    SELECT uid, first_name, last_name, name, pic_square, birthday_date, sex, hometown_location, current_location, significant_other_id
+    FROM user
+    WHERE uid = me()
+    OR uid IN (SELECT uid2
+               FROM friend
+               WHERE uid1 = me())
+    """
+    
+    likes = """
+    SELECT uid, page_id, type
+    FROM page_fan
+    WHERE (uid = me()
+           OR uid IN (SELECT uid2
+                      FROM friend
+                      WHERE uid1 = me()))
+    AND (
+        (type = "BAR") OR
+        (type = "LANDMARK") OR
+        (type = "CHURCH/RELIGIOUS ORGANIZATION") OR
+        (type = "LOCAL BUSINESS") OR
+        (type = "RESTAURANT/CAFE") OR
+        (type = "CLUB") OR
+        (type = "MOVIE THEATER") OR
+        (type = "SCHOOL") OR
+        (type = "ATTRACTIONS/THINGS TO DO") OR
+        (type = "ARTS/ENTERTAINMENT/NIGHTLIFE") OR
+        (type = "LOCAL/TRAVEL") OR
+        (type = "RESTAURANT") OR
+        (type = "EDUCATION") OR
+        (type = "UNIVERSITY") OR
+        (type = "SHOPPING/RETAIL") OR
+        (type = "FOOD/BEVERAGES") OR
+        (type = "BOOK STORE") OR
+        (type = "THEME PARK") OR
+        (type = "HOTEL") OR
+        (type = "SPAS/BEAUTY/PERSONAL CARE") OR
+        (type = "TRAVEL/LEISURE") OR
+        (type = "TOURS/SIGHTSEEING") OR
+        (type = "SMALL BUSINESS") OR
+        (type = "ARTS/HUMANITIES") OR
+        (type = "CITY") OR
+        (type = "LIBRARY") OR
+        (type = "PUBLIC PLACES") OR
+        (type = "CONCERT VENUE") OR
+        (type = "HEALTH/MEDICAL/PHARMACY") OR
+        (type = "ENTERTAINMENT") OR
+        (type = "MUSEUM/ART GALLERY") OR
+        (type = "MUSEUM") OR
+        (type = "FOOD")
+    )
+    """
+    
+    pages = """
+        SELECT page_id, name
+        FROM pages
+        WHERE page_id IN (SELECT page_id
+                         FROM page_fan
+                         WHERE (uid = me()
+                         OR uid IN (SELECT uid2
+                                   FROM friend
+                                   WHERE uid1 = me()))
+)
+    """
+    
+    u = ws.queryFacebookFQL(users, access_token)
+    l = ws.queryFacebookFQL(likes, access_token)
+    p = ws.queryFacebookFQL(pages, access_token)
     
     foaf = """
 <?xml version="1.0" encoding="iso-8859-1"?>
@@ -92,15 +160,12 @@ xmlns:dc="http://purl.org/dc/elements/1.1/">
     # Interests
     for liking in likings['data']:
         foaf += '<foaf:topic_interest>'+unicode(liking['name'])+'</foaf:topic_interest>\n'        
-    for group in groups['data']:
-        foaf += '<foaf:topic_interest>'+unicode(group['name'])+'</foaf:topic_interest>\n'
     
     # Knows
     for f in friends['data']:
         #TODO: Should improve execution time with Facebook Batch Requests. http://developers.facebook.com/docs/reference/api/batch/
         friend = ws.queryFacebookGraph(f['id'], access_token)
         friend_likings = ws.queryFacebookGraph(f['id']+'/likes', access_token)
-        friend_groups = ws.queryFacebookGraph(f['id']+'/groups', access_token)
         
         foaf += '<foaf:knows><foaf:Person>\n'
         foaf += '<foaf:name>'+unicode(friend['name'])+'</foaf:name>\n'
@@ -121,8 +186,6 @@ xmlns:dc="http://purl.org/dc/elements/1.1/">
 
         for liking in friend_likings['data']:
             foaf += '<foaf:topic_interest>'+unicode(liking['name'])+'</foaf:topic_interest>\n'
-        for group in friend_groups['data']:
-            foaf += '<foaf:topic_interest>'+unicode(group['name'])+'</foaf:topic_interest>\n'
         
         foaf += '</foaf:Person></foaf:knows>\n'
     

@@ -26,7 +26,7 @@ public class FacebookActivity extends Activity {
 	        	}
 	        });
 	        
-	        String uri = "https://www.facebook.com/dialog/oauth?client_id=167808633292329&redirect_uri=http://www.facebook.com/connect/login_success.html&display=touch&response_type=token&scope=user_about_me,friends_about_me,user_checkins,friends_checkins,user_hometown,friends_hometown,user_interests,friends_interests,user_likes,friends_likes,user_location,friends_location,user_relationships,friends_relationships,user_relationship_details,friends_relationship_details,offline_access,user_birthday,friends_birthday,user_groups,friends_groups";	        
+	        String uri = "https://www.facebook.com/dialog/oauth?client_id=167808633292329&redirect_uri=http://www.facebook.com/connect/login_success.html&display=touch&response_type=token&scope=user_about_me,friends_about_me,user_checkins,friends_checkins,user_hometown,friends_hometown,user_interests,friends_interests,user_likes,friends_likes,user_location,friends_location,user_relationships,friends_relationships,user_relationship_details,friends_relationship_details,offline_access,user_birthday,friends_birthday,user_groups,friends_groups";
 	        webview.loadUrl(uri);
 	        setContentView(webview);
 	        
