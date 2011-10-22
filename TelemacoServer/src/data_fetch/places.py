@@ -29,7 +29,7 @@ def getPlaces():
         for place in places:
             name = place['name']['value']
             print 'Saving information for place', name, 'in', city
-            p, created = Place.objects.get_or_create(name=name)
+            p, created = Place.objects.get_or_create(name=name, defaults={'city':city})
             p.description = place['abstract']['value']
             p.lat = place['lat']['value']
             p.lng = place['long']['value']
