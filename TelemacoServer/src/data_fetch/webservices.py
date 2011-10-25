@@ -34,6 +34,9 @@ def getProperty(g, prop):
                 return str(i[2]).split('/')[-1].replace("_", " ")
             else:
                 return str(i[2])
+            
+def getResource(name):
+    return downloadURL('http://dbpedia.org/data/'+name.replace(' ', '_')+'.rdf')
 
 def querySPARQLtoJSON(query):
     repeats = 0
@@ -195,7 +198,6 @@ def getWeather(name, lang=LANG):
     return weather
 
 def queryFacebookGraph(query, token):
-    #TODO: adapt to use Facebook Batch Requests. http://developers.facebook.com/docs/reference/api/batch/
     BASE_URL = 'https://graph.facebook.com/'
     content = downloadURL(BASE_URL + query + '?access_token='+token)
     return json.loads(content)

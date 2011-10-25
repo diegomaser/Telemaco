@@ -9,6 +9,7 @@ class City(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     timezone = models.IntegerField(null=True)
+    population = models.IntegerField(null=True)
     timezone_dst = models.IntegerField(null=True)
     lat = models.DecimalField(max_digits=12,decimal_places=8, null=True)
     lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
@@ -144,6 +145,7 @@ class Item(models.Model):
 class Language(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=5, null=True)
+    rdf = models.CharField(max_length=999999, null=True)
 
     def __unicode__(self):
         return self.name

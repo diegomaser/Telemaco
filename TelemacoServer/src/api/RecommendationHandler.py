@@ -34,7 +34,7 @@ class RecommendationHandler(BaseHandler):
                 
                 if len(var)>0:
                     # el grafo resultante no es persistible en el servidor
-                    # porque depende tanto del perfil FOAF como del recurso RDF --> ¿¿seguro??
+                    # porque depende tanto del perfil FOAF como del recurso RDF --> seguro??
                     for values in var:
                         pass
                         #resource.addTriple(head)

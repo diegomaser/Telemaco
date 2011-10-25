@@ -4,7 +4,9 @@ import webservices as ws
 
 def getCities():
     # Cities of a country
-    for country in Country.objects.all().filter(name='Spain'):
+    countries = Country.objects.all().filter(name='Spain')
+    
+    for country in countries:
         print 'Querying cities for country', country.name
         cities = ws.querySPARQLtoJSON("""
         PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -124,13 +126,15 @@ def getCities():
             print 'Saving information for city', name, ',', country.name
             c, created = City.objects.get_or_create(name=name, defaults={'country':country})
             c.description = city['abstract']['value']
+            c.population = city['population']['value']
             c.lat = city['lat']['value']
             c.lng = city['long']['value']
             c.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
             c.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
     
             c.timezone = getValue(city, 'timezone')
-            c.timezone_dst = getValue(city, 'timezone_dst')
+            c.timezone_dst = getValue(city, 'timezone_dst')            
+            c.rdf = ws.getResource(name)
     
     #        c.janHighC = getValue(city, 'janHighC')
     #        c.janLowC = getValue(city, 'janLowC')

@@ -34,4 +34,5 @@ def getPlaces():
             p.lat = place['lat']['value']
             p.lng = place['long']['value']
             p.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
+            p.rdf = ws.getResource(name)
             p.save()

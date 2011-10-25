@@ -38,4 +38,5 @@ def getCountries():
             country.currency = currency
             country.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
             country.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
+            country.rdf = ws.getResource(name)
             country.save()

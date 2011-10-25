@@ -1,8 +1,8 @@
 from difflib import SequenceMatcher
 from telemaco.models import Place
 
-#TODO: http://en.wikipedia.org/wiki/Approximate_string_matching
-#TODO: http://seatgeek.com/blog/dev/fuzzywuzzy-fuzzy-string-matching-in-python
+#Reference: http://en.wikipedia.org/wiki/Approximate_string_matching
+#Possible improvements: http://seatgeek.com/blog/dev/fuzzywuzzy-fuzzy-string-matching-in-python
 
 def ratio(stra, strb):
     m = SequenceMatcher(None, stra, strb)
