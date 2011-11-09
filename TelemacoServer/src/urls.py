@@ -3,7 +3,6 @@ from django.conf.urls.defaults import patterns
 from django.views.generic.simple import redirect_to
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
-
 import telemaco.urls
 import api.urls
 

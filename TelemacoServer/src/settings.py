@@ -2,12 +2,12 @@
 
 import os
 
-PROJECT_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__),'..'))
+PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    ('Diego Martin', 'diegomartinsf@gmail.com'),
+    ('Telemaco Team', 'telemacotravel@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.databrowse',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'django_extensions',
     'telemaco',
     'api',
