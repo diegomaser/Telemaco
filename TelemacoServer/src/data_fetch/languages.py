@@ -2,7 +2,7 @@ from telemaco.models import Language
 from telemaco.models import Country
 import webservices as ws
 
-def getLanguages():
+def getLanguages(fetch_rdf=False):
     # Languages of a country
     languages = ws.querySPARQLtoJSON("""
     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
@@ -28,7 +28,10 @@ def getLanguages():
         for country in Country.objects.filter(name=country_name):
             print 'Saving information for', name, 'in', country_name
             language, created = Language.objects.get_or_create(name=name)
-            language.rdf = ws.getResource(name)
+            
+            if fetch_rdf:
+                language.rdf = ws.getResource(name)
+                
             language.save()
     
             if language not in country.languages.all():

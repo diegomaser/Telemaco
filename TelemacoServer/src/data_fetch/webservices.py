@@ -204,5 +204,8 @@ def queryFacebookGraph(query, token):
 
 def queryFacebookFQL(query, token):
     BASE_URL = 'https://api.facebook.com/method/fql.query?format=json&query='
-    content = downloadURL(BASE_URL + query + '&access_token='+token)
+    url = BASE_URL + query + '&access_token='+token
+    url = url.replace('\n', '+')
+    url = url.replace(' ', '+')
+    content = downloadURL(url)
     return json.loads(content)

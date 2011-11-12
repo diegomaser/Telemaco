@@ -2,7 +2,7 @@ from telemaco.models import City
 from telemaco.models import Country
 import webservices as ws
 
-def getCities():
+def getCities(fetch_rdf=False):
     # Cities of a country
     countries = Country.objects.all().filter(name='Spain')
     
@@ -133,8 +133,10 @@ def getCities():
             c.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
     
             c.timezone = getValue(city, 'timezone')
-            c.timezone_dst = getValue(city, 'timezone_dst')            
-            c.rdf = ws.getResource(name)
+            c.timezone_dst = getValue(city, 'timezone_dst')
+
+            if fetch_rdf:
+                c.rdf = ws.getResource(name)
     
     #        c.janHighC = getValue(city, 'janHighC')
     #        c.janLowC = getValue(city, 'janLowC')

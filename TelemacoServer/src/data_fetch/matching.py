@@ -13,8 +13,20 @@ def getPlace(topic):
     max_ratio = 0
     max_place = None
     for p in Place.objects.all():
-        ratio = ratio(topic, p.name)
+        ratio = ratio(unicode(topic), p.name)
         if ratio > max_ratio:
             max_ratio = ratio
             max_place = p
     return max_place
+
+def matches(topic):
+    max_ratio = 0
+    for p in Place.objects.all():
+        ratio = ratio(unicode(topic), p.name)
+        if ratio > max_ratio:
+            max_ratio = ratio
+
+    if max_ratio > 50:
+        return True
+    else:
+        return False

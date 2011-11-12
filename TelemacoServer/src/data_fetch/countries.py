@@ -2,7 +2,7 @@ from telemaco.models import Country
 from telemaco.models import Currency
 import webservices as ws
 
-def getCountries():
+def getCountries(fetch_rdf=False):
     # Country
     print 'Getting countries information'
     countries = ws.querySPARQLtoJSON("""
@@ -38,5 +38,8 @@ def getCountries():
             country.currency = currency
             country.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
             country.wikitravel_url = 'http://wikitravel.org/wiki/en/index.php?title='+name.replace(" ", "_")+'&printable=yes'
-            country.rdf = ws.getResource(name)
+            
+            if fetch_rdf:
+                country.rdf = ws.getResource(name)
+            
             country.save()

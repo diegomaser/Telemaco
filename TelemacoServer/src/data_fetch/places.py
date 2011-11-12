@@ -2,7 +2,7 @@ from telemaco.models import Place
 from telemaco.models import City
 import webservices as ws
 
-def getPlaces():
+def getPlaces(fetch_rdf=False):
     for city in City.objects.all():
         print 'Querying places for city', city
         places = ws.querySPARQLtoJSON("""
@@ -34,5 +34,8 @@ def getPlaces():
             p.lat = place['lat']['value']
             p.lng = place['long']['value']
             p.wikipedia_url = 'http://en.wikipedia.org/w/index.php?title='+name.replace(" ", "_")+'&printable=yes'
-            p.rdf = ws.getResource(name)
+            
+            if fetch_rdf:
+                p.rdf = ws.getResource(name)
+            
             p.save()

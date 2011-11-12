@@ -1,9 +1,11 @@
 #!/usr/bin/python
 
-import webservices as ws
 import datetime
-import matching
+
+import webservices as ws
+
 from telemaco.models import User
+import matching
 
 #Usage of Facebook Graph API (from Facebook Documentation)
 #Users: https://graph.facebook.com/me
@@ -23,7 +25,7 @@ from telemaco.models import User
 
 # Use the FQL query execution interface for testing purposes. http://developer.facebook.com/   
 
-def updateProfiles(self):
+def updateProfiles():
     users = User.objects.all()
     
     for u in users:
@@ -35,7 +37,12 @@ def updateProfiles(self):
                 u.save()
         except Exception, e:
             print 'Resource not available or incorrect access token for user', u.username, 'Error', e
-
+            
+def test(access_token):
+    fb = FOAFBook(access_token)
+    foaf = fb.get_foaf_profile()
+    print foaf
+            
 class FOAFBook:
     access_token = None
     users_info = None
@@ -55,72 +62,72 @@ class FOAFBook:
     
     def _execute_users_query(self):
         users = """
-        SELECT uid, first_name, last_name, name, pic_square, birthday_date, sex, hometown_location, current_location, significant_other_id
-        FROM user
-        WHERE uid = me()
-        OR uid IN (SELECT uid2
-                   FROM friend
-                   WHERE uid1 = me())
+SELECT uid, first_name, last_name, name, pic_square, birthday_date, sex, hometown_location, current_location, significant_other_id
+FROM user
+WHERE uid = me()
+OR uid IN (SELECT uid2
+FROM friend
+WHERE uid1 = me())
         """
         return ws.queryFacebookFQL(users, self.access_token)
         
     def _execute_likes_query(self):
         likes = """
-        SELECT uid, page_id, type
-        FROM page_fan
-        WHERE (uid = me()
-               OR uid IN (SELECT uid2
-                          FROM friend
-                          WHERE uid1 = me()))
-        AND (
-            (type = "BAR") OR
-            (type = "LANDMARK") OR
-            (type = "CHURCH/RELIGIOUS ORGANIZATION") OR
-            (type = "LOCAL BUSINESS") OR
-            (type = "RESTAURANT/CAFE") OR
-            (type = "CLUB") OR
-            (type = "MOVIE THEATER") OR
-            (type = "SCHOOL") OR
-            (type = "ATTRACTIONS/THINGS TO DO") OR
-            (type = "ARTS/ENTERTAINMENT/NIGHTLIFE") OR
-            (type = "LOCAL/TRAVEL") OR
-            (type = "RESTAURANT") OR
-            (type = "EDUCATION") OR
-            (type = "UNIVERSITY") OR
-            (type = "SHOPPING/RETAIL") OR
-            (type = "FOOD/BEVERAGES") OR
-            (type = "BOOK STORE") OR
-            (type = "THEME PARK") OR
-            (type = "HOTEL") OR
-            (type = "SPAS/BEAUTY/PERSONAL CARE") OR
-            (type = "TRAVEL/LEISURE") OR
-            (type = "TOURS/SIGHTSEEING") OR
-            (type = "SMALL BUSINESS") OR
-            (type = "ARTS/HUMANITIES") OR
-            (type = "CITY") OR
-            (type = "LIBRARY") OR
-            (type = "PUBLIC PLACES") OR
-            (type = "CONCERT VENUE") OR
-            (type = "HEALTH/MEDICAL/PHARMACY") OR
-            (type = "ENTERTAINMENT") OR
-            (type = "MUSEUM/ART GALLERY") OR
-            (type = "MUSEUM") OR
-            (type = "FOOD")
-        )
+SELECT uid, page_id, type
+FROM page_fan
+WHERE (uid = me()
+       OR uid IN (SELECT uid2
+                  FROM friend
+                  WHERE uid1 = me()))
+AND (
+    (type = "BAR") OR
+    (type = "LANDMARK") OR
+    (type = "CHURCH/RELIGIOUS ORGANIZATION") OR
+    (type = "LOCAL BUSINESS") OR
+    (type = "RESTAURANT/CAFE") OR
+    (type = "CLUB") OR
+    (type = "MOVIE THEATER") OR
+    (type = "SCHOOL") OR
+    (type = "ATTRACTIONS/THINGS TO DO") OR
+    (type = "ARTS/ENTERTAINMENT/NIGHTLIFE") OR
+    (type = "LOCAL/TRAVEL") OR
+    (type = "RESTAURANT") OR
+    (type = "EDUCATION") OR
+    (type = "UNIVERSITY") OR
+    (type = "SHOPPING/RETAIL") OR
+    (type = "FOOD/BEVERAGES") OR
+    (type = "BOOK STORE") OR
+    (type = "THEME PARK") OR
+    (type = "HOTEL") OR
+    (type = "SPAS/BEAUTY/PERSONAL CARE") OR
+    (type = "TRAVEL/LEISURE") OR
+    (type = "TOURS/SIGHTSEEING") OR
+    (type = "SMALL BUSINESS") OR
+    (type = "ARTS/HUMANITIES") OR
+    (type = "CITY") OR
+    (type = "LIBRARY") OR
+    (type = "PUBLIC PLACES") OR
+    (type = "CONCERT VENUE") OR
+    (type = "HEALTH/MEDICAL/PHARMACY") OR
+    (type = "ENTERTAINMENT") OR
+    (type = "MUSEUM/ART GALLERY") OR
+    (type = "MUSEUM") OR
+    (type = "FOOD")
+)
         """
         return ws.queryFacebookFQL(likes, self.access_token)
                 
     def _execute_pages_query(self):
         pages = """
-        SELECT page_id, name
-        FROM pages
-        WHERE page_id IN (SELECT page_id
-                         FROM page_fan
-                         WHERE (uid = me()
-                         OR uid IN (SELECT uid2
-                                   FROM friend
-                                   WHERE uid1 = me()))
-                        )
+SELECT page_id, name
+FROM page
+WHERE page_id IN (SELECT page_id
+                 FROM page_fan
+                 WHERE (uid = me()
+                 OR uid IN (SELECT uid2
+                           FROM friend
+                           WHERE uid1 = me()))
+                )
         """
 
         return ws.queryFacebookFQL(pages, self.access_token)
@@ -142,11 +149,11 @@ class FOAFBook:
     """
         for user in self.users_info:
             if user is self.users_info[0]:
+                foaf += '<foaf:Person rdf:ID="me">\n'
                 foaf += self._get_foaf_personalinfo(user)
                 foaf += self._get_foaf_birthday(user)
                 foaf += self._get_foaf_location(user)
-                foaf += self._get_foaf_likings(user)     
-    
+                foaf += self._get_foaf_likings(user)
             else:
                 # Knows
                 foaf += '<foaf:knows><foaf:Person>\n'
@@ -161,10 +168,11 @@ class FOAFBook:
     
     def _get_foaf_likings(self, user):
         likings_foaf = ''
-        for liking in self.likings_info['data']:
-            if user['id'] is self.likings_info['user_id']:
-                place = matching.getPlace(unicode(liking['name']))
-                likings_foaf += '<foaf:topic_interest>'+place+'</foaf:topic_interest>\n'
+        for liking in self.likings_info:
+            if user['uid'] is liking['uid']:
+                if matching.matches(liking['name']):
+                    place = matching.getPlace(liking['name'])
+                    likings_foaf += '<foaf:topic_interest>'+place+'</foaf:topic_interest>\n'
         return likings_foaf 
     
     def _get_foaf_location(self, user):
@@ -178,11 +186,10 @@ class FOAFBook:
     
     def _get_foaf_personalinfo(self, user):
         personal_foaf = ''
-        personal_foaf += '<foaf:Person rdf:ID="me">\n'
         personal_foaf += '<foaf:name>'+unicode(user['name'])+'</foaf:name>\n'
         personal_foaf += '<foaf:givenname>'+unicode(user['first_name'])+'</foaf:givenname>\n'
         personal_foaf += '<foaf:family_name>'+unicode(user['last_name'])+'</foaf:family_name>\n'
-        personal_foaf += '<foaf:depiction rdf:resource="https://graph.facebook.com/'+unicode(user['id'])+'/picture"/>\n'
+        personal_foaf += '<foaf:depiction rdf:resource="https://graph.facebook.com/'+unicode(user['uid'])+'/picture"/>\n'
     
         try:
             personal_foaf += '<foaf:gender>'+unicode(user['gender'])+'</foaf:gender>\n'
@@ -194,7 +201,7 @@ class FOAFBook:
     def _get_foaf_birthday(self, user):
         birthday_foaf = ''
         # Birthday and age info
-        birth = user['birthday']
+        birth = user['birthday_date']
         birthday = datetime.date(int(birth.split('/')[2]), int(birth.split('/')[0]), int(birth.split('/')[1]))
         birthday_foaf += '<foaf:birthday>' + birthday.isoformat() + '</foaf:birthday>\n'
         age = datetime.date.today().year - birthday.year # This has been done intentionally
