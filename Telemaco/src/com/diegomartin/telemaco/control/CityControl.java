@@ -24,50 +24,66 @@ public class CityControl {
 	
 	// Search operations to add a city
 	public static ArrayList<City> readCities(Context context, Country country) {
-		String url = RESTResources.getInstance(context).getCitySearchURL(country);
-		String content = RestMethod.get(context, url);
 		cities = new ArrayList<City>();
-		
 		try{
-			JSONArray arr = new JSONArray(content);
-			for(int i=0;i<arr.length();i++){
-				City c = new City(arr, context, i);
-				cities.add(c);
+			String url = RESTResources.getInstance(context).getCitySearchURL(country);
+			String content = RestMethod.get(context, url);
+			
+			try{
+				JSONArray arr = new JSONArray(content);
+				for(int i=0;i<arr.length();i++){
+					City c = new City(arr, context, i);
+					cities.add(c);
+				}
+			}
+			catch(JSONException e){
+				ToastFacade.show(context, context.getString(R.string.error_parsing));
 			}
 		}
 		catch(JSONException e){
-			ToastFacade.show(context, e);
+			ToastFacade.show(context, context.getString(R.string.error_connecting));
 		}
 		
 		return cities;
 	}
 	
 	public static ArrayList<City> searchCities(Context context, Country country, String query) {
-		String url = RESTResources.getInstance(context).getCitySearchURL(country, query);
-		String content = RestMethod.get(context, url);
 		cities = new ArrayList<City>();
-		
 		try{
-			JSONArray arr = new JSONArray(content);
-			for(int i=0;i<arr.length();i++){
-				City c = new City((JSONObject) arr.get(i), context);
-				cities.add(c);
+			String url = RESTResources.getInstance(context).getCitySearchURL(country, query);
+			String content = RestMethod.get(context, url);
+
+			try{
+				JSONArray arr = new JSONArray(content);
+				for(int i=0;i<arr.length();i++){
+					City c = new City((JSONObject) arr.get(i), context);
+					cities.add(c);
+				}
+			}
+			catch(JSONException e){
+				ToastFacade.show(context, context.getString(R.string.not_found));
 			}
 		}
 		catch(JSONException e){
-			ToastFacade.show(context, context.getString(R.string.not_found));
+			ToastFacade.show(context, context.getString(R.string.error_connecting));
 		}
 		return cities;
 	}
 	
 	public static City getCity(Context context, City city){
-		String url = RESTResources.getInstance(context).getCityURL(city);
-		String content = RestMethod.get(context, url);
-		City c = null;
-		try {
-			c = new City(new JSONObject(content), context);
-		} catch (JSONException e) {
-			ToastFacade.show(context, e);
+		City c = new City();
+		try{
+			String url = RESTResources.getInstance(context).getCityURL(city);
+			String content = RestMethod.get(context, url);
+			
+			try {
+				c = new City(new JSONObject(content), context);
+			} catch (JSONException e) {
+				ToastFacade.show(context, context.getString(R.string.error_parsing));
+			}
+		}
+		catch(JSONException e){
+			ToastFacade.show(context, context.getString(R.string.error_connecting));
 		}
 		return c;
 	}

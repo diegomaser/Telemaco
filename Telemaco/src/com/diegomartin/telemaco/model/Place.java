@@ -1,7 +1,5 @@
 package com.diegomartin.telemaco.model;
 
-import java.util.List;
-
 public class Place extends IListItem{
 	private long id;
 	private String name;
@@ -9,7 +7,6 @@ public class Place extends IListItem{
 	private double lat;
 	private double lng;
 	private char type; // puede ser tambien un integer
-	private List<Item> items;
 	
 	public Place(){ }
 
@@ -59,14 +56,5 @@ public class Place extends IListItem{
 
 	public char getType() {
 		return type;
-	}
-
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
-
-	public List<Item> getItems() {
-		return items;
-	}
-	
+	}	
 }

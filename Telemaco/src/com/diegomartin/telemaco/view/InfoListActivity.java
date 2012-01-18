@@ -10,9 +10,7 @@ import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.IListItem;
-import com.diegomartin.telemaco.model.Note;
 import com.diegomartin.telemaco.model.Trip;
-import com.diegomartin.telemaco.persistence.NoteDAO; // FIXME: Remove DAO import
 
 import android.app.Activity;
 import android.content.Intent;
@@ -118,8 +116,7 @@ public class InfoListActivity extends Activity {
     
     private boolean delete(long id){
     	Object obj = this.items.get((int) id);
-    	if(obj instanceof CityVisit) CityControl.setPendingDelete(((CityVisit) obj).getId());
-    	else if(obj instanceof Note) NoteDAO.delete((Note)obj);
+    	CityControl.setPendingDelete(((CityVisit) obj).getId());
     	this.refresh();
 		return true;
     }
@@ -134,11 +131,6 @@ public class InfoListActivity extends Activity {
     	else if(obj instanceof Country){
         	intent = new Intent(this, CountryActivity.class);
         	intent.putExtra(ActionsFacade.EXTRA_COUNTRY, (Country)obj);
-    	}
-    	else if(obj instanceof Note){
-        	intent = new Intent(this, NoteActivity.class);
-        	intent.putExtras(getIntent());
-        	intent.putExtra(ActionsFacade.EXTRA_NOTE, (Note)obj);
     	}
     	
     	startActivity(intent);

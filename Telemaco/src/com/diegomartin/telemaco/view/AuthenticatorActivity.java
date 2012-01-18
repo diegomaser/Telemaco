@@ -1,9 +1,11 @@
 package com.diegomartin.telemaco.view;
 
 import org.apache.http.HttpStatus;
+import org.json.JSONException;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountAuthenticatorResponse;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -47,6 +49,13 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             	register();
             }
         });
+        
+        /*AccountManager am = AccountManager.get(this);
+        Account[] accounts = am.getAccountsByType(getString(R.string.package_name));
+
+        if (accounts.length >= 0){
+        	startActivity(new Intent(this, TripListActivity.class));
+        }*/
 	}
     
     public void register(){
@@ -59,27 +68,46 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
 		String pwd = this.password.getText().toString().trim();
 		    	
     	if(!(user.length() == 0) && !(pwd.length() == 0)){
-    		String url = RESTResources.getInstance(this).getTripURL();
-        	int statusCode = RestMethod.login(this, url, user, pwd);
-        	if (statusCode == HttpStatus.SC_UNAUTHORIZED){
-        		ToastFacade.show(this, getString(R.string.bad_password));
-        		this.password.setText("");
-        	}
-        	else{
-            	Account account = new Account(user, getString(R.string.package_name));
-            	AccountManager am = AccountManager.get(this);
+    		try{
+    			String url = RESTResources.getInstance(this).getTripURL();
+    			int statusCode = RestMethod.getCode(this, url, user, pwd);
+            	if (statusCode == HttpStatus.SC_UNAUTHORIZED){
+            		ToastFacade.show(this, getString(R.string.bad_password));
+            		this.password.setText("");
+            	}
+            	else{
+                	Account account = new Account(user, getString(R.string.package_name));
+                	AccountManager am = AccountManager.get(this);
 
-            	am.addAccountExplicitly(account, pwd, null);
-            	ContentResolver.setSyncAutomatically(account, getString(R.string.package_name), true);
-            	
-                final Intent intent = new Intent();
-                intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, user);
-                intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
-                intent.putExtra(AccountManager.KEY_AUTHTOKEN, pwd);
-                setAccountAuthenticatorResult(intent.getExtras());
-                setResult(RESULT_OK, intent);
-                finish();
-        	}
+                	boolean accountCreated = am.addAccountExplicitly(account, pwd, null);
+                	ContentResolver.setSyncAutomatically(account, getString(R.string.package_name), true);
+                	
+            		ToastFacade.show(this, getString(R.string.user_loggedin));
+                	
+                	Bundle extras = getIntent().getExtras();
+                	if (extras != null) {
+                		if (accountCreated) {  //Pass the new account back to the account manager
+                			AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+                			Bundle result = new Bundle();
+                			result.putString(AccountManager.KEY_ACCOUNT_NAME, user);
+                			result.putString(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
+                			response.onResult(result);
+                		}
+                	}
+                	
+                    //final Intent intent = new Intent();
+                    //intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, user);
+                    //intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
+                    //intent.putExtra(AccountManager.KEY_AUTHTOKEN, pwd);
+                    //intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, "");
+                    //setAccountAuthenticatorResult(intent.getExtras());
+                    //setResult(RESULT_FIRST_USER, intent);
+                    //setResult(RESULT_OK, getIntent());
+                    finish();
+            	}
+            } catch(JSONException e){
+    			ToastFacade.show(this, getString(R.string.error_connecting));
+            }
     	}
     	else ToastFacade.show(this, getString(R.string.empty_password));
 	}

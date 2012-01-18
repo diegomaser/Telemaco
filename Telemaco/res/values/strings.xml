@@ -3,8 +3,8 @@
     <string name="app_name">Telemaco</string>
     <string name="dbname">TelemacoDB</string>
     <string name="package_name">com.diegomartin.telemaco</string>
-    <!-- <string name="server_url">http://10.0.2.2:8000/telemaco_api/</string>  -->
-    <string name="server_url">http://telemaco.ep.io/telemaco_api/</string>
+    <string name="server_url">http://10.0.2.2:8000/telemaco_api/</string>  
+    <!--<string name="server_url">http://telemaco.ep.io/telemaco_api/</string> -->
     
     <!-- Tags -->
     <string name="login">Log-in</string>
@@ -14,6 +14,10 @@
     <string name="password_again">Repeat password</string>
     <string name="bad_password">Username and password incorrect</string>
     <string name="empty_password">Username and password cannot be empty</string>
+    <string name="different_passwords">Passwords are different</string>
+    <string name="user_exists">Username already exists</string>
+    <string name="user_created">User sucessfully created</string>
+    <string name="user_loggedin">User sucessfully logged in</string>
     
     <string name="trips">My trips</string>
     <string name="interest_info">Interest information</string>
@@ -62,4 +66,8 @@
     <string name="search_hint_cities">Search cities</string>
     <string name="search_hint_countries">Search countries</string>
     <string name="not_found">No results found</string>
+    
+    <string name="error_connecting">Error while connecting to the server</string>
+    <string name="error_parsing">Error parsing server response</string>
+    <string name="error_sending">Error while sending data</string>
 </resources>

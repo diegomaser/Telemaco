@@ -11,7 +11,6 @@ import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.model.User;
-import com.diegomartin.telemaco.view.ToastFacade;
 
 import android.content.Context;
 
@@ -20,40 +19,38 @@ public class RESTResources {
 	
 	private static final String TRIP = Trip.class.getSimpleName();
 	private static final String USER = User.class.getSimpleName();
+	private static final String REGISTRATION = "Register";
 	private static final String CITY = City.class.getSimpleName();
 	private static final String CITYSEARCH = "CitySearch";
 	private static final String PLACE = Place.class.getSimpleName();
-
+	
 	private String tripURL;
 	private String userURL;
 	private String placeURL;
 	private String cityURL;
 	private String citySearchURL;
+	private String registrationURL;
 	
-	private RESTResources(Context c){
+	private RESTResources(Context c) throws JSONException{
 		String baseURL = c.getString(R.string.server_url);
 		String response = RestMethod.get(c, baseURL);
-		try {
-			JSONArray arr = new JSONArray(response);
+		JSONArray arr = new JSONArray(response);
+		
+		for(int i=0;i<arr.length();i++){
+			JSONObject obj = arr.getJSONObject(i);
+			String name = obj.getString("name");
+			String url = obj.getString("url");
 			
-			for(int i=0;i<arr.length();i++){
-				JSONObject obj = arr.getJSONObject(i);
-				String name = obj.getString("name");
-				String url = obj.getString("url");
-				
-				if(name.equals(TRIP)) this.tripURL = url;
-				else if(name.equals(USER)) this.userURL = url;
-				else if(name.equals(CITY)) this.cityURL = url;
-				else if(name.equals(CITYSEARCH)) this.citySearchURL = url;
-				else if(name.equals(PLACE)) this.placeURL = url;
-			}
-			
-		} catch (JSONException e) {
-			ToastFacade.show(c, e);
+			if(name.equals(TRIP)) this.tripURL = url;
+			else if(name.equals(USER)) this.userURL = url;
+			else if(name.equals(CITY)) this.cityURL = url;
+			else if(name.equals(CITYSEARCH)) this.citySearchURL = url;
+			else if(name.equals(PLACE)) this.placeURL = url;
+			else if(name.equals(REGISTRATION)) this.registrationURL = url;
 		}
 	}
 	
-	public static RESTResources getInstance(Context c){
+	public static RESTResources getInstance(Context c) throws JSONException{
 		if (instance == null){
 			instance = new RESTResources(c);
 		}
@@ -62,6 +59,10 @@ public class RESTResources {
 
 	public String getTripURL() {
 		return this.tripURL;
+	}
+	
+	public String getRegistrationURL() {
+		return this.registrationURL;
 	}
 
 	public String getUserURL() {

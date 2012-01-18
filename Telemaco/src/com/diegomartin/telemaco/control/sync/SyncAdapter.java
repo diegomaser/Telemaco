@@ -166,10 +166,12 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private void syncFacebookUser() throws JSONException{
     	SharedPreferences prefs = this.context.getSharedPreferences(this.context.getString(R.string.package_name), Context.MODE_PRIVATE);
     	String accessToken = prefs.getString(ActionsFacade.EXTRA_ACCESS_TOKEN, "");
-    	String url = RESTResources.getInstance(this.context).getUserURL();    	
-    	JSONObject obj = new JSONObject();
-    	obj.put("access_token", accessToken);
     	
-    	RestMethod.put(this.context, url, obj, this.user, this.password);
+    	if (accessToken != "") {
+    		String url = RESTResources.getInstance(this.context).getUserURL();    	
+    		JSONObject obj = new JSONObject();
+    		obj.put("access_token", accessToken);
+    		RestMethod.put(this.context, url, obj, this.user, this.password);
+    	}
     }
 }

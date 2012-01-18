@@ -14,7 +14,6 @@ public class ActionsFacade {
 	public final static String EXTRA_TRIP = "trip";
 	public final static String EXTRA_CITY = "city";
 	public final static String EXTRA_COUNTRY = "country";
-	public final static String EXTRA_NOTE = "note";
 	public final static String EXTRA_ACCESS_TOKEN = "access_token";
 	
 	private static ActionsFacade instance;

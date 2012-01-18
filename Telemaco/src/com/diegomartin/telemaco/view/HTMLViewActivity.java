@@ -10,6 +10,10 @@ public class HTMLViewActivity extends Activity {
 	        super.onCreate(savedInstanceState);
 	        
 	        WebView webview = new WebView(this);
+	        webview.getSettings().setJavaScriptEnabled(true);   
+	        webview.getSettings().setSupportZoom(true);      
+	        webview.getSettings().setBuiltInZoomControls(true);
+	        
 	        Bundle receive = getIntent().getExtras();
 	        String uri = (String) receive.getString("uri");
 	        String source = (String) receive.getString("source");

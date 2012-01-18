@@ -31,7 +31,8 @@ public class RestMethod {
 	public static final String CONTENT_TYPE = "application/json";
 	public static final String ENCODING = "UTF-8";
 	public static final String USER_AGENT = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2";
-	    
+	
+	// auth
     private static DefaultHttpClient getHttpClient(){
    		DefaultHttpClient httpClient = new DefaultHttpClient();
     	HttpConnectionParams.setConnectionTimeout(httpClient.getParams(), TIMEOUT);
@@ -46,6 +47,7 @@ public class RestMethod {
     	return httpClient;
     }
 	
+    // exec
 	private static String exec(Context c, HttpUriRequest request, IRequestCallback callback, String user, String password){
     	DefaultHttpClient httpClient = getHttpClient(user, password);
     	
@@ -55,26 +57,9 @@ public class RestMethod {
 			response = httpClient.execute(request);
 			content = callback.onRequestResponse(request, response, c);
 		} catch (Exception ex) {
-			ToastFacade.show(c, ex);
 			callback.onRequestError(ex, c);
 		}
 		return content;
-	}
-	
-	public static int login(Context c, String url, String user, String password){
-        HttpGet req = new HttpGet(url);
-    	DefaultHttpClient httpClient = getHttpClient(user, password);
-    	HttpResponse response;
-    	int statusCode = -1;
-    	
-		try {
-			response = httpClient.execute(req);
-			statusCode = response.getStatusLine().getStatusCode();			
-		} catch (Exception ex) {
-			ToastFacade.show(c, ex);
-		}
-
-		return statusCode;
 	}
 	
 	private static String exec(Context c, HttpUriRequest request, IRequestCallback callback){
@@ -86,40 +71,74 @@ public class RestMethod {
 			response = httpClient.execute(request);
 			content = callback.onRequestResponse(request, response, c);
 		} catch (Exception ex) {
-			ToastFacade.show(c, ex);
 			callback.onRequestError(ex, c);
 		}
 		return content;
 	}
-		
-	// GET
-	public static String get(Context c, final String url, final IRequestCallback callback) {
-		Log.i("HTTP GET", url);
-        HttpGet req = new HttpGet(url);
-        String content = exec(c, req, callback);
-		Log.i("HTTP GET Response", content);
-        return content;
-    }
 	
+	// execCode
+	private static int execCode(Context c, HttpUriRequest request, IRequestCallback callback, String user, String password){
+		DefaultHttpClient httpClient = getHttpClient(user, password);
+    	
+    	HttpResponse response;
+    	int statusCode = -1;
+    	
+		try {
+			response = httpClient.execute(request);
+			statusCode = response.getStatusLine().getStatusCode();			
+		} catch (Exception ex) {
+			callback.onRequestError(ex, c);
+		}
+		return statusCode;
+	}
+	
+	private static int execCode(Context c, HttpUriRequest request, IRequestCallback callback){
+		DefaultHttpClient httpClient = getHttpClient();
+    	HttpResponse response;
+    	int statusCode = -1;
+    	
+		try {
+			response = httpClient.execute(request);
+			statusCode = response.getStatusLine().getStatusCode();			
+		} catch (Exception ex) {
+			callback.onRequestError(ex, c);
+		}
+		return statusCode;
+	}
+	
+	// Login
+	public static int getCode(Context c, String url, String user, String password){
+		int statusCode = -1;
+		IRequestCallback callback = new Processor();
+		
+		try {
+			HttpGet req = new HttpGet(url);
+			statusCode = execCode(c, req, callback, user, password);
+		} catch (Exception ex) {
+			callback.onRequestError(ex, c);
+		}
+		return statusCode;
+	}
+	
+	// GET	
 	public static String get(Context c, final String url) {
-		return get(c, url, new Processor());
-    }
-
-	// GET auth
-	public static String get(Context c, final String url, final IRequestCallback callback, String user, String password) {
 		Log.i("HTTP GET", url);
         HttpGet req = new HttpGet(url);
-        String content = exec(c, req, callback, user, password);
+        String content = exec(c, req, new Processor());
 		Log.i("HTTP GET Response", content);
         return content;
     }
 	
 	public static String get(Context c, final String url, String user, String password) {
-		return get(c, url, new Processor(), user, password);
+		Log.i("HTTP GET", url);
+        HttpGet req = new HttpGet(url);
+        String content = exec(c, req, new Processor(), user, password);
+		Log.i("HTTP GET Response", content);
+        return content;
     }
 	
-	// POST
-    public static void post (Context c, final String url, final JSONObject obj, final IRequestCallback callback, String user, String password) {
+	// POST    
+    public static int post (Context c, final String url, final JSONObject obj, String user, String password) {
     	Log.i("HTTP POST", url);
     	Log.i("JSON", obj.toString());
     	
@@ -136,16 +155,31 @@ public class RestMethod {
 	    entity.setContentType(CONTENT_TYPE);
 	    req.setEntity(entity);
 
-	    exec(c, req, callback, user, password);
+	    return execCode(c, req, new Processor(), user, password);
     }
     
-    public static void post (Context c, final String url, final JSONObject obj, String user, String password) {
-    	post(c, url, obj, new Processor(), user, password);
+    public static int post (Context c, final String url, final JSONObject obj) {
+    	Log.i("HTTP POST", url);
+    	Log.i("JSON", obj.toString());
+    	
+		HttpPost req = new HttpPost(url);
+    	req.addHeader("Accept", CONTENT_TYPE);
+    	req.addHeader("Content-Type", CONTENT_TYPE);
+    	
+	    StringEntity entity = null;
+		try {
+			entity = new StringEntity(obj.toString(), ENCODING);
+		} catch (UnsupportedEncodingException e) {
+			ToastFacade.show(c, e);
+		}
+	    entity.setContentType(CONTENT_TYPE);
+	    req.setEntity(entity);
+
+	    return execCode(c, req, new Processor());
     }
-	
-    // PUT
-	public static void put (Context c, final String url, final JSONObject obj, final IRequestCallback callback, String user, String password) {
-    	Log.i("HTTP PUT", url);
+		
+	public static int put (Context c, final String url, final JSONObject obj, String user, String password) {
+		Log.i("HTTP PUT", url);
     	Log.i("JSON", obj.toString());
     	
 		HttpPut req = new HttpPut(url);
@@ -160,22 +194,14 @@ public class RestMethod {
 		}
 	    entity.setContentType(CONTENT_TYPE);
 	    req.setEntity(entity);
-	    exec(c, req, callback, user, password);
-    }
-	
-	public static void put (Context c, final String url, final JSONObject obj, String user, String password) {
-		put(c, url, obj, new Processor(), user, password);
+	    return execCode(c, req, new Processor(), user, password);
 	}
 	
 	// DELETE
-    public static void delete(Context c, final String url, final IRequestCallback callback, String user, String password) {
+    public static int delete(Context c, final String url, String user, String password) {
 		Log.i("HTTP DELETE", url);
 		HttpDelete req = new HttpDelete(url);
 		req.addHeader("Accept", CONTENT_TYPE);
-    	exec(c, req, callback, user, password);
-    }
-    
-    public static void delete(Context c, final String url, String user, String password) {
-    	delete(c, url, new Processor(), user, password);
+    	return execCode(c, req, new Processor(), user, password);
     }
 }

@@ -13,7 +13,9 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -46,31 +48,34 @@ public class TripListActivity extends Activity {
         	Intent login = new Intent(this, AuthenticatorActivity.class);
         	startActivity(login);
         }
-        else{
-        	for(Account a: accounts){
-        		ContentResolver.setSyncAutomatically(a, getString(R.string.package_name), true);
-        	}
+        	
+		SharedPreferences prefs = getSharedPreferences(getString(R.string.package_name), Context.MODE_PRIVATE);
+		String accessToken = prefs.getString(ActionsFacade.EXTRA_ACCESS_TOKEN, "");
+		if (accessToken.length() == 0) startActivity(new Intent(this, FacebookActivity.class));
+    	
+    	for(Account a: accounts){
+    		ContentResolver.setSyncAutomatically(a, getString(R.string.package_name), true);
+    	}
 
-            this.lv = (ListView) findViewById(R.id.list);
-            this.lv.setOnItemClickListener(new OnItemClickListener() {
-              public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            	  Trip listItem = getItem(id);
-            	  //Trip listItem = (Trip) lv.getItemAtPosition(position);
-                  openItem(listItem);
-                  //long menuItem = this.lv.getAdapter().getItemId(info.position);
-              }
-            });
-            
-            this.add = (Button) findViewById(R.id.add);
-            this.add.setOnClickListener(new OnClickListener() {
-              public void onClick(View view) {
-            	  addItem();
-              }
-            });
-            
-            this.refresh();
-            registerForContextMenu(this.lv);
-        }
+        this.lv = (ListView) findViewById(R.id.list);
+        this.lv.setOnItemClickListener(new OnItemClickListener() {
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        	  Trip listItem = getItem(id);
+        	  //Trip listItem = (Trip) lv.getItemAtPosition(position);
+              openItem(listItem);
+              //long menuItem = this.lv.getAdapter().getItemId(info.position);
+          }
+        });
+        
+        this.add = (Button) findViewById(R.id.add);
+        this.add.setOnClickListener(new OnClickListener() {
+          public void onClick(View view) {
+        	  addItem();
+          }
+        });
+        
+        this.refresh();
+        registerForContextMenu(this.lv);
     }
     
     @Override
