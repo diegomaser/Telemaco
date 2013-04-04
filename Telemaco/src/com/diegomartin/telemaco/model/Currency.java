@@ -1,5 +1,12 @@
 package com.diegomartin.telemaco.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.diegomartin.telemaco.view.ToastFacade;
+
+import android.content.Context;
+
 public class Currency {
 	private long id;
 	private String name;
@@ -8,6 +15,18 @@ public class Currency {
 	
 	public Currency() { }
 	
+	public Currency(JSONObject json, Context context) {
+		try {
+			this.id = json.getLong("id");
+			this.name = json.getString("name");
+			this.code = json.getString("code");
+			this.rate = json.getDouble("rate");
+		}
+		catch(JSONException e){
+			ToastFacade.show(context, e);
+		}
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}

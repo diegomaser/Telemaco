@@ -36,6 +36,7 @@ public class LanguageDAO {
 				city.setName(cursor.getString(1));
 				city.setCode(cursor.getString(2));
 			}
+			cursor.close();
 		}
 		return city;
 	}
@@ -66,5 +67,11 @@ public class LanguageDAO {
 	
 	public static int delete(Language c){
 		return delete(c.getId());
+	}
+	
+	public static void createOrUpdate(Language language) {
+		Language l = read(language.getId());
+		if (l.getName()!=null) update(language);
+		else create(language);
 	}
 }

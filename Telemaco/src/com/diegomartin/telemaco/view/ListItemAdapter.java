@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ListItemAdapter extends ArrayAdapter<IListItem> {
@@ -34,9 +35,11 @@ public class ListItemAdapter extends ArrayAdapter<IListItem> {
 			TextView name = (TextView) v.findViewById(R.id.name);
 			TextView description = (TextView) v.findViewById(R.id.description);
 			TextView extra = (TextView) v.findViewById(R.id.extra);
+			ImageView icon = (ImageView) v.findViewById(R.id.icon);
 			if (name != null) name.setText(obj.getName());
 			if (description != null) description.setText(obj.getDescription());
-			if (extra != null) extra.setText("");
+			if (extra != null) extra.setText(obj.getExtra(this.context));
+			if (icon != null) icon.setImageResource(obj.getImage());
 		}
 		return v;
 	}

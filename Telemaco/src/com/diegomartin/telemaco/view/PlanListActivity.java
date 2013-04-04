@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
+import com.diegomartin.telemaco.control.CityControl;
+import com.diegomartin.telemaco.control.GeoFacade;
 import com.diegomartin.telemaco.control.PlaceControl;
+import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.IListItem;
 import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.PlaceVisit;
@@ -19,11 +22,15 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.AdapterView.OnItemClickListener;
 
-//TODO: Add buttons to main layout to add places and transport
 public class PlanListActivity extends ListActivity {
 	private Trip trip;
+    private ArrayList<IListItem> items;
+    private ArrayList<PlaceVisit> visits;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,9 +39,14 @@ public class PlanListActivity extends ListActivity {
         
         //setContentView(R.layout.main);
         
-        ArrayList<IListItem> items = getItems();
-        setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+        ListView lv = getListView();
+        lv.setOnItemClickListener(new OnItemClickListener() {
+          public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        	  open(id);
+          }
+        });
         
+        this.refresh();
         registerForContextMenu(getListView());
     }
     
@@ -57,6 +69,8 @@ public class PlanListActivity extends ListActivity {
         	return this.update();
         case R.id.share:
         	return this.share();
+        case R.id.location:
+        	return this.updateLocation();
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -73,31 +87,43 @@ public class PlanListActivity extends ListActivity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
     	long menuItem = getListAdapter().getItemId(info.position);
-    	
+
     	switch (item.getItemId()) {
     		case R.id.open:
-    			return true;
+    			return this.open(menuItem);
 			case R.id.delete:
-				return true;
+				return this.delete(menuItem);
+			//case R.id.edit:
+			//return true;
     	}
     	return super.onOptionsItemSelected(item);
 	}
     
+    @Override
+    public void onResume(){
+    	super.onResume();
+    	this.refresh();
+    }
+    
     public ArrayList<IListItem> getItems() {
-		ArrayList<PlaceVisit> visits = PlaceControl.readByTrip(this.trip);
-		ArrayList<IListItem> places= new ArrayList<IListItem>();
-		for(PlaceVisit visit: visits){
+		this.visits = PlaceControl.readByTrip(this.trip);
+		this.items = new ArrayList<IListItem>();
+		for(PlaceVisit visit: this.visits){
 			Place place = PlaceControl.read(visit.getPlace());
-			places.add(place);
+			City city = CityControl.read(place.getCity());
+			place.setCityName(city.getName());
+			place.setVisitDate(visit.getDate());
+			this.items.add(place);
 		}
-		return places;
+		return this.items;
     }
     
     private boolean rearrangePlan() {
     	Intent i = new Intent(getApplicationContext(),PlanRearrangeActivity.class);
-    	// TODO: What do I pass to the RearrangeActivity?
-    	//i.putExtra(name, value);
+    	i.putExtra(ActionsFacade.EXTRA_PLACES, this.items);
+    	i.putExtra(ActionsFacade.EXTRA_TRIP, this.trip);
     	startActivity(i);
+    	this.refresh();
         return true;
 	}
     
@@ -122,5 +148,31 @@ public class PlanListActivity extends ListActivity {
     private void refresh(){
     	ArrayList<IListItem> items = this.getItems();
     	setListAdapter(new ListItemAdapter(this, R.layout.list_item, items));
+    }
+    
+    private boolean updateLocation() {
+		GeoFacade.getInstance(this).startPositioning(this);
+		this.refresh();
+		return true;
+	}
+    
+    private boolean open(long id){
+    	Place place = this.getItem(id);
+    	Intent intent = new Intent(this, PlaceActivity.class);
+		intent.putExtras(getIntent());
+		intent.putExtra(ActionsFacade.EXTRA_PLACE, place);
+    	startActivity(intent);
+    	return true;
+    }
+    
+    private boolean delete(long id){
+    	PlaceVisit visit = this.visits.get((int) id);
+    	PlaceControl.setPendingDelete(visit.getId());
+    	this.refresh();
+		return true;
+    }
+    
+    private Place getItem(long id){
+    	return (Place) this.items.get((int) id);
     }
 }

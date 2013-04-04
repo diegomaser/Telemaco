@@ -7,6 +7,8 @@ import java.util.Calendar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+
 public class Trip extends IListItem implements Serializable {
 	private static final long serialVersionUID = -5034304037509612937L;
 	
@@ -20,11 +22,6 @@ public class Trip extends IListItem implements Serializable {
 	private boolean pendingUpdate;
 	private boolean pendingCreate;
 	private java.util.Date lastUpdated;
-	
-	/*private List<City> cities;
-	private List<Transport> transports;
-	private List<Place> places;
-	private List<Note> notes;*/
 	
 	public Trip() {
 		this.id = 0;
@@ -61,38 +58,6 @@ public class Trip extends IListItem implements Serializable {
 	public String getDescription() {
 		return description;
 	}
-
-	/*public void setCities(List<City> cities) {
-		this.cities = cities;
-	}
-
-	public List<City> getCities() {
-		return cities;
-	}
-
-	public void setTransports(List<Transport> transports) {
-		this.transports = transports;
-	}
-
-	public List<Transport> getTransports() {
-		return transports;
-	}
-
-	public void setPlaces(List<Place> places) {
-		this.places = places;
-	}
-
-	public List<Place> getPlaces() {
-		return places;
-	}
-
-	public void setNotes(List<Note> notes) {
-		this.notes = notes;
-	}
-
-	public List<Note> getNotes() {
-		return notes;
-	}*/
 
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
@@ -150,5 +115,16 @@ public class Trip extends IListItem implements Serializable {
 		  obj.put("startDate", this.getStartDate().toString());
 		  obj.put("endDate", this.getEndDate().toString());
 		  return obj.toString();
+	}
+	
+	public String getExtra(Context c){
+		String extra = "";
+		if (this.startDate.toLocaleString().equals(this.endDate.toLocaleString())){
+			extra = this.startDate.toLocaleString().split(" ")[0];
+		}
+		else {
+			extra = this.startDate.toLocaleString().split(" ")[0] + " - " + this.endDate.toLocaleString().split(" ")[0];
+		}
+		return extra;
 	}
 }

@@ -1,6 +1,6 @@
 package com.diegomartin.telemaco.model;
 
-import java.util.Date;
+import java.sql.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -12,7 +12,7 @@ import com.diegomartin.telemaco.model.Country;
 public class CityDAO {
 	private static final String TABLENAME = "City";
 	private static final String WHERE_CONDITION = "id=?";
-	private static final String columns[] = {"id", "name", "description", "country", "timezone"};
+	private static final String columns[] = {"id", "name", "description", "wikipedia_url", "wikitravel_url", "country", "timezone", "lat", "lng"};
 	
 	public static ArrayList<City> readByCountry(Country country) {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
@@ -25,10 +25,15 @@ public class CityDAO {
 				c.setId(cursor.getInt(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountry(cursor.getInt(3));
-				c.setTimezone(cursor.getInt(4));				
+				c.setWikipediaURL(cursor.getString(3));
+				c.setWikitravelURL(cursor.getString(4));
+				c.setCountry(cursor.getInt(5));
+				c.setTimezone(cursor.getInt(6));
+				c.setLat(cursor.getDouble(7));
+				c.setLng(cursor.getDouble(8));
 				cities.add(c);
 			}
+			cursor.close();
 		}
 		return cities;
 	}
@@ -44,10 +49,15 @@ public class CityDAO {
 				c.setId(cursor.getInt(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountry(cursor.getInt(3));
-				c.setTimezone(cursor.getInt(4));
+				c.setWikipediaURL(cursor.getString(3));
+				c.setWikitravelURL(cursor.getString(4));
+				c.setCountry(cursor.getInt(5));
+				c.setTimezone(cursor.getInt(6));
+				c.setLat(cursor.getDouble(7));
+				c.setLng(cursor.getDouble(8));
 				cities.add(c);
 			}
+			cursor.close();
 		}
 		return cities;
 	}
@@ -60,8 +70,12 @@ public class CityDAO {
 			values.put("id", c.getId());
 			values.put("name", c.getName());
 			values.put("description", c.getDescription());
+			values.put("wikipedia_url", c.getWikipediaURL());
+			values.put("wikitravel_url", c.getWikitravelURL());
 			values.put("timezone", c.getTimezone());
 			values.put("country", c.getCountry());
+			values.put("lat", c.getLat());
+			values.put("lng", c.getLng());
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -75,8 +89,12 @@ public class CityDAO {
 			ContentValues values = new ContentValues();
 			values.put("name", c.getName());
 			values.put("description", c.getDescription());
+			values.put("wikipedia_url", c.getWikipediaURL());
+			values.put("wikitravel_url", c.getWikitravelURL());
 			values.put("timezone", c.getTimezone());
 			values.put("country", c.getCountry());
+			values.put("lat", c.getLat());
+			values.put("lng", c.getLng());
 			id = db.update(TABLENAME, values, "id=?", new String[] {String.valueOf(c.getId())});
 			db.close();
 		}
@@ -93,9 +111,14 @@ public class CityDAO {
 				c.setId(cursor.getLong(0));
 				c.setName(cursor.getString(1));
 				c.setDescription(cursor.getString(2));
-				c.setCountry(cursor.getInt(3));
-				c.setTimezone(cursor.getInt(4));
+				c.setWikipediaURL(cursor.getString(3));
+				c.setWikitravelURL(cursor.getString(4));
+				c.setCountry(cursor.getInt(5));
+				c.setTimezone(cursor.getInt(6));
+				c.setLat(cursor.getDouble(7));
+				c.setLng(cursor.getDouble(8));
 			}
+			cursor.close();
 		}
 		return c;
 	}

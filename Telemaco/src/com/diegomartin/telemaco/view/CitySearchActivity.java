@@ -3,7 +3,6 @@ package com.diegomartin.telemaco.view;
 import java.sql.Date;
 import java.util.ArrayList;
 
-import android.R;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
@@ -17,6 +16,7 @@ import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.model.City;
@@ -24,8 +24,6 @@ import com.diegomartin.telemaco.model.Country;
 import com.diegomartin.telemaco.model.Trip;
 
 public class CitySearchActivity extends ListActivity {
-	//TODO: Add Recent Query Suggestions
-	//TODO: Add Custom Suggestions
 	
 	private Country country;
 	private City city;
@@ -41,10 +39,14 @@ public class CitySearchActivity extends ListActivity {
 	    onSearchRequested();
 	    
 	    Bundle extras = getIntent().getExtras();
-	    this.country = (Country) extras.get("country");
-    	this.trip  = (Trip) extras.get(ActionsFacade.EXTRA_TRIP);
-	    this.cities = getItems();
+	    this.country = (Country) extras.get(ActionsFacade.EXTRA_COUNTRY);
+	    this.trip  = (Trip) extras.get(ActionsFacade.EXTRA_TRIP);
 	    
+	    if (this.trip == null || this.country == null){
+        	ToastFacade.show(this, getString(R.string.error_missing));
+        }
+	    
+	    this.cities = getItems();
 		this.refresh();
 		
 		ListView lv = getListView();
@@ -95,16 +97,16 @@ public class CitySearchActivity extends ListActivity {
 	}
 	
 	private void refresh(){
-		ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, R.layout.simple_list_item_1, this.cities);
+		ArrayAdapter<City> adapter = new ArrayAdapter<City>(this, android.R.layout.simple_list_item_1, this.cities);
 		setListAdapter(adapter);
 	}
 	
 	private ArrayList<City> getItems() {
-    	return CityControl.readCities(this, this.country);
+    	return CityControl.searchCities(this, this.country);
     }
 
     private void saveItem(City city, Date date){
-    	long id = CityControl.createCityVisit(this, city, trip, date);
+    	long id = CityControl.createCityVisit(this, city, this.trip, date);
     	CityControl.setPendingCreate(id, true);
     	finish();
     }

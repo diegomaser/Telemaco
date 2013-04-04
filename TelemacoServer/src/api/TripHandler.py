@@ -9,6 +9,9 @@ class TripHandler(BaseHandler):
     exclude = ('user',)
 
     def create(self, request):
+        t = Trip()
+        t.user = request.user
+        t.save()
         return rc.CREATED
     
     def read(self, request, object_id=None):

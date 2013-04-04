@@ -59,6 +59,7 @@ public class CityVisitDAO {
 				city.setPendingUpdate(pendingUpdate>0);
 				city.setPendingDelete(pendingDelete>0);
 			}
+			cursor.close();
 		}
 		return city;
 	}
@@ -86,6 +87,7 @@ public class CityVisitDAO {
 
 				cities.add(city);
 			}
+			cursor.close();
 		}
 		return cities;
 	}
@@ -151,6 +153,7 @@ public class CityVisitDAO {
 
 				cities.add(visit);
 			}
+			cursor.close();
 		}
 		return cities;
 	}

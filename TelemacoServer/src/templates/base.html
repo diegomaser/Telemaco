@@ -8,27 +8,27 @@
 <body>
     <div id="sidebar">
 		<ul class="navbar">
-			<li><a href="/telemaco/">Inicio</a> </li>
+			<li><a href="/">Inicio</a> </li>
 			
 	        {% if user.is_authenticated %}
 	        	Bienvenido {{ user.username }}
-    	        <li><a href="/telemaco/admin/password_change/">Cambiar contraseña</a></li>	        	
+    	        <li><a href="/accounts/password/change/">Cambiar contraseña</a></li>
+    	        <li><a href="/accounts/password/reset/">Reset contraseña</a></li>
 	            <li><a href="/accounts/logout/">Salir</a></li>
 	        {% else %}
 	            <li><a href="/accounts/login/">Acceder</a></li>
+	            <li><a href="/accounts/register/">Registrar</a></li>
 	        {% endif %}
 	         
 			<br/>
 			
-			<li><a href="/telemaco/admin/">Interfaz de administración</a> </li>
-			<li><a href="/telemaco/databrowse/">Navegador de la base de datos</a></li>
-			<li><a href="/telemaco/admin/doc/">Documentación del servidor</a> </li>
+			<li><a href="/admin/">Administración</a> </li>
 		</ul>
     </div>
     <div id="content">
         {% block content %}{% endblock %}
         <br><hr>
-		<div class="right">Diego Martín-Serrano, 2011</div>
+		<div class="right">Diego Martín-Serrano, 2012</div>
     </div>
 </body>
 </html>

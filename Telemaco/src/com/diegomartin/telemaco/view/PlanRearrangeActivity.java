@@ -19,11 +19,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.diegomartin.telemaco.R;
-
+import com.diegomartin.telemaco.control.ActionsFacade;
+import com.diegomartin.telemaco.control.PlaceControl;
+import com.diegomartin.telemaco.model.Place;
+import com.diegomartin.telemaco.model.Trip;
 
 public class PlanRearrangeActivity extends ListActivity {
         private ListView mExampleList;
         ExampleArrayAdapter adapter;
+        private ArrayList<Place> places;
+        private Trip trip;
 
         /** Called when the activity is first created. */
         @Override
@@ -34,12 +39,17 @@ public class PlanRearrangeActivity extends ListActivity {
                 mExampleList = getListView();
                 mExampleList.setOnCreateContextMenuListener(this);
                 ((DDListView) mExampleList).setDropListener(mDropListener);
+                
+                Bundle extras = getIntent().getExtras();
+                this.places =  (ArrayList<Place>) extras.get(ActionsFacade.EXTRA_PLACES);
+                this.trip = (Trip) extras.get(ActionsFacade.EXTRA_TRIP);
+                
                 ArrayList<String> array = new ArrayList<String>();
-                for (Integer i = 0; i < 8; i++) {
-                        array.add("item " + i.toString());
+                for (Place p: places) {
+                        array.add(p.getName());
                 }
-                adapter = new ExampleArrayAdapter(getApplicationContext(),
-                                R.layout.rowexample, array);
+
+                adapter = new ExampleArrayAdapter(getApplicationContext(), R.layout.row, array);
                 mExampleList.setAdapter(adapter);
                 Log.d("count = ", Integer.toString(mExampleList.getCount()));
         }
@@ -70,7 +80,6 @@ public class PlanRearrangeActivity extends ListActivity {
 
                         return v;
                 }
-
         }
 
         // Drop Listener
@@ -81,6 +90,10 @@ public class PlanRearrangeActivity extends ListActivity {
                         Log.e("a", "from=" + from + " to=" + to + " item " + item);
                         adapter.remove(item);
                         adapter.insert(item, to);
+                        
+                        Place p = places.get(from);
+                        places.remove(from);
+                        places.add(to, p);
                 }
         };
         
@@ -96,7 +109,7 @@ public class PlanRearrangeActivity extends ListActivity {
             // Handle item selection
             switch (item.getItemId()) {
 	            case R.id.save:
-	            	// TODO: Save order first
+	            	this.save();
 	            	finish();
 	                return true;
 	            case R.id.discard:
@@ -106,5 +119,12 @@ public class PlanRearrangeActivity extends ListActivity {
 	                return super.onOptionsItemSelected(item);
             }
         }
+        
+        private void save(){
+        	int order = 0;
+        	for (Place p: this.places){
+        		order++;
+        		PlaceControl.updateVisit(p.getId(), this.trip.getId(), order);
+        	}
+        }
 }
-

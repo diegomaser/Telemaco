@@ -20,6 +20,7 @@ public class RESTResources {
 	private static final String TRIP = Trip.class.getSimpleName();
 	private static final String USER = User.class.getSimpleName();
 	private static final String REGISTRATION = "Register";
+	private static final String RECOMMENDATION = "Recommendation";
 	private static final String CITY = City.class.getSimpleName();
 	private static final String CITYSEARCH = "CitySearch";
 	private static final String PLACE = Place.class.getSimpleName();
@@ -30,9 +31,11 @@ public class RESTResources {
 	private String cityURL;
 	private String citySearchURL;
 	private String registrationURL;
+	private String recommendationURL;
 	
 	private RESTResources(Context c) throws JSONException{
 		String baseURL = c.getString(R.string.server_url);
+		
 		String response = RestMethod.get(c, baseURL);
 		JSONArray arr = new JSONArray(response);
 		
@@ -47,6 +50,7 @@ public class RESTResources {
 			else if(name.equals(CITYSEARCH)) this.citySearchURL = url;
 			else if(name.equals(PLACE)) this.placeURL = url;
 			else if(name.equals(REGISTRATION)) this.registrationURL = url;
+			else if(name.equals(RECOMMENDATION)) this.recommendationURL = url;
 		}
 	}
 	
@@ -69,8 +73,12 @@ public class RESTResources {
 		return this.userURL;
 	}
 
-	public String getPlaceURL() {
-		return this.placeURL;
+	public String getPlaceURL(City city) {
+		return this.placeURL + "/" + String.valueOf(city.getId());
+	}
+	
+	public String getRecommendationURL(City city) {
+		return this.recommendationURL + "/" + String.valueOf(city.getId());
 	}
 
 	public String getCityURL() {
@@ -86,6 +94,6 @@ public class RESTResources {
 	}
 	
 	public String getCitySearchURL(Country country, String query) {
-		return this.citySearchURL + "/" + String.valueOf(country) + "/" + query;
-	}
+		return this.citySearchURL + "/" + String.valueOf(country.getId()) + "/" + query;
+	}	
 }

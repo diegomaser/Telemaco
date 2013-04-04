@@ -12,10 +12,7 @@ import com.diegomartin.telemaco.persistence.DatabaseHelper;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -37,33 +34,23 @@ public class TripListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
         setContentView(R.layout.trip_list);
+        
         DatabaseHelper.setContext(this);
         
+        // Login
         AccountManager am = AccountManager.get(this);
         Account[] accounts = am.getAccountsByType(getString(R.string.package_name));
-        
         if (accounts.length == 0){
         	Intent login = new Intent(this, AuthenticatorActivity.class);
         	startActivity(login);
         }
-        	
-		SharedPreferences prefs = getSharedPreferences(getString(R.string.package_name), Context.MODE_PRIVATE);
-		String accessToken = prefs.getString(ActionsFacade.EXTRA_ACCESS_TOKEN, "");
-		if (accessToken.length() == 0) startActivity(new Intent(this, FacebookActivity.class));
-    	
-    	for(Account a: accounts){
-    		ContentResolver.setSyncAutomatically(a, getString(R.string.package_name), true);
-    	}
-
+        
         this.lv = (ListView) findViewById(R.id.list);
         this.lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	  Trip listItem = getItem(id);
-        	  //Trip listItem = (Trip) lv.getItemAtPosition(position);
+        	  Trip listItem = (Trip) lv.getItemAtPosition(position);
               openItem(listItem);
-              //long menuItem = this.lv.getAdapter().getItemId(info.position);
           }
         });
         
@@ -81,8 +68,7 @@ public class TripListActivity extends Activity {
     @Override
     public void onResume(){
     	super.onResume();
-    	this.onCreate(null);
-    	//this.refresh();
+    	this.refresh();
     }
     
     @Override
@@ -109,6 +95,8 @@ public class TripListActivity extends Activity {
 	        	return this.help();
 	        case R.id.update:
 	        	return this.update();
+	        case R.id.facebook:
+	        	return this.provideUserProfile();
 	        default:
 	            return super.onOptionsItemSelected(item);
         }
@@ -118,8 +106,8 @@ public class TripListActivity extends Activity {
     public boolean onContextItemSelected(MenuItem item) {
     	AdapterContextMenuInfo info= (AdapterContextMenuInfo) item.getMenuInfo();
     	long menuItem = this.lv.getAdapter().getItemId(info.position);
-    	Trip listItem = this.getItem(menuItem);
-    	
+    	Trip listItem = (Trip) lv.getItemAtPosition((int)menuItem);
+
     	switch (item.getItemId()) {
     		case R.id.open:
     			return openItem(listItem);
@@ -134,12 +122,25 @@ public class TripListActivity extends Activity {
 	}
 
 	private ArrayList<IListItem> getItems() {
-    	return TripControl.readNotDeleted();
+		ArrayList<IListItem> items = new ArrayList<IListItem>();
+		try{
+			items = TripControl.readNotDeleted();
+		} catch(Exception ex){
+			ToastFacade.show(this, ex);
+		}
+    	return items;
     }
     
-    private Trip getItem(long id){
-    	return (Trip) TripControl.readTrip(id);
-    }
+    /*private Trip getItem(long id){
+    	Trip t = new Trip();
+    	try{
+    		t = TripControl.readTrip(id);
+    	}
+    	catch(Exception ex){
+    		ToastFacade.show(this, ex);
+    	}
+    	return t;
+    }*/
     
     private void refresh(){
     	ArrayList<IListItem> items = this.getItems();
@@ -187,5 +188,11 @@ public class TripListActivity extends Activity {
     private boolean update(){
     	ActionsFacade.getInstance().launchSync(getApplicationContext());
     	return true;
+    }
+    
+    private boolean provideUserProfile(){
+    	// Facebook token
+		startActivity(new Intent(this, FacebookActivity.class));
+		return true;
     }
 }

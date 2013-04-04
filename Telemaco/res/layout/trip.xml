@@ -49,5 +49,5 @@
 	    	android:layout_width="fill_parent"
 	    	android:layout_height="wrap_content"
 			android:text="@string/save"
-			android:padding="5dip" />
+			android:padding="5dp" />
 </LinearLayout>

@@ -38,6 +38,7 @@ public class CurrencyDAO {
 				currency.setCode(cursor.getString(2));
 				currency.setRate(cursor.getDouble(3));
 			}
+			cursor.close();
 		}
 		return currency;
 	}
@@ -69,5 +70,11 @@ public class CurrencyDAO {
 	
 	public static int delete(Currency c){
 		return delete(c.getId());
+	}
+	
+	public static void createOrUpdate(Currency currency) {
+		Currency c = read(currency.getId());
+		if (c.getName()!=null) update(currency);
+		else create(currency);
 	}
 }

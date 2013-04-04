@@ -6,6 +6,7 @@ import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
 import com.diegomartin.telemaco.control.CityControl;
 import com.diegomartin.telemaco.control.CountryControl;
+import com.diegomartin.telemaco.control.GeoFacade;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
@@ -24,7 +25,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -42,14 +42,18 @@ public class InfoListActivity extends Activity {
         setContentView(R.layout.info_list);
 
         this.trip = (Trip) getIntent().getExtras().get(ActionsFacade.EXTRA_TRIP);
+        
+        if (this.trip == null){
+        	ToastFacade.show(this, getString(R.string.error_missing));
+        }
+        
         this.lv = (ListView) findViewById(R.id.list);
         this.add = (Button) findViewById(R.id.add);
         this.refresh();
         
         this.lv.setOnItemClickListener(new OnItemClickListener() {
           public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        	  IListItem listItem = getItem(id);
-        	  open(listItem);
+        	  openCity(id);
           }
         });
         
@@ -85,12 +89,14 @@ public class InfoListActivity extends Activity {
 	        	return this.help();
 	        case R.id.update:
 	        	return this.update();
+	        case R.id.location:
+	        	return this.updateLocation();
 	        default:
 	            return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
+	@Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     	MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.info_contextmenu, menu);
@@ -103,9 +109,10 @@ public class InfoListActivity extends Activity {
     	long menuItem = this.lv.getAdapter().getItemId(info.position);
     	
     	switch (item.getItemId()) {
-    		case R.id.open:
-          	  IListItem listItem = getItem(menuItem);
-          	  return open(listItem);
+    		case R.id.showcity:
+          		return openCity(menuItem);
+    		case R.id.showcountry:
+    			return openCountry(menuItem);
 			case R.id.delete:
 				return delete(menuItem);
 			//case R.id.share:
@@ -114,27 +121,30 @@ public class InfoListActivity extends Activity {
     	return super.onOptionsItemSelected(item);
     }
     
+    private boolean openCity(long id){
+    	CityVisit visit = (CityVisit) this.items.get((int) id);
+    	City city = CityControl.read(visit.getCity());
+	  	Intent intent = new Intent(this, CityActivity.class);
+  		intent.putExtra(ActionsFacade.EXTRA_CITY, city);
+  		startActivity(intent);
+  		return true;
+    }
+    
+    private boolean openCountry(long id){
+    	CityVisit visit = (CityVisit) this.items.get((int) id);
+    	City city = CityControl.read(visit.getCity());
+    	Country country = CountryControl.read(city.getCountry());
+    	Intent intent = new Intent(this, CountryActivity.class);
+    	intent.putExtra(ActionsFacade.EXTRA_COUNTRY, country);
+    	startActivity(intent);
+    	return true;
+    }
+    
     private boolean delete(long id){
     	Object obj = this.items.get((int) id);
     	CityControl.setPendingDelete(((CityVisit) obj).getId());
     	this.refresh();
 		return true;
-    }
-    
-    private boolean open(IListItem obj){
-    	Intent intent = null;
-    	
-    	if(obj instanceof City){
-        	intent = new Intent(this, CityActivity.class);
-        	intent.putExtra(ActionsFacade.EXTRA_CITY, (City)obj);
-    	}
-    	else if(obj instanceof Country){
-        	intent = new Intent(this, CountryActivity.class);
-        	intent.putExtra(ActionsFacade.EXTRA_COUNTRY, (Country)obj);
-    	}
-    	
-    	startActivity(intent);
-    	return true;
     }
     
     private boolean help(){
@@ -162,25 +172,26 @@ public class InfoListActivity extends Activity {
 		for(int i=0;i<l.size();i++){
 			CityVisit visit = (CityVisit) l.get(i);
 			this.items.add(visit);
-			this.items.add(visit);
+			
 			City city = CityControl.read(visit.getCity());
+			city.setVisitDate(visit.getDate());
+			
 			Country country = CountryControl.read(city.getCountry());
+			city.setCountryName(country.getName());
+			
 			list.add(city);
-			list.add(country);
 		}
-		//ArrayList<Note> notes = (ArrayList<Note>) NoteControl.readByTrip(this.trip).getList(); 
-		//list.addAll(notes);
 		return list;
-    }
-    
-    private IListItem getItem(long id){
-    	ListAdapter l = this.lv.getAdapter();
-    	IListItem o = (IListItem) l.getItem((int) id);
-    	return o;
     }
     
     private void refresh(){
     	ArrayList<IListItem> i = this.getItems();
     	this.lv.setAdapter(new ListItemAdapter(this, R.layout.list_item, i));
     }
+    
+    private boolean updateLocation() {
+		GeoFacade.getInstance(this).startPositioning(this);
+		this.refresh();
+		return true;
+	}
 }

@@ -2,7 +2,9 @@ package com.diegomartin.telemaco.view;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Window;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class HTMLViewActivity extends Activity {
 		@Override
@@ -10,6 +12,9 @@ public class HTMLViewActivity extends Activity {
 	        super.onCreate(savedInstanceState);
 	        
 	        WebView webview = new WebView(this);
+	        webview.setWebViewClient(new WebViewClient());
+	        getWindow().requestFeature(Window.FEATURE_PROGRESS);
+
 	        webview.getSettings().setJavaScriptEnabled(true);   
 	        webview.getSettings().setSupportZoom(true);      
 	        webview.getSettings().setBuiltInZoomControls(true);

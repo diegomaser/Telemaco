@@ -3,8 +3,9 @@
     <string name="app_name">Telemaco</string>
     <string name="dbname">TelemacoDB</string>
     <string name="package_name">com.diegomartin.telemaco</string>
-    <string name="server_url">http://10.0.2.2:8000/telemaco_api/</string>  
-    <!--<string name="server_url">http://telemaco.ep.io/telemaco_api/</string> -->
+    <!--<string name="server_url">http://10.0.2.2:8000/telemaco_api/</string> --> <!-- Emulator testing address -->
+    <!--<string name="server_url">http://telemaco.ep.io/telemaco_api/</string> --> <!-- Production address -->
+    <string name="server_url">http://10.0.0.8:8000/telemaco_api/</string> <!-- Development address -->
     
     <!-- Tags -->
     <string name="login">Log-in</string>
@@ -18,6 +19,7 @@
     <string name="user_exists">Username already exists</string>
     <string name="user_created">User sucessfully created</string>
     <string name="user_loggedin">User sucessfully logged in</string>
+    <string name="user_profile">Sucessful permission to get the user profile</string>
     
     <string name="trips">My trips</string>
     <string name="interest_info">Interest information</string>
@@ -29,45 +31,57 @@
     <string name="description">Description</string>
     <string name="startDate">Start date</string>
     <string name="endDate">End date</string>
-    <string name="dateFormat">dd/mm/yyyy</string>
     <string name="text">Text</string>
     
     <string name="city_info">City information</string>
     <string name="country_info">Country information</string>
     <string name="tourism_info">Tourism information</string>
-    <string name="plug_info">Plug information</string>
-    <string name="currency_info">Currency information</string>
-    <string name="language_info">Language information</string>
+    <string name="place_info">Place information</string>
+    <string name="other_info">Language, Currency and Plug information</string>
+    <string name="map">View map</string>
+    <string name="directions">Calculate directions</string>
+    <string name="streetview">View street</string>
     
     <!-- Menu options -->
     <string name="help">Help</string>
     <string name="update">Sync</string>
     <string name="go">Go to the place</string>
-    <string name="map">View map</string>
     <string name="addplace">Add place to plan</string>
     <string name="rearrange">Rearrange</string>
     <string name="discard">Discard</string>
     <string name="share">Share</string>
     <string name="changeorder">Change order</string>
+    <string name="provide_profile">Provide user profile</string>
+    <string name="update_location">Update location</string>
     
 	<!-- CRUD Operations -->
     <string name="open">Open</string>
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="save">Save</string>
+    
+    <string name="showcity">Show city</string>
+    <string name="showcountry">Show country</string>
+    <string name="showplace">Show place</string>
 
-    <string name="new_city">New City</string>
-    <string name="new_trip">New Trip</string>
-    <string name="new_place">New Place</string>
-    <string name="new_transport">New Transport</string>
-    <string name="new_note">New Note</string>
-    <string name="delete_trip">Delete Trip</string>
+    <string name="new_city">New city</string>
+    <string name="new_trip">New trip</string>
+    <string name="new_place">New place</string>
+    <string name="new_transport">New transport</string>
+    <string name="new_note">New note</string>
+    <string name="delete_trip">Delete trip</string>
     
     <string name="search_hint_cities">Search cities</string>
     <string name="search_hint_countries">Search countries</string>
     <string name="not_found">No results found</string>
     
-    <string name="error_connecting">Error while connecting to the server</string>
+    <string name="error">Error</string>
+    <string name="error_connecting">Error while connecting to the server. Please verify your Internet connection.</string>
     <string name="error_parsing">Error parsing server response</string>
     <string name="error_sending">Error while sending data</string>
+    <string name="error_missing">Missing object</string>
+    <string name="error_maps">Please, install a maps application</string>
+    <string name="name_missing">Field name is compulsory</string>
+    <string name="wrong_dates">Start date must be before end date</string>
+    <string name="updating_location">Updating location...</string>
 </resources>

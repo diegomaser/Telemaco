@@ -9,7 +9,7 @@ import com.diegomartin.telemaco.model.Plug;
 public class PlugDAO {
 	private final static String TABLENAME = "Plug";
 	private final static String WHERE_CONDITION = "id=?";
-	private final static String columns[] = {"id", "name", "description"};
+	private final static String columns[] = {"id", "name", "description", "image"};
 	
 	public static long create(Plug p){
 		SQLiteDatabase db = DatabaseHelper.getInstance().getWritableDatabase();
@@ -18,6 +18,7 @@ public class PlugDAO {
 			ContentValues values = new ContentValues();
 			values.put("name", p.getName());
 			values.put("description", p.getDescription());
+			values.put("image", p.getImage());
 			id = db.insert(TABLENAME, null, values);
 			db.close();
 		}
@@ -34,7 +35,9 @@ public class PlugDAO {
 				plug.setId(cursor.getLong(0));
 				plug.setName(cursor.getString(1));
 				plug.setDescription(cursor.getString(2));
+				plug.setImage(cursor.getString(3));
 			}
+			cursor.close();
 		}
 		return plug;
 	}
@@ -46,7 +49,7 @@ public class PlugDAO {
 			ContentValues values = new ContentValues();
 			values.put("name", p.getName());
 			values.put("description", p.getDescription());
-			
+			values.put("image", p.getImage());
 			rows = db.update(TABLENAME, values, WHERE_CONDITION, new String[] {String.valueOf(p.getId())});
 			db.close();
 		}
@@ -65,5 +68,11 @@ public class PlugDAO {
 	
 	public static int delete(Plug t){
 		return delete(t.getId());
+	}
+	
+	public static void createOrUpdate(Plug plug) {
+		Plug p = read(plug.getId());
+		if (p.getName()!=null) update(plug);
+		else create(plug);
 	}
 }

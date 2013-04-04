@@ -19,8 +19,8 @@ public class TripTabActivity extends TabActivity {
 	    this.extra = getIntent().getExtras();
 	    
 	    this.addTab(InfoListActivity.class, getText(R.string.info), res.getDrawable(R.drawable.tab_info));
-	    this.addTab(PlanListActivity.class, getText(R.string.plan), res.getDrawable(R.drawable.tab_plan));
 	    this.addTab(PlacesListActivity.class, getText(R.string.places), res.getDrawable(R.drawable.tab_places));
+	    this.addTab(PlanListActivity.class, getText(R.string.plan), res.getDrawable(R.drawable.tab_plan));
 
 	    //TabHost tabHost = getTabHost();
 	    //tabHost.setCurrentTab(2);

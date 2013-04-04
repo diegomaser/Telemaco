@@ -60,6 +60,7 @@ public class TripDAO {
 				trip.setPendingUpdate(pendingUpdate>0);
 				trip.setPendingDelete(pendingDelete>0);
 			}
+			cursor.close(); db.close();
 		}
 		return trip;
 	}
@@ -88,6 +89,7 @@ public class TripDAO {
 
 				trips.add(trip);
 			}
+			cursor.close(); db.close();
 		}
 		return trips;
 	}
@@ -153,6 +155,7 @@ public class TripDAO {
 
 				trips.add(trip);
 			}
+			cursor.close(); db.close();
 		}
 		return trips;
 	}

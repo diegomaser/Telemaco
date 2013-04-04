@@ -14,6 +14,9 @@ public class ActionsFacade {
 	public final static String EXTRA_TRIP = "trip";
 	public final static String EXTRA_CITY = "city";
 	public final static String EXTRA_COUNTRY = "country";
+	public final static String EXTRA_PLACE = "place";
+	public final static String EXTRA_PLACES = "places";
+	public final static String EXTRA_VISITS = "visits";
 	public final static String EXTRA_ACCESS_TOKEN = "access_token";
 	
 	private static ActionsFacade instance;
@@ -29,8 +32,8 @@ public class ActionsFacade {
 		//geo:latitude,longitude
 		//geo:latitude,longitude?z=zoom
 		// If doesnt work, check: http://stackoverflow.com/questions/2553251/launch-google-maps-app
-		Intent maps = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:"+lat+","+lng));
-		return maps;
+		Uri uri = Uri.parse("geo:"+String.valueOf(lat)+","+String.valueOf(lng));
+		return new Intent(android.content.Intent.ACTION_VIEW, uri);
 	}
 	
 	public Intent launchMaps(String q){
@@ -51,14 +54,13 @@ public class ActionsFacade {
 		return streetview;
 	}
 	
-	public Intent launchNavigation(double lat, double lng){
-		//Intent { act=android.intent.action.VIEW dat=google.navigation:///?q=Some%20place cmp=brut.googlemaps/com.google.android.maps.driveabout.app.NavigationActivity }
-		final double distance = GeoFacade.getInstance().distanceTo(lat, lng);
-		Uri location;
-		
-		if (distance>1000) location = Uri.parse("google.navigation:ll=" + lat + "," + lng);
-		else location = Uri.parse("google.navigation:ll=" + lng + "," + lat + "&mode=w");
-		
+	public Intent launchCarNavigation(double lat, double lng){
+		Uri location = Uri.parse("google.navigation:ll=" + lat + "," + lng);
+		return new Intent(Intent.ACTION_VIEW, location);
+	}
+	
+	public Intent launchWalkNavigation(double lat, double lng){
+		Uri location = Uri.parse("google.navigation:ll=" + lng + "," + lat + "&mode=w");
 		return new Intent(Intent.ACTION_VIEW, location);
 	}
 	

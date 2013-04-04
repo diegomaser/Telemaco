@@ -3,44 +3,26 @@ from piston.utils import rc
 from telemaco.models import User
 
 class UserHandler(BaseHandler):
-    allowed_methods = ('GET', 'POST', 'PUT')
+    allowed_methods = ('PUT')
     model = User
-
-    def create(self, request):
-        # Sing-up
-        if request.content_type:
-            object = self.model(username=request.data['username'],
-                                password=request.data['password'],
-                                                                )
-            object.save()
-            
-            #for comment in data['comments']:
-            #    Comment(parent=object, content=comment['content']).save()
-            
-            return rc.CREATED
-        else:
-            super(self.model, self).create(request)
     
-    def read(self, request, object_id):
-        # Check password? 
+    def read(self, request):
         try:
-            return self.model.objects.get(pk=object_id)
-        except Exception:
-            return rc.NOT_FOUND
-        
-    def update(self, request, object_id=None):
-        # Change password
-        # Change profile
-        if object_id:
-            obj = self.model.objects.get(pk=object_id)
-            
-            if request.user.id == obj.user_id: 
-                obj.password = request.data['password']
-                obj.city = request.data['city']
-                obj.save()
-                return rc.ALL_OK
-            else:
-                return rc.FORBIDDEN
-        else:
+            obj = self.model.objects.get(username=request.user) 
+            return obj
+        except Exception, e:
             return rc.BAD_REQUEST
-        
+
+    def update(self, request):
+        # Change access_token
+        try:
+            print "Update user:", request.data
+            obj = self.model.objects.get(username=request.user)
+            obj.facebook_access_token = request.data['access_token']
+            #obj.password = request.data['password']
+            #obj.city = request.data['city']
+            obj.save()
+            return rc.ALL_OK
+        except Exception, e:
+            print str(e)
+            return rc.BAD_REQUEST

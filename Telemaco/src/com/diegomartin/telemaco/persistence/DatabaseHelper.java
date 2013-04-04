@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-	// TODO: This isn't the best way to ship database with application
+	// This isn't the best way to ship database with application, but it works
 	// http://stackoverflow.com/questions/513084/how-to-ship-an-android-application-with-a-database
 		
 	private static DatabaseHelper instance;
@@ -45,8 +45,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		FileUtils.execute(context, instance.getWritableDatabase(), "database/dropDB.sql");
 		FileUtils.execute(context, instance.getWritableDatabase(), "database/createDB.sql");
 		FileUtils.execute(context, instance.getWritableDatabase(), "database/loadDB.sql");
-	}
-	
-	
-	
+	}	
 }

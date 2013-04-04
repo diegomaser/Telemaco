@@ -22,77 +22,84 @@ public final class R {
         public static final int normal_height=0x7f060000;
     }
     public static final class drawable {
-        public static final int ic_button_add=0x7f020000;
-        public static final int ic_button_login=0x7f020001;
-        public static final int ic_button_register=0x7f020002;
-        public static final int ic_menu_add=0x7f020003;
-        public static final int ic_menu_delete=0x7f020004;
-        public static final int ic_menu_help=0x7f020005;
-        public static final int ic_menu_mapmode=0x7f020006;
-        public static final int ic_menu_rearrange=0x7f020007;
-        public static final int ic_menu_refresh=0x7f020008;
-        public static final int ic_menu_revert=0x7f020009;
-        public static final int ic_menu_save=0x7f02000a;
-        public static final int ic_menu_share=0x7f02000b;
-        public static final int ic_menu_sort_by_size=0x7f02000c;
-        public static final int ic_tab_agenda_grey=0x7f02000d;
-        public static final int ic_tab_agenda_white=0x7f02000e;
-        public static final int ic_tab_info_details_grey=0x7f02000f;
-        public static final int ic_tab_info_details_white=0x7f020010;
-        public static final int ic_tab_myplaces_grey=0x7f020011;
-        public static final int ic_tab_myplaces_white=0x7f020012;
-        public static final int icon=0x7f020013;
-        public static final int maleta=0x7f020014;
-        public static final int maleta2=0x7f020015;
-        public static final int maleta3=0x7f020016;
-        public static final int tab_info=0x7f020017;
-        public static final int tab_places=0x7f020018;
-        public static final int tab_plan=0x7f020019;
+        public static final int city=0x7f020000;
+        public static final int ic_button_add=0x7f020001;
+        public static final int ic_button_login=0x7f020002;
+        public static final int ic_button_register=0x7f020003;
+        public static final int ic_menu_add=0x7f020004;
+        public static final int ic_menu_delete=0x7f020005;
+        public static final int ic_menu_help=0x7f020006;
+        public static final int ic_menu_mapmode=0x7f020007;
+        public static final int ic_menu_mylocation=0x7f020008;
+        public static final int ic_menu_rearrange=0x7f020009;
+        public static final int ic_menu_refresh=0x7f02000a;
+        public static final int ic_menu_revert=0x7f02000b;
+        public static final int ic_menu_save=0x7f02000c;
+        public static final int ic_menu_share=0x7f02000d;
+        public static final int ic_menu_sort_by_size=0x7f02000e;
+        public static final int ic_menu_star=0x7f02000f;
+        public static final int ic_tab_agenda_grey=0x7f020010;
+        public static final int ic_tab_agenda_white=0x7f020011;
+        public static final int ic_tab_info_details_grey=0x7f020012;
+        public static final int ic_tab_info_details_white=0x7f020013;
+        public static final int ic_tab_myplaces_grey=0x7f020014;
+        public static final int ic_tab_myplaces_white=0x7f020015;
+        public static final int icon=0x7f020016;
+        public static final int maleta=0x7f020017;
+        public static final int maleta2=0x7f020018;
+        public static final int maleta3=0x7f020019;
+        public static final int place=0x7f02001a;
+        public static final int tab_info=0x7f02001b;
+        public static final int tab_places=0x7f02001c;
+        public static final int tab_plan=0x7f02001d;
     }
     public static final class id {
-        public static final int add=0x7f090001;
-        public static final int changeorder=0x7f09001a;
+        public static final int add=0x7f090003;
         public static final int delete=0x7f090014;
-        public static final int description=0x7f090005;
-        public static final int discard=0x7f09001f;
-        public static final int edit=0x7f090013;
+        public static final int description=0x7f090002;
+        public static final int discard=0x7f09001d;
+        public static final int edit=0x7f09001e;
         public static final int endDate=0x7f090010;
         public static final int extra=0x7f090006;
-        public static final int go=0x7f090018;
-        public static final int help=0x7f090017;
-        public static final int icon=0x7f090003;
-        public static final int linearLayout1=0x7f090002;
-        public static final int list=0x7f090000;
+        public static final int facebook=0x7f09001f;
+        public static final int help=0x7f090018;
+        public static final int icon=0x7f090005;
+        public static final int linearLayout1=0x7f090004;
+        public static final int list=0x7f090001;
+        public static final int location=0x7f090016;
         public static final int loginbutton=0x7f09000b;
-        public static final int map=0x7f090019;
-        public static final int name=0x7f090004;
+        public static final int name=0x7f090000;
         public static final int new_city=0x7f090015;
-        public static final int new_place=0x7f09001c;
-        public static final int new_transport=0x7f09001b;
-        public static final int open=0x7f090012;
+        public static final int new_transport=0x7f09001a;
+        public static final int open=0x7f090019;
         public static final int password=0x7f090009;
         public static final int password_edit=0x7f09000a;
         public static final int password_edit2=0x7f09000d;
-        public static final int rearrange=0x7f09001d;
+        public static final int rearrange=0x7f09001b;
         public static final int registerbutton=0x7f09000c;
         public static final int save=0x7f090011;
-        public static final int share=0x7f09001e;
+        public static final int share=0x7f09001c;
+        public static final int showcity=0x7f090012;
+        public static final int showcountry=0x7f090013;
         public static final int startDate=0x7f09000f;
         public static final int text1=0x7f09000e;
-        public static final int update=0x7f090016;
+        public static final int update=0x7f090017;
         public static final int user=0x7f090007;
         public static final int user_edit=0x7f090008;
     }
     public static final class layout {
-        public static final int info_list=0x7f030000;
-        public static final int list_item=0x7f030001;
-        public static final int login=0x7f030002;
-        public static final int planlist=0x7f030003;
-        public static final int register=0x7f030004;
-        public static final int rowexample=0x7f030005;
-        public static final int trip=0x7f030006;
-        public static final int trip_list=0x7f030007;
-        public static final int triptab=0x7f030008;
+        public static final int city=0x7f030000;
+        public static final int country=0x7f030001;
+        public static final int info_list=0x7f030002;
+        public static final int list_item=0x7f030003;
+        public static final int login=0x7f030004;
+        public static final int place=0x7f030005;
+        public static final int planlist=0x7f030006;
+        public static final int register=0x7f030007;
+        public static final int row=0x7f030008;
+        public static final int trip=0x7f030009;
+        public static final int trip_list=0x7f03000a;
+        public static final int triptab=0x7f03000b;
     }
     public static final class menu {
         public static final int info_contextmenu=0x7f080000;
@@ -106,79 +113,96 @@ public final class R {
         public static final int triplist_menu=0x7f080008;
     }
     public static final class string {
-        public static final int addplace=0x7f070024;
+        public static final int addplace=0x7f070025;
         public static final int app_name=0x7f070000;
         public static final int bad_password=0x7f070009;
-        public static final int changeorder=0x7f070028;
+        public static final int changeorder=0x7f070029;
         public static final int city_info=0x7f07001a;
         public static final int country_info=0x7f07001b;
-        public static final int currency_info=0x7f07001e;
-        public static final int dateFormat=0x7f070018;
         public static final int dbname=0x7f070001;
-        public static final int delete=0x7f07002b;
-        public static final int delete_trip=0x7f070032;
-        public static final int description=0x7f070015;
+        public static final int delete=0x7f07002e;
+        public static final int delete_trip=0x7f070038;
+        public static final int description=0x7f070016;
         public static final int different_passwords=0x7f07000b;
-        public static final int discard=0x7f070026;
-        public static final int edit=0x7f07002a;
+        public static final int directions=0x7f070020;
+        public static final int discard=0x7f070027;
+        public static final int edit=0x7f07002d;
         public static final int empty_password=0x7f07000a;
-        public static final int endDate=0x7f070017;
-        public static final int error_connecting=0x7f070036;
-        public static final int error_parsing=0x7f070037;
-        public static final int error_sending=0x7f070038;
-        public static final int go=0x7f070022;
+        public static final int endDate=0x7f070018;
+        public static final int error=0x7f07003c;
+        public static final int error_connecting=0x7f07003d;
+        public static final int error_maps=0x7f070041;
+        public static final int error_missing=0x7f070040;
+        public static final int error_parsing=0x7f07003e;
+        public static final int error_sending=0x7f07003f;
+        public static final int go=0x7f070024;
         /**  Menu options 
  Menu options 
  Menu options 
  Menu options 
          */
-        public static final int help=0x7f070020;
-        public static final int info=0x7f070011;
-        public static final int interest_info=0x7f070010;
-        public static final int language_info=0x7f07001f;
-        /** <string name="server_url">http://telemaco.ep.io/telemaco_api/</string> 
+        public static final int help=0x7f070022;
+        public static final int info=0x7f070012;
+        public static final int interest_info=0x7f070011;
+        /**  Development address 
  Tags 
  Tags 
  Tags 
  Tags 
          */
         public static final int login=0x7f070004;
-        public static final int map=0x7f070023;
-        public static final int name=0x7f070014;
-        public static final int new_city=0x7f07002d;
-        public static final int new_note=0x7f070031;
-        public static final int new_place=0x7f07002f;
-        public static final int new_transport=0x7f070030;
-        public static final int new_trip=0x7f07002e;
-        public static final int not_found=0x7f070035;
+        public static final int map=0x7f07001f;
+        public static final int name=0x7f070015;
+        public static final int name_missing=0x7f070042;
+        public static final int new_city=0x7f070033;
+        public static final int new_note=0x7f070037;
+        public static final int new_place=0x7f070035;
+        public static final int new_transport=0x7f070036;
+        public static final int new_trip=0x7f070034;
+        public static final int not_found=0x7f07003b;
         /**  CRUD Operations 
  CRUD Operations 
  CRUD Operations 
  CRUD Operations 
          */
-        public static final int open=0x7f070029;
+        public static final int open=0x7f07002c;
+        public static final int other_info=0x7f07001e;
         public static final int package_name=0x7f070002;
         public static final int password=0x7f070007;
         public static final int password_again=0x7f070008;
-        public static final int places=0x7f070013;
-        public static final int plan=0x7f070012;
-        public static final int plug_info=0x7f07001d;
-        public static final int rearrange=0x7f070025;
+        public static final int place_info=0x7f07001d;
+        public static final int places=0x7f070014;
+        public static final int plan=0x7f070013;
+        public static final int provide_profile=0x7f07002a;
+        public static final int rearrange=0x7f070026;
         public static final int register=0x7f070005;
-        public static final int save=0x7f07002c;
-        public static final int search_hint_cities=0x7f070033;
-        public static final int search_hint_countries=0x7f070034;
+        public static final int save=0x7f07002f;
+        public static final int search_hint_cities=0x7f070039;
+        public static final int search_hint_countries=0x7f07003a;
+        /** <string name="server_url">http://10.0.2.2:8000/telemaco_api/</string> 
+ Emulator testing address 
+<string name="server_url">http://telemaco.ep.io/telemaco_api/</string> 
+ Production address 
+         */
         public static final int server_url=0x7f070003;
-        public static final int share=0x7f070027;
-        public static final int startDate=0x7f070016;
+        public static final int share=0x7f070028;
+        public static final int showcity=0x7f070030;
+        public static final int showcountry=0x7f070031;
+        public static final int showplace=0x7f070032;
+        public static final int startDate=0x7f070017;
+        public static final int streetview=0x7f070021;
         public static final int text=0x7f070019;
         public static final int tourism_info=0x7f07001c;
-        public static final int trips=0x7f07000f;
-        public static final int update=0x7f070021;
+        public static final int trips=0x7f070010;
+        public static final int update=0x7f070023;
+        public static final int update_location=0x7f07002b;
+        public static final int updating_location=0x7f070044;
         public static final int user=0x7f070006;
         public static final int user_created=0x7f07000d;
         public static final int user_exists=0x7f07000c;
         public static final int user_loggedin=0x7f07000e;
+        public static final int user_profile=0x7f07000f;
+        public static final int wrong_dates=0x7f070043;
     }
     public static final class xml {
         public static final int authenticator=0x7f040000;

@@ -15,6 +15,8 @@ class City(models.Model):
     lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
     wikipedia_url = models.URLField(null=True)
     wikitravel_url = models.URLField(null=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
     
 #    janHighC = models.DecimalField(max_digits=4, decimal_places=2, null=True)
 #    janLowC = models.DecimalField(max_digits=4, decimal_places=2, null=True)
@@ -115,6 +117,9 @@ class Country(models.Model):
     
     languages = models.ManyToManyField('Language', null=True)
     currency = models.ForeignKey('Currency', null=True)
+    
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.name
@@ -126,6 +131,9 @@ class Currency(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=4, unique=True)
     rate = models.DecimalField(max_digits=15,decimal_places=10, null=True)
+    
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return self.name
@@ -133,30 +141,40 @@ class Currency(models.Model):
     class Meta:
         verbose_name_plural = 'Currencies'
 
-class Item(models.Model):
-    place = models.ForeignKey('Place')
-    name = models.CharField(max_length=200)
-    description = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='img/items/')
+#class Item(models.Model):
+#    place = models.ForeignKey('Place')
+#    name = models.CharField(max_length=200)
+#    description = models.CharField(max_length=200)
+#    image = models.ImageField(upload_to='img/items/')
+
+#    last_modified = models.DateTimeField(auto_now=True)
+#    first_created = models.DateTimeField(auto_now_add=True)
+
     
-    def __unicode__(self):
-        return self.name
+#    def __unicode__(self):
+#        return self.name
 
 class Language(models.Model):
     name = models.CharField(max_length=200)
     code = models.CharField(max_length=5, null=True)
     rdf = models.CharField(max_length=999999, null=True)
-
-    def __unicode__(self):
-        return self.name
-
-class Note(models.Model):
-    trip = models.ForeignKey('Trip')
-    name = models.CharField(max_length=200)
-    text = models.CharField(max_length=1000)
     
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
+
     def __unicode__(self):
         return self.name
+
+#class Note(models.Model):
+#    trip = models.ForeignKey('Trip')
+#    name = models.CharField(max_length=200)
+#    text = models.CharField(max_length=1000)
+    
+#    last_modified = models.DateTimeField(auto_now=True)
+#    first_created = models.DateTimeField(auto_now_add=True)
+    
+#    def __unicode__(self):
+#        return self.name
 
 class Place(models.Model):
     name = models.CharField(max_length=200)
@@ -166,6 +184,9 @@ class Place(models.Model):
     lat = models.DecimalField(max_digits=12,decimal_places=8, null=True)
     lng = models.DecimalField(max_digits=12,decimal_places=8, null=True)
     wikipedia_url = models.URLField(null=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
+
 
     ACTIVITY_CHOICES = (('H', 'Housing'),
         ('F', 'Food'),
@@ -179,6 +200,10 @@ class Plug(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     image = models.URLField()
+    
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
+
 
     def __unicode__(self):
         return self.name
@@ -198,7 +223,9 @@ class Transport(models.Model):
                          ('T', 'Train'),
                          ('B', 'Bus'))
     transp_type = models.CharField(max_length=1,choices=TRANSPORT_CHOICES)
-    
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
+        
     def __unicode__(self):
         return self.departure + ' - ' + self.arrival
 
@@ -212,24 +239,34 @@ class Trip(models.Model):
     start_date = models.DateField('starting date')
     end_date = models.DateField('ending date')
     
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
+    
     def __unicode__(self):
         return self.name
 
 class User(DjangoUser):
-    city = models.ForeignKey('City') # onetoonefield? quiza sea mejor alternativa
+    #city = models.ForeignKey('City') # onetoonefield? quiza sea mejor alternativa
     facebook_access_token = models.CharField(max_length=200, null=True)
     foaf_profile = models.CharField(max_length=999999, null=True)
+    
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
 
 class CityVisit(models.Model):
     trip = models.ForeignKey('Trip')
     city = models.ForeignKey('City')
     date = models.DateField()
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
 
 class PlaceVisit(models.Model):
     trip = models.ForeignKey('Trip')
     place = models.ForeignKey('Place')
     date = models.DateTimeField()
     order = models.IntegerField()
+    last_modified = models.DateTimeField(auto_now=True)
+    first_created = models.DateTimeField(auto_now_add=True)
 
 #######################################################
 # OLD ONES

@@ -45,7 +45,6 @@ public class PlaceVisitDAO {
 		PlaceVisit placeVisit = new PlaceVisit();
 		
 		if (db!=null){
-
 			Cursor cursor = db.query(TABLENAME, columns, WHERE_CONDITION, new String[] {String.valueOf(id)}, null, null, null);
 			if (cursor.moveToNext()){
 				placeVisit.setId(cursor.getLong(0));
@@ -62,6 +61,33 @@ public class PlaceVisitDAO {
 				placeVisit.setPendingUpdate(pendingUpdate>0);
 				placeVisit.setPendingDelete(pendingDelete>0);
 			}
+			cursor.close();
+		}
+		return placeVisit;
+	}
+	
+	public static PlaceVisit read(long placeId, long tripId){
+		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
+		PlaceVisit placeVisit = new PlaceVisit();
+		
+		if (db!=null){
+			Cursor cursor = db.query(TABLENAME, columns, "place=? AND trip=?", new String[] {String.valueOf(placeId), String.valueOf(tripId)}, null, null, null);
+			if (cursor.moveToNext()){
+				placeVisit.setId(cursor.getLong(0));
+				placeVisit.setPlace(cursor.getLong(1));
+				placeVisit.setTrip(cursor.getLong(2));
+				placeVisit.setDate(Date.valueOf(cursor.getString(3)));
+				placeVisit.setOrder(cursor.getInt(4));
+				
+				int pendingCreate = cursor.getInt(5);
+				int pendingUpdate = cursor.getInt(6);
+				int pendingDelete= cursor.getInt(7);
+
+				placeVisit.setPendingCreate(pendingCreate>0);
+				placeVisit.setPendingUpdate(pendingUpdate>0);
+				placeVisit.setPendingDelete(pendingDelete>0);
+			}
+			cursor.close();
 		}
 		return placeVisit;
 	}
@@ -71,7 +97,7 @@ public class PlaceVisitDAO {
 		ArrayList<PlaceVisit> trips = new ArrayList<PlaceVisit>();
 		
 		if (db!=null){
-			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, null);
+			Cursor cursor = db.query(TABLENAME, columns, null, null, null, null, "ordenation ASC");
 			while(cursor.moveToNext()){
 				PlaceVisit placeVisit = new PlaceVisit();
 				placeVisit.setId(cursor.getLong(0));
@@ -90,6 +116,7 @@ public class PlaceVisitDAO {
 
 				trips.add(placeVisit);
 			}
+			cursor.close();
 		}
 		return trips;
 	}
@@ -138,7 +165,7 @@ public class PlaceVisitDAO {
 		SQLiteDatabase db = DatabaseHelper.getInstance().getReadableDatabase();
 		ArrayList<PlaceVisit> list = new ArrayList<PlaceVisit>();
 		if (db!=null){
-			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, null);
+			Cursor cursor = db.query(TABLENAME, columns, "trip=? AND pending_delete=0", new String[] {String.valueOf(t.getId())}, null, null, "ordenation ASC");
 			while(cursor.moveToNext()){
 				PlaceVisit placeVisit = new PlaceVisit();
 				placeVisit.setId(cursor.getLong(0));
@@ -157,6 +184,7 @@ public class PlaceVisitDAO {
 				
 				list.add(placeVisit);
 			}
+			cursor.close();
 		}
 		return list;
 	}

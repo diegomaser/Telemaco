@@ -21,7 +21,7 @@
         <activity android:name="com.diegomartin.telemaco.view.TripActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.CityActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.CountryActivity"></activity>
-        <activity android:name="com.diegomartin.telemaco.view.NoteActivity"></activity>
+        <activity android:name="com.diegomartin.telemaco.view.PlaceActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.HTMLViewActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.FacebookActivity"></activity>
         <activity android:name="com.diegomartin.telemaco.view.TTSActivity"></activity>

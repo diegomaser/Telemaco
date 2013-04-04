@@ -6,13 +6,13 @@ from rdflib.Graph import Graph
 # http://en.wikipedia.org/wiki/Semantic_reasoner
 
 class RuleEngine:
+    context = Graph()
+    resource = Graph()
+    
     def __init__(self, context, resource):
-        self.context = Graph()
-        self.resource = Graph()
-        
         self.context.parseString(context)
         self.resource.parseString(resource)
-        
+    
     def search(self, s=None, o=None, p=None):
         triples = []
         
@@ -70,7 +70,7 @@ class RuleEngine:
         for triple in triples:
             var.append({statement[0]:triple[0], statement[2]:triple[2]})
             
-        return var
+        return var    
     
     def process_rule(self, statements, variables = []):
         if len(statements) == 0:

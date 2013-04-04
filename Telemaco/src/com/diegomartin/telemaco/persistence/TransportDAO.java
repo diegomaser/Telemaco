@@ -51,6 +51,7 @@ public class TransportDAO {
 				transport.setReservation(cursor.getString(7));
 				transport.setType(cursor.getString(8).charAt(0));
 			}
+			cursor.close();
 		}
 		return transport;
 	}
@@ -74,6 +75,7 @@ public class TransportDAO {
 				transport.setType(cursor.getString(8).charAt(0));
 				trips.add(transport);
 			}
+			cursor.close();
 		}
 		return trips;
 	}

@@ -74,7 +74,6 @@ INSERT INTO Country (name) VALUES ('Guyana');
 INSERT INTO Country (name) VALUES ('Haiti');
 INSERT INTO Country (name) VALUES ('Honduras');
 INSERT INTO Country (name) VALUES ('Hungary');
-INSERT INTO Country (name) VALUES ('Iceland');
 INSERT INTO Country (name) VALUES ('India');
 INSERT INTO Country (name) VALUES ('Indonesia');
 INSERT INTO Country (name) VALUES ('Iran');

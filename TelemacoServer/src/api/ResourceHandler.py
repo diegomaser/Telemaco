@@ -1,23 +1,23 @@
 from piston.handler import BaseHandler
 from piston.utils import rc
-import settings
 
 class ResourceHandler(BaseHandler):
     allowed_methods = ('GET',)
     fields = ('name', 'url')
     
-    if settings.PRODUCTION:
-        base_url = 'http://telemaco.ep.io/telemaco_api/'
-    else:
-        base_url = 'http://10.0.2.2:8000/telemaco_api/'
-
     def read(self, request):
+        base_url = 'http://' + request.META['HTTP_HOST'] + '/telemaco_api/'
+        
         try:
-            resources = [{'name':'City', 'url':self.base_url+'city'},
-                         {'name':'CitySearch', 'url':self.base_url+'city_search'},
-                         {'name':'Trip', 'url':self.base_url+'trip'},
-                         {'name':'Place', 'url':self.base_url+'place'},
-                         {'name':'User', 'url':self.base_url+'user'}]
+            resources = [{'name':'City', 'url':base_url+'city'},
+                         {'name':'Country', 'url':base_url+'country'},
+                         {'name':'CitySearch', 'url':base_url+'city_search'},
+                         {'name':'Trip', 'url':base_url+'trip'},
+                         {'name':'Place', 'url':base_url+'place'},
+                         {'name':'User', 'url':base_url+'user'},
+                         {'name':'Recommendation', 'url':base_url+'recommendation'},
+                         {'name':'Register', 'url':base_url+'register'}]
+            
             return resources
         except Exception:
             return rc.NOT_FOUND

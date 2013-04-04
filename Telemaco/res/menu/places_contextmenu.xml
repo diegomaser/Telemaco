@@ -1,5 +1,4 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/open" android:title="@string/showplace"/>
 	<item android:id="@+id/add" android:title="@string/addplace"/>
-    <item android:id="@+id/go" android:title="@string/go"/>
-	<item android:id="@+id/map" android:title="@string/map"/>
 </menu>

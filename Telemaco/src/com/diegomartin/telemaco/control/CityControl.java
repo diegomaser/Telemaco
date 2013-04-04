@@ -1,7 +1,7 @@
 package com.diegomartin.telemaco.control;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,16 +14,23 @@ import com.diegomartin.telemaco.control.sync.RestMethod;
 import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
 import com.diegomartin.telemaco.model.Country;
+import com.diegomartin.telemaco.model.Currency;
+import com.diegomartin.telemaco.model.Language;
+import com.diegomartin.telemaco.model.Plug;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.CityDAO;
 import com.diegomartin.telemaco.persistence.CityVisitDAO;
+import com.diegomartin.telemaco.persistence.CountryDAO;
+import com.diegomartin.telemaco.persistence.CurrencyDAO;
+import com.diegomartin.telemaco.persistence.LanguageDAO;
+import com.diegomartin.telemaco.persistence.PlugDAO;
 import com.diegomartin.telemaco.view.ToastFacade;
 
 public class CityControl {
 	private static ArrayList<City> cities; 
 	
 	// Search operations to add a city
-	public static ArrayList<City> readCities(Context context, Country country) {
+	public static ArrayList<City> searchCities(Context context, Country country) {
 		cities = new ArrayList<City>();
 		try{
 			String url = RESTResources.getInstance(context).getCitySearchURL(country);
@@ -37,7 +44,7 @@ public class CityControl {
 				}
 			}
 			catch(JSONException e){
-				ToastFacade.show(context, context.getString(R.string.error_parsing));
+				ToastFacade.show(context, context.getString(R.string.not_found));
 			}
 		}
 		catch(JSONException e){
@@ -56,7 +63,7 @@ public class CityControl {
 			try{
 				JSONArray arr = new JSONArray(content);
 				for(int i=0;i<arr.length();i++){
-					City c = new City((JSONObject) arr.get(i), context);
+					City c = new City(arr, context, i);
 					cities.add(c);
 				}
 			}
@@ -70,14 +77,44 @@ public class CityControl {
 		return cities;
 	}
 	
-	public static City getCity(Context context, City city){
-		City c = new City();
+	public static City createCity(Context context, City c){
+		City city = new City();
+		Country country = new Country();
+		Currency currency = new Currency();
+		Language language = new Language();
+		Plug plug = new Plug();
+		
 		try{
-			String url = RESTResources.getInstance(context).getCityURL(city);
+			String url = RESTResources.getInstance(context).getCityURL(c);
 			String content = RestMethod.get(context, url);
 			
 			try {
-				c = new City(new JSONObject(content), context);
+				JSONObject json = new JSONObject(content);
+				city = new City(json, context);
+				CityDAO.createOrUpdate(city);
+				
+				JSONObject jsonCountry = json.getJSONObject("country");
+				JSONObject jsonCurrency = jsonCountry.getJSONObject("currency");
+				
+				JSONArray jsonPlugs = jsonCountry.getJSONArray("plug");
+				JSONArray jsonLanguages = jsonCountry.getJSONArray("languages");
+				
+				country = new Country(jsonCountry, context);
+				CountryDAO.update(country);
+				
+				currency = new Currency(jsonCurrency, context);
+				CurrencyDAO.createOrUpdate(currency);
+
+				for(int i=0;i<jsonPlugs.length();i++){
+					plug = new Plug(jsonPlugs, context, i);
+					PlugDAO.createOrUpdate(plug);
+				}
+				
+				for(int i=0;i<jsonLanguages.length();i++){
+					language = new Language(jsonLanguages, context, i);
+					LanguageDAO.createOrUpdate(language);
+				}
+				
 			} catch (JSONException e) {
 				ToastFacade.show(context, context.getString(R.string.error_parsing));
 			}
@@ -85,9 +122,10 @@ public class CityControl {
 		catch(JSONException e){
 			ToastFacade.show(context, context.getString(R.string.error_connecting));
 		}
-		return c;
+		
+		return city;
 	}
-	
+		
 	// Common operations
 	public static City read(long city) {
 		return CityDAO.read(city);
@@ -100,8 +138,7 @@ public class CityControl {
 	// UI operations
 	public static long createCityVisit(Context context, City city, Trip trip, Date date) {
 		// We create the city with all the information we have in the server
-		City fullCity = CityControl.getCity(context, city);
-		CityDAO.createOrUpdate(fullCity);
+		City fullCity = CityControl.createCity(context, city);
 		
 		// We create the city visit in our trip
 		CityVisit c = new CityVisit();
@@ -132,4 +169,18 @@ public class CityControl {
 		city.setPendingDelete(true);
 		CityVisitDAO.update(city);
 	}
+	
+	public static ArrayList<City> getCities() {
+    	ArrayList<Trip> trips = TripControl.readAll();
+    	ArrayList<City> cities = new ArrayList<City>();
+    	
+    	for (Trip trip: trips){
+    		ArrayList<CityVisit> visits = CityControl.readByTrip(trip);
+    		for (CityVisit visit: visits){
+    			City c = CityControl.read(visit.getCity());
+    			cities.add(c);
+    		}
+    	}
+		return cities;
+    }
 }

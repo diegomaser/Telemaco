@@ -64,16 +64,16 @@ public class TripActivity extends Activity {
         	// New trip
         	// get the current date
             final Calendar c = Calendar.getInstance();
-            this.startDate = new Date(c.getTimeInMillis());
-            this.endDate = new Date(c.getTimeInMillis());
+            Date now = new Date(c.getTimeInMillis());
+            
+            this.startDate = new Date(now.getYear(), now.getMonth(), now.getDate());
+            this.endDate = new Date(now.getYear(), now.getMonth(), now.getDate());
             updateDisplay();
             
             this.saveButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                	long id = TripControl.createTrip(name.getText().toString(), description.getText().toString(), startDate, endDate);
-                	TripControl.setPendingCreate(id, true);
-                    finish();
+                	createTrip();
                 }
             });
 
@@ -91,12 +91,36 @@ public class TripActivity extends Activity {
             this.saveButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                	TripControl.updateTrip(id, name.getText().toString(), description.getText().toString(), startDate, endDate);
-                	TripControl.setPendingUpdate(id, true);
-                    finish();
+                	editTrip();
                 }
             });
         }
+	}
+	
+	private void createTrip(){
+		String n = this.name.getText().toString();
+    	if (n.length()>0){
+    		if (this.startDate.getTime() <= this.endDate.getTime()) {
+    			long id = TripControl.createTrip(n, this.description.getText().toString(), this.startDate, this.endDate);
+    			TripControl.setPendingCreate(id, true);
+    			finish();
+    		}
+    		else ToastFacade.show(this, getString(R.string.wrong_dates));
+    	}
+    	else ToastFacade.show(this, getString(R.string.name_missing));
+	}
+	
+	private void editTrip(){
+		String n = this.name.getText().toString();
+    	if (n.length()>0){
+    		if (this.startDate.getTime() <= this.endDate.getTime()) {
+    			TripControl.updateTrip(this.id, n, this.description.getText().toString(), this.startDate, this.endDate);
+    			TripControl.setPendingUpdate(this.id, true);
+    			finish();
+    		}
+    		else ToastFacade.show(this, getString(R.string.wrong_dates));
+    	}
+    	else ToastFacade.show(this, getString(R.string.name_missing));		
 	}
 	
 	// the callback received when the user "sets" the date in the dialog

@@ -50,12 +50,6 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
             }
         });
         
-        /*AccountManager am = AccountManager.get(this);
-        Account[] accounts = am.getAccountsByType(getString(R.string.package_name));
-
-        if (accounts.length >= 0){
-        	startActivity(new Intent(this, TripListActivity.class));
-        }*/
 	}
     
     public void register(){
@@ -82,28 +76,20 @@ public class AuthenticatorActivity extends AccountAuthenticatorActivity {
                 	boolean accountCreated = am.addAccountExplicitly(account, pwd, null);
                 	ContentResolver.setSyncAutomatically(account, getString(R.string.package_name), true);
                 	
-            		ToastFacade.show(this, getString(R.string.user_loggedin));
-                	
                 	Bundle extras = getIntent().getExtras();
                 	if (extras != null) {
-                		if (accountCreated) {  //Pass the new account back to the account manager
+                		if (accountCreated) {  //Account back to the account manager
+                			ToastFacade.show(this, getString(R.string.user_loggedin));
+                    		
                 			AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
                 			Bundle result = new Bundle();
                 			result.putString(AccountManager.KEY_ACCOUNT_NAME, user);
                 			result.putString(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
+                            //intent.putExtra(AccountManager.KEY_AUTHTOKEN, pwd);
                 			response.onResult(result);
                 		}
                 	}
-                	
-                    //final Intent intent = new Intent();
-                    //intent.putExtra(AccountManager.KEY_ACCOUNT_NAME, user);
-                    //intent.putExtra(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.package_name));
-                    //intent.putExtra(AccountManager.KEY_AUTHTOKEN, pwd);
-                    //intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, "");
-                    //setAccountAuthenticatorResult(intent.getExtras());
-                    //setResult(RESULT_FIRST_USER, intent);
-                    //setResult(RESULT_OK, getIntent());
-                    finish();
+        			finish();
             	}
             } catch(JSONException e){
     			ToastFacade.show(this, getString(R.string.error_connecting));

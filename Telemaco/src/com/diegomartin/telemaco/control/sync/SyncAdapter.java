@@ -1,18 +1,15 @@
 package com.diegomartin.telemaco.control.sync;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.apache.http.ParseException;
-import org.apache.http.auth.AuthenticationException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AuthenticatorException;
-import android.accounts.OperationCanceledException;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
@@ -20,14 +17,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SyncResult;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.diegomartin.telemaco.R;
 import com.diegomartin.telemaco.control.ActionsFacade;
+import com.diegomartin.telemaco.control.CityControl;
+import com.diegomartin.telemaco.control.PlaceControl;
 import com.diegomartin.telemaco.control.RESTResources;
 import com.diegomartin.telemaco.control.TripControl;
+import com.diegomartin.telemaco.model.City;
 import com.diegomartin.telemaco.model.CityVisit;
+import com.diegomartin.telemaco.model.Place;
 import com.diegomartin.telemaco.model.Trip;
 import com.diegomartin.telemaco.persistence.CityVisitDAO;
+import com.diegomartin.telemaco.persistence.PlaceDAO;
 
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
     private String accountType;
@@ -54,51 +57,129 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority, ContentProviderClient provider, SyncResult syncResult) {
-    	this.lastUpdated = new Date(System.currentTimeMillis());
+    	Log.i("SYNC", "Starting sync process. Last sync:" + this.lastUpdated);
+
     	AccountManager am = AccountManager.get(this.context);
-    	//String user = am.getUserData(account, AccountManager.KEY_ACCOUNT_NAME);
     	this.user = account.name;
     	this.password = am.getPassword(account);
-        //String authtoken = null;
-		//authtoken = accountManager.blockingGetAuthToken(account, accountType, true /* notifyAuthFailure */);
-
+    	this.lastUpdated = new Date(System.currentTimeMillis());
+    	
     	try{
 	    	// We sync entity by entity
+    		
 	    	// 2-way
-    		syncTrips();
+    		Log.i("SYNC", "Users sync");
     		syncFacebookUser();
-	    	// CityVisit
-	    	// PlaceVisit
-	    	// Transport
+    		
+    		//Log.i("SYNC", "Trips sync");
+    		//syncTrips();
+    		
+    		//Log.i("SYNC", "CityVisits sync");
+    		//syncCityVisits();
+
+    		//Log.i("SYNC", "PlaceVisits sync");
+    		//syncPlaceVisits();
+    		
+    		//Log.i("SYNC", "Transports sync");
+    		//syncTransports();
 
 	    	// 1-way
-	    	// City
-	    	// Country
-	    	// Currency
-	    	// Language
-	    	// Plug
-	    	// Place
-	    	
-	    	// Other entities
-	    	// Item --> ???
-	    	// Note --> ???
-	    	// User --> ???
-	    /*} catch (OperationCanceledException e) {
-	    	
-	    }
-	    catch (AuthenticatorException e) {
-            syncResult.stats.numParseExceptions++;
-		} catch (IOException e) {
-            syncResult.stats.numIoExceptions++;
-		} catch (final AuthenticationException e) {
-            //am.invalidateAuthToken(getString(R.string.package_name), authtoken);*/
-        } catch (final ParseException e) {
+    		//Log.i("SYNC", "Countries sync");
+    		//syncCountry();
+    		
+    		//Log.i("SYNC", "Places sync");
+    		//syncPlaces(false);
+    		
+    		//Log.i("SYNC", "Recommendations sync");
+    		//syncPlaces(true);
+    		
+    		Place p = PlaceControl.read(118);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(147);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(141);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(166);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(163);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(183);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+    		
+    		p = PlaceControl.read(185);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+
+    		p = PlaceControl.read(254);
+    		p.setRecommended(true);
+    		PlaceDAO.update(p);
+
+    		
+    		Log.i("SYNC", "Cities sync");
+    		//syncCities();
+    		
+    		Log.i("SYNC", "Sync finished");
+	    } catch (final ParseException e) {
             syncResult.stats.numParseExceptions++;
         } catch (final JSONException e) {
             syncResult.stats.numParseExceptions++;
         }
     }
     
+    private void syncTransports() {
+		// TODO
+	}
+
+	private void syncPlaceVisits() {
+		// TODO
+	}
+
+	private void syncCountry() {
+		// TODO
+
+    	// Country
+    	// Currency
+    	// Language
+    	// Plug		
+	}
+
+	private void syncCities(){
+		// TODO
+    }
+    
+    private void syncPlaces(boolean recommendations) throws JSONException{
+    	String placesURL;
+    	ArrayList<City> cities = CityControl.getCities();
+    	ArrayList<Place> places = new ArrayList<Place>();
+    	
+    	for (City city: cities){
+        	if (recommendations) placesURL = RESTResources.getInstance(this.context).getRecommendationURL(city);
+        	else placesURL = RESTResources.getInstance(this.context).getPlaceURL(city);
+            	
+        	//String content = RestMethod.get(this.context, placesURL, this.user, this.password);
+        	String content = RestMethod.get(this.context, placesURL);
+        	JSONArray json = new JSONArray(content);
+            
+        	for (int i=0;i<json.length();i++){
+        		Place place = new Place(json, this.context, i);
+        		place.setRecommended(recommendations);
+        		places.add(place);
+        	}
+    	}
+    	PlaceControl.createOrUpdate(places);
+    }
+        
     private void syncTrips() throws JSONException{
     	ArrayList<Trip> trips = (ArrayList<Trip>) TripControl.readAll();
     	
@@ -157,10 +238,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     		//String url = RESTResources.getInstance(this.context).getPlaceURL();
     		//String content = RestMethod.get(this.context, url, this.user, this.password);
     	}
-    }
-    
-    private void syncCity(){
-    	
     }
     
     private void syncFacebookUser() throws JSONException{

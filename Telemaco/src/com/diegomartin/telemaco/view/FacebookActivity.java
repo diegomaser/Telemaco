@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -17,6 +18,7 @@ public class FacebookActivity extends Activity {
 	        
 	        WebView webview = new WebView(this);	        
 	        webview.setWebViewClient(new MyWebViewClient());
+	        getWindow().requestFeature(Window.FEATURE_PROGRESS);
 	        	        
 	        webview.getSettings().setJavaScriptEnabled(true);   
 	        webview.getSettings().setSupportZoom(true);      
@@ -35,6 +37,7 @@ public class FacebookActivity extends Activity {
 			
 			SharedPreferences prefs = getSharedPreferences(getString(R.string.package_name), Context.MODE_PRIVATE);
 			prefs.edit().putString(ActionsFacade.EXTRA_ACCESS_TOKEN, accessToken).commit();
+			ToastFacade.show(this, getString(R.string.user_profile));
 		}
 		
 		private class MyWebViewClient extends WebViewClient {
@@ -42,7 +45,8 @@ public class FacebookActivity extends Activity {
 		    public void onLoadResource(WebView view, String url) {
 		    	//view.loadUrl(url);
 		    	
-		    	if (url.startsWith("http://www.facebook.com/connect/login_success.html")){
+		    	if (url.startsWith("https://www.facebook.com/connect/login_success.html") ||
+		    		url.startsWith("http://www.facebook.com/connect/login_success.html")){
         			processURL(url);
         			finish();
         		}

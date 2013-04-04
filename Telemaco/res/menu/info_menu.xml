@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/new_city" android:icon="@drawable/ic_menu_add" android:title="@string/new_city" />
-<!-- <item android:id="@+id/new_note" android:icon="@drawable/ic_menu_add" android:title="@string/new_note" />  -->
+    <item android:id="@+id/location" android:icon="@drawable/ic_menu_mylocation" android:title="@string/update_location" />    
     <item android:id="@+id/update" android:icon="@drawable/ic_menu_refresh" android:title="@string/update"/>
     <item android:id="@+id/help" android:icon="@drawable/ic_menu_help" android:title="@string/help" />
 </menu>

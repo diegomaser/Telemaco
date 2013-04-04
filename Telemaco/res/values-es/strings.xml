@@ -8,6 +8,11 @@
     <string name="password_again">Repite contraseña</string>
     <string name="bad_password">Usuario y contraseña incorrectos</string>
     <string name="empty_password">El usuario y la contraseña no pueden estar vacíos</string>
+    <string name="different_passwords">Las contraseñas son distintas</string>
+    <string name="user_exists">El usuario ya existe</string>
+    <string name="user_created">Usuario creado con éxito</string>
+    <string name="user_loggedin">Usuario autenticado con éxito</string>
+    <string name="user_profile">Permisos correctos para obtener el perfil del usuario</string>
     
     <string name="trips">Mis viajes</string>
     <string name="interest_info">Información de interés</string>
@@ -19,33 +24,40 @@
     <string name="description">Descripción</string>
     <string name="startDate">Fecha inicio</string>
     <string name="endDate">Fecha fin</string>
-    <string name="dateFormat">dd/mm/aaaa</string>
     <string name="text">Texto</string>
     
     <string name="city_info">Información de la ciudad</string>
     <string name="country_info">Información del país</string>
     <string name="tourism_info">Información turística</string>
-    <string name="plug_info">Información eléctrica</string>
-    <string name="currency_info">Información de moneda</string>
-    <string name="language_info">Información del idioma</string>
+    <string name="place_info">Información del lugar</string>
+    <string name="other_info">Información de idioma, moneda y eléctrica</string>
+	<string name="map">Ver mapa</string>
+    <string name="directions">Calcular direcciones</string>
+    <string name="streetview">Vista de calle</string>
+    
         
     <!-- Menu options -->
     <string name="help">Ayuda</string>
     <string name="update">Actualizar</string>
     <string name="go">Ir a este lugar</string>
-    <string name="map">Ver mapa</string>
     <string name="addplace">Añadir lugar al plan</string>
     <string name="rearrange">Reordenar</string>
     <string name="discard">Cancelar</string>
     <string name="share">Compartir</string>
     <string name="changeorder">Cambiar orden</string>
+    <string name="provide_profile">Proporcionar perfil de usuario</string>
+    <string name="update_location">Actualizar ubicación</string>
     
 	<!-- CRUD Operations -->
     <string name="open">Abrir</string>
     <string name="edit">Editar</string>
     <string name="delete">Borrar</string>
     <string name="save">Guardar</string>
-
+    
+    <string name="showcity">Mostrar ciudad</string>
+    <string name="showcountry">Mostrar país</string>
+    <string name="showplace">Mostrar lugar</string>
+    
     <string name="new_city">Nueva ciudad</string>
     <string name="new_trip">Nuevo viaje</string>
     <string name="new_place">Nuevo lugar</string>
@@ -55,5 +67,15 @@
     
     <string name="search_hint_cities">Buscar ciudad</string>
     <string name="search_hint_countries">Buscar país</string>
-    <string name="not_found">No hay resultados</string>    
+    <string name="not_found">No hay resultados</string>
+    
+    <string name="error">Error</string>
+    <string name="error_connecting">Error conectando al servidor. Por favor verifique su conexión a Internet.</string>
+    <string name="error_parsing">Error procesando la respuesta del servidor</string>
+    <string name="error_sending">Error enviando datos</string>
+    <string name="error_missing">Falta objeto</string>
+    <string name="error_maps">Por favor, instale una aplicación de mapas</string>
+    <string name="name_missing">El campo nombre es obligatorio</string>
+    <string name="wrong_dates">La fecha de inicio debe ser anterior a la fecha de fin</string>
+    <string name="updating_location">Actualizando ubicación...</string>
 </resources>

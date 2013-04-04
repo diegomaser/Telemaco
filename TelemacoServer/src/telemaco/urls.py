@@ -6,9 +6,7 @@ from django.contrib.auth.decorators import login_required
 from models import Country
 from models import City
 from models import Currency
-from models import Item
 from models import Language
-from models import Note
 from models import Place
 from models import Plug
 from models import Transport
@@ -25,9 +23,7 @@ admin.autodiscover()
 databrowse.site.register(Country)
 databrowse.site.register(City)
 databrowse.site.register(Currency)
-databrowse.site.register(Item)
 databrowse.site.register(Language)
-databrowse.site.register(Note)
 databrowse.site.register(Place)
 databrowse.site.register(Plug)
 databrowse.site.register(Transport)

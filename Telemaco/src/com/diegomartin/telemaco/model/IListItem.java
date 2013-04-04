@@ -1,10 +1,8 @@
 package com.diegomartin.telemaco.model;
 
-import com.diegomartin.telemaco.R;
+import android.content.Context;
 
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import com.diegomartin.telemaco.R;
 
 public abstract class IListItem {
 	//private char itemType;
@@ -12,13 +10,11 @@ public abstract class IListItem {
 	public abstract long getId();
 	public abstract String getName();
 	public abstract String getDescription();
+	public abstract String getExtra(Context c);
 		
-	public Bitmap getImage(){
-		Resources res = Resources.getSystem();
-		Bitmap bmp = BitmapFactory.decodeResource(res, R.drawable.maleta2);
-		return bmp;
+	public int getImage(){
+		return R.drawable.maleta3;
 	}
-	//public String getCoordenates();
 	
 	public String getEntityName(){
 		return this.getClass().getSimpleName();

@@ -156,7 +156,13 @@ LOGGING = {
 
 LOGIN_REDIRECT_URL = '/telemaco/'
 
-if os.environ['DJANGO_SETTINGS_MODULE'] == 'settings_production':
-    PRODUCTION = True
-else:
+try:
+    settings_module = os.environ['DJANGO_SETTINGS_MODULE']
+
+    if settings_module == 'settings_production':
+        PRODUCTION = True
+    else:
+        PRODUCTION = False
+except KeyError:
     PRODUCTION = False
+
