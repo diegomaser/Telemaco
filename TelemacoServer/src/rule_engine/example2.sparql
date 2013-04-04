@@ -1,0 +1,6 @@
+CONSTRUCT { ?p :hasGrandfather ?g . }
+
+WHERE {?p      :hasParent ?parent .
+       ?parent :hasParent ?g .
+       ?g      :gender    :male .
+}
